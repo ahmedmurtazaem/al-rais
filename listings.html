@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Al Rais Travels — Flights</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="styles.css"/>
+<link rel="stylesheet" href="listings.css"/>
+</head>
+<body class="listings-page">
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+/* tiny helpers shared with hero.jsx — re-defined here so listings page is standalone */
+window.fmtDate = (d) => d ? d.toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'}) : '';
+window.fmtDayName = (d) => d ? d.toLocaleDateString('en-US',{weekday:'long'}) : '';
+window.Icon = {};
+</script>
+
+<script type="text/babel" src="listings.jsx"></script>
+
+<script type="text/babel">
+function NavbarSimple() {
+  return (
+    <header className="nav scrolled" style={{position:'fixed'}}>
+      <div className="nav__brand">
+        <a href="index.html"><img className="nav__logo" src="assets/logo.png" alt="Al Rais Travel"/></a>
+        <div className="nav__divider"/>
+      </div>
+      <nav className="nav__links">
+        <a className="nav__link is-active" href="index.html">Home</a>
+        <a className="nav__link">Travel</a>
+        <a className="nav__link">Packages</a>
+        <a className="nav__link">About</a>
+      </nav>
+      <div className="nav__right">
+        <div style={{width:44,height:44,borderRadius:'50%',background:'url(assets/avatar.png) center/cover, #d9e6f7',border:'2px solid #fff',boxShadow:'0 2px 8px rgba(0,0,0,.08)'}}/>
+      </div>
+    </header>
+  );
+}
+
+function ListingsFooter() {
+  return (
+    <footer style={{background:'#fff',borderTop:'1px solid var(--line-soft)',padding:'40px 56px',color:'var(--mute)',fontFamily:'"Plus Jakarta Sans", sans-serif'}}>
+      <div style={{display:'grid',gridTemplateColumns:'2fr 1fr 1fr 1fr',gap:40,maxWidth:1640,margin:'0 auto'}}>
+        <div>
+          <img src="assets/logo.png" style={{height:40,marginBottom:12}}/>
+          <p style={{fontSize:14,lineHeight:1.5,maxWidth:340}}>Take you to the blue skies with an easy and enjoyable flight booking experience.</p>
+        </div>
+        <div>
+          <h4 style={{color:'var(--ink)',fontSize:18,marginBottom:12}}>About</h4>
+          <ul style={{listStyle:'none',padding:0,margin:0,display:'flex',flexDirection:'column',gap:8,fontSize:14}}>
+            <li>About Us</li><li>Our Services</li><li>Cookie Policy</li><li>Privacy Policy</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style={{color:'var(--ink)',fontSize:18,marginBottom:12}}>Help</h4>
+          <ul style={{listStyle:'none',padding:0,margin:0,display:'flex',flexDirection:'column',gap:8,fontSize:14}}>
+            <li>FAQ</li><li>Payments</li><li>Contact Us</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style={{color:'var(--ink)',fontSize:18,marginBottom:12}}>Social</h4>
+          <ul style={{listStyle:'none',padding:0,margin:0,display:'flex',flexDirection:'column',gap:8,fontSize:14}}>
+            <li>Twitter</li><li>LinkedIn</li><li>Facebook</li><li>YouTube</li>
+          </ul>
+        </div>
+      </div>
+      <div style={{textAlign:'center',marginTop:40,paddingTop:24,borderTop:'1px solid var(--line-soft)',fontSize:13}}>2026 Al-Rais. All rights reserved</div>
+    </footer>
+  );
+}
+
+function App() {
+  return (<>
+    <NavbarSimple/>
+    <Listings/>
+    <ListingsFooter/>
+  </>);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

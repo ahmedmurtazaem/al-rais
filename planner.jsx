@@ -59,7 +59,7 @@ function Sidebar({ chats, activeId, onNew, onSelect, onDelete }) {
             <div className="s">by Al Rais Travels</div>
           </div>
         </div>
-        <button className="pl-new" onClick={onNew} style={{ color: "rgb(255, 255, 255)" }} data-comment-anchor="0f8ddeda6c-button-62-9">
+        <button className="pl-new" onClick={onNew} style={{ color: "rgb(255, 255, 255)" }}>
           <PIcon.Plus /> New plan
         </button>
       </div>
@@ -164,19 +164,14 @@ function EmptyState({ onSubmit }) {
   return (
     <div className="pl-empty">
       <div className="pl-clouds" aria-hidden="true">
-        <span className="pl-cloud pl-cloud--1"/>
-        <span className="pl-cloud pl-cloud--2"/>
-        <span className="pl-cloud pl-cloud--3"/>
-        <span className="pl-cloud pl-cloud--4"/>
-        <span className="pl-cloud pl-cloud--5"/>
-        <span className="pl-cloud pl-cloud--6"/>
+        <span className="pl-cloud pl-cloud--1" />
+        <span className="pl-cloud pl-cloud--2" />
+        <span className="pl-cloud pl-cloud--3" />
+        <span className="pl-cloud pl-cloud--4" />
+        <span className="pl-cloud pl-cloud--5" />
+        <span className="pl-cloud pl-cloud--6" />
       </div>
-      <div className="pl-empty__inner" data-comment-anchor="a55fa76f2a-div-166-7">
-        <div className="pl-empty__orb">
-          <span className="ring" />
-          <span className="ring ring--2" />
-          <span className="core"><PIcon.Sparkle /></span>
-        </div>
+      <div className="pl-empty__inner">
         <div className="pl-empty__badge">
           <PIcon.Globe /> Al Rais Trip Planner AI
         </div>
@@ -194,7 +189,7 @@ function EmptyState({ onSubmit }) {
             placeholder="Try: Plan a 7-day trip from DXB to Italy — food, art, ~$4k for two"
             big />
           
-          <div className="pl-empty__hint" data-comment-anchor="3010d6eff4-div-190-11">
+          <div className="pl-empty__hint">
             <span><kbd>Enter</kbd> to send · <kbd>Shift</kbd>+<kbd>Enter</kbd> for new line</span>
             <span>Powered by Al Rais AI</span>
           </div>
@@ -446,4 +441,4 @@ function PlannerShell() {
 
 }
 
-Object.assign(window, { PlannerShell });
+Object.assign(window, { PlannerShell, EmptyState });

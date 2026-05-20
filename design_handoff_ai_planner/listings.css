@@ -1,0 +1,98 @@
+/* ========= Listings page ========= */
+.listings-page{background:#F4F6FB;min-height:100vh;padding-top:88px}
+.listings{max-width:1640px;margin:0 auto;padding:32px 40px 80px;font-family:'Plus Jakarta Sans',sans-serif}
+
+.lsearch{background:transparent;display:flex;flex-direction:column;gap:18px;margin-bottom:18px}
+.lsearch__top{display:flex;justify-content:flex-end;align-items:center;gap:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink)}
+.lsearch__div{width:1px;height:20px;background:var(--line)}
+.lsearch__trip{display:flex;align-items:center;gap:8px;color:var(--blue);cursor:pointer}
+.lsearch__trip svg{color:var(--blue)}
+
+.lsearch__fields{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.lsf{background:#fff;border-radius:12px;padding:16px 22px;border:1px solid var(--line-soft);cursor:pointer;transition:border-color .15s ease}
+.lsf:hover{border-color:var(--blue)}
+.lsf__l{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--mute);font-weight:500;margin-bottom:4px}
+.lsf__v{font-family:'Montserrat',sans-serif;font-weight:700;font-size:24px;color:var(--ink);letter-spacing:-.3px}
+.lsf__s{font-family:'Satoshi',sans-serif;font-size:13px;color:var(--mute);margin-top:2px}
+
+.lpills{display:flex;align-items:center;gap:10px;margin:18px 0}
+.lpill{padding:10px 16px;border-radius:8px;background:#fff;border:1px solid var(--line);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--ink);font-weight:500;cursor:pointer;transition:all .15s ease}
+.lpill:hover{border-color:var(--blue);color:var(--blue)}
+.lpill.on{background:var(--blue-soft);border-color:transparent;color:var(--blue);font-weight:600}
+
+.lbody{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:flex-start}
+
+/* Sidebar */
+.sidebar{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--line-soft);position:sticky;top:104px;max-height:calc(100vh - 120px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.sb-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.sb-head h3{margin:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:22px;color:var(--ink)}
+.sb-head button{color:var(--blue);font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:14px}
+.sb-section{margin:20px 0 10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;color:var(--ink)}
+.sb-grid{display:grid;grid-template-columns:1fr;gap:6px}
+.sb-tile{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line-soft);border-radius:10px;background:#fff;text-align:left;cursor:pointer;transition:all .15s ease;font-family:'Plus Jakarta Sans',sans-serif}
+.sb-tile:hover{border-color:var(--blue)}
+.sb-tile.on{background:var(--blue-soft);border-color:var(--blue)}
+.sb-tile__icon{width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:14px;flex-shrink:0}
+.sb-tile.on .sb-tile__icon{background:var(--blue);color:#fff;border-color:var(--blue)}
+.sb-tile__t{font-size:13px;font-weight:600;color:var(--blue)}
+.sb-tile__r{font-size:11px;color:var(--mute)}
+.sb-price-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.sb-price-box{border:1px solid var(--line-soft);border-radius:8px;padding:8px 10px}
+.sb-price-lbl{font-size:11px;color:var(--mute)}
+.sb-price-val{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;color:var(--ink)}
+.sb-checks{display:flex;flex-direction:column;gap:8px}
+.sb-check{display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--ink)}
+.sb-check input{width:16px;height:16px;accent-color:var(--blue)}
+
+/* Result cards */
+.lresults{display:flex;flex-direction:column;gap:10px}
+.flight{
+  background:#fff;border-radius:12px;padding:20px 24px;
+  display:grid;grid-template-columns:80px 1fr 110px 140px 150px;gap:24px;
+  align-items:center;border:1px solid var(--line-soft);
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.flight:hover{border-color:var(--blue);box-shadow:0 8px 20px rgba(20,40,90,.08)}
+
+.flight__route{display:grid;grid-template-columns:80px 1fr 80px;gap:18px;align-items:center}
+.flight__city{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;color:var(--ink)}
+.flight__time{font-family:'Montserrat',sans-serif;font-weight:600;font-size:22px;color:var(--ink);margin-top:4px}
+.flight__pathwrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.flight__pathdur{
+  background:#E8F5EE;color:#0E8A4E;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;
+  padding:4px 10px;border-radius:999px;
+}
+.flight__path{display:flex;align-items:center;width:100%;gap:4px;color:var(--mute)}
+.flight__dot{width:6px;height:6px;border-radius:50%;background:var(--mute)}
+.flight__line{flex:1;height:1px;border-top:1px dashed var(--line)}
+.flight__pathstops{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:var(--mute)}
+
+.flight__compare{
+  background:rgba(13,105,242,.08);color:var(--blue);
+  border-radius:999px;padding:8px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:13px;
+  white-space:nowrap;transition:background .15s ease;
+}
+.flight__compare:hover{background:rgba(13,105,242,.16)}
+.flight__compare.on{background:var(--blue);color:#fff}
+
+.flight__price{text-align:right}
+.flight__pfrom{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--mute)}
+.flight__pval{font-family:'Montserrat',sans-serif;font-weight:700;font-size:24px;color:var(--ink);letter-spacing:-.5px}
+.flight__pcur{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--mute);margin-left:4px;font-weight:500}
+
+.flight__book{
+  background:rgba(13,105,242,.08);color:var(--blue);
+  border-radius:8px;padding:12px 16px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;
+  white-space:nowrap;transition:all .15s ease;
+}
+.flight__book:hover{background:var(--blue);color:#fff}
+
+input[type=range]{accent-color:var(--blue)}
+
+@media (max-width:1100px){
+  .lbody{grid-template-columns:1fr}
+  .sidebar{position:static}
+}

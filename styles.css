@@ -978,3 +978,19 @@ img{display:block;max-width:100%}
   .planner-app{grid-template-columns:1fr}
   .pl-sidebar{display:none}
 }
+
+
+/* Standalone hero variant of the planner empty-state (used on homepage) */
+.planner-hero{
+  min-height:100vh;
+  padding-top:88px;
+  display:flex;flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+.planner-hero .pl-empty{
+  flex:1;
+  align-items:center;
+  padding:32px 32px 72px;
+}
+.planner-hero .pl-empty__inner{padding-bottom:8px}

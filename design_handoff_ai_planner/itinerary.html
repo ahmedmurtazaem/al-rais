@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Al Rais Travels — AI Trip Planner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="planner-page">
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="itinerary.jsx"></script>
+<script type="text/babel" src="planner.jsx"></script>
+
+<script type="text/babel">
+function NavbarSimple() {
+  return (
+    <header className="nav scrolled" style={{position:'fixed'}}>
+      <div className="nav__brand">
+        <a href="index.html"><img className="nav__logo" src="assets/logo.png" alt="Al Rais Travel"/></a>
+        <div className="nav__divider"/>
+      </div>
+      <nav className="nav__links">
+        <a className="nav__link" href="index.html">Home</a>
+        <a className="nav__link">Travel</a>
+        <a className="nav__link">Packages</a>
+        <a className="nav__link is-active" href="itinerary.html" style={{display:'inline-flex',alignItems:'center',gap:6}}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{color:'#6E45E2'}}><path d="M12 2l2.39 7.36H22l-6.18 4.49L18.21 21 12 16.51 5.79 21l2.39-7.15L2 9.36h7.61z"/></svg>
+          AI Planner
+        </a>
+        <a className="nav__link">About</a>
+      </nav>
+      <div className="nav__right">
+        <a className="nav__signup">Sign Up</a>
+        <button className="btn-primary" style={{padding:'12px 28px',borderRadius:12}}>Sign In</button>
+      </div>
+    </header>
+  );
+}
+
+function App() {
+  return (<>
+    <NavbarSimple/>
+    <PlannerShell/>
+  </>);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
