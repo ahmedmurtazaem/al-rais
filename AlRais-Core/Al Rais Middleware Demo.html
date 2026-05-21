@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Al Rais Middleware — Two Directions</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="webpage/shared.css">
+<style>
+  body{ background:#F1F4FB;color:var(--ink);overflow-x:hidden; }
+  .cv-top{
+    padding:36px 56px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+    border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:10;
+    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,0.85);
+  }
+  .cv-brand{ display:flex;align-items:center;gap:18px; }
+  .cv-brand img{ height:34px; }
+  .cv-brand h1{
+    font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.012em;color:var(--ink);margin:0;
+  }
+  .cv-brand h1 small{ display:block;font-weight:600;font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mute);margin-top:2px; }
+  .cv-meta{ font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;color:var(--mute); }
+  .cv-meta b{ color:var(--ink);font-family:'Montserrat',sans-serif;font-weight:700; }
+
+  .cv-intro{
+    padding:60px 56px 40px;
+    max-width:1280px;margin:0 auto;
+  }
+  .cv-intro .eyebrow{
+    font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;
+    letter-spacing:0.24em;text-transform:uppercase;color:var(--red);
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .cv-intro .eyebrow::before{ content:"";width:24px;height:1.5px;background:currentColor;display:inline-block; }
+  .cv-intro h2{
+    font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(36px, 4.5vw, 64px);line-height:1.04;
+    letter-spacing:-0.024em;color:var(--ink);margin:16px 0 12px;text-wrap:balance;max-width:920px;
+  }
+  .cv-intro p{
+    font-family:'Inter',sans-serif;font-size:20px;line-height:1.55;color:var(--mute);max-width:780px;margin:0;
+  }
+
+  .cv-grid{
+    padding:30px 56px 80px;
+    display:grid;grid-template-columns:1fr 1fr;gap:32px;
+    max-width:1840px;margin:0 auto;
+  }
+  .cv-card{
+    background:#fff;border:1px solid var(--line);border-radius:18px;
+    box-shadow:0 8px 30px rgba(11,30,85,0.06);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    transition:transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+  }
+  .cv-card:hover{ transform:translateY(-2px);box-shadow:0 16px 40px rgba(11,30,85,0.10); }
+
+  .cv-head{ padding:24px 28px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line); }
+  .cv-head .tag{
+    font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);
+  }
+  .cv-head h3{
+    font-family:'Montserrat',sans-serif;font-weight:800;font-size:28px;
+    letter-spacing:-0.014em;color:var(--ink);margin:8px 0 0;line-height:1.05;
+  }
+  .cv-head p{
+    font-family:'Inter',sans-serif;font-size:15px;color:var(--mute);margin:8px 0 0;line-height:1.5;max-width:48ch;
+  }
+  .cv-head .open{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink-deep);color:#fff;border-radius:10px;
+    padding:10px 16px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;
+    text-decoration:none;
+    transition:transform var(--dur-fast) var(--ease), background var(--dur-fast);
+    white-space:nowrap;
+  }
+  .cv-head .open:hover{ background:var(--royal);transform:translateY(-1px); }
+
+  .cv-frame{
+    position:relative;background:#FAFBFE;
+    aspect-ratio: 16 / 11;
+    overflow:hidden;
+  }
+  .cv-frame iframe{
+    width:1440px;height:990px;
+    border:0;
+    transform-origin:top left;
+    /* Scale to fit container width — set via JS */
+  }
+  .cv-frame .overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(11,30,85,0) 60%, rgba(11,30,85,0.06) 100%);
+    pointer-events:none;
+    z-index:2;
+    display:flex;align-items:flex-end;justify-content:flex-start;
+    padding:14px 18px;
+  }
+  .cv-frame .frame-tag{
+    background:rgba(11,30,85,0.85);color:#fff;padding:6px 12px;border-radius:6px;
+    font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:0.16em;
+    text-transform:uppercase;
+  }
+  .cv-foot{
+    padding:18px 28px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:14px;
+  }
+  .cv-foot .specs{ display:flex;gap:18px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:var(--mute); }
+  .cv-foot .specs b{ color:var(--ink);font-family:'Montserrat',sans-serif;font-weight:700; }
+  .cv-foot .ix{ display:flex;gap:8px;flex-wrap:wrap; }
+  .cv-foot .ix span{
+    background:var(--bg-tint);color:var(--royal);padding:5px 10px;border-radius:999px;
+    font-family:'Montserrat',sans-serif;font-weight:600;font-size:12px;
+  }
+
+  .cv-shared{
+    padding:30px 56px 80px;max-width:1280px;margin:0 auto;
+  }
+  .cv-shared h3{
+    font-family:'Montserrat',sans-serif;font-weight:800;font-size:32px;color:var(--ink);margin:0 0 8px;letter-spacing:-0.016em;
+  }
+  .cv-shared p{ font-family:'Inter',sans-serif;font-size:17px;color:var(--mute);margin:0 0 24px;max-width:780px; }
+  .cv-sections{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  }
+  .cv-sec{
+    background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .cv-sec .nm{ font-family:'Montserrat',sans-serif;font-weight:700;font-size:16px;color:var(--ink); }
+  .cv-sec .dx{ font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;color:var(--mute-soft);letter-spacing:0.12em;text-transform:uppercase; }
+  .cv-sec .ds{ font-size:13px;color:var(--mute);margin-top:4px;line-height:1.4; }
+
+  @media (max-width: 1100px){
+    .cv-grid{ grid-template-columns:1fr; }
+    .cv-sections{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width: 700px){
+    .cv-grid,.cv-intro,.cv-shared,.cv-top{ padding-left:24px;padding-right:24px; }
+    .cv-sections{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cv-top">
+  <div class="cv-brand">
+    <img src="assets/logo.png" alt="Al Rais Travel">
+    <h1>Middleware Architecture Demo<small>Two directions · pick one</small></h1>
+  </div>
+  <div class="cv-meta">
+    Prepared by <b>Epicmetry FZCO</b> · <b>May 2026</b>
+  </div>
+</div>
+
+<div class="cv-intro">
+  <span class="eyebrow">Internal preview</span>
+  <h2>Same content, two visual treatments.</h2>
+  <p>
+    Both pages tell the same story — middleware orchestration, the curation engine, saga-based packaging, the AI layer, visa intelligence — through nine scroll-driven, clickable scenes. Pick the visual direction that lands best; the interactive substance is identical.
+  </p>
+</div>
+
+<div class="cv-grid">
+
+  <!-- ============ A · Constellation ============ -->
+  <article class="cv-card">
+    <div class="cv-head">
+      <div>
+        <div class="tag">Direction A</div>
+        <h3>Constellation</h3>
+        <p>Hero is a glowing middleware hub with eight orbital nodes connected by animated pulse paths. The platform sits at the centre, customer surfaces orbit on the left, suppliers on the right. Feels like a control room.</p>
+      </div>
+      <a href="webpage/constellation.html" class="open">Open ↗</a>
+    </div>
+    <div class="cv-frame" data-frame>
+      <iframe src="webpage/constellation.html" loading="lazy"></iframe>
+      <div class="overlay"><span class="frame-tag">scroll inside · click to open full</span></div>
+    </div>
+    <div class="cv-foot">
+      <div class="specs"><span><b>9</b> scenes</span><span><b>6</b> interactions</span><span><b>~30s</b> first-paint loop</span></div>
+      <div class="ix"><span>Orbital</span><span>Pulse</span><span>Hub-centric</span></div>
+    </div>
+  </article>
+
+  <!-- ============ B · Trajectory ============ -->
+  <article class="cv-card">
+    <div class="cv-head">
+      <div>
+        <div class="tag">Direction B</div>
+        <h3>Trajectory</h3>
+        <p>Hero is a blueprint-style platform stack — six labeled layers stacked vertically, with a red data packet pulsing down through them on a continuous loop. Feels like an engineering cross-section.</p>
+      </div>
+      <a href="webpage/trajectory.html" class="open">Open ↗</a>
+    </div>
+    <div class="cv-frame" data-frame>
+      <iframe src="webpage/trajectory.html" loading="lazy"></iframe>
+      <div class="overlay"><span class="frame-tag">scroll inside · click to open full</span></div>
+    </div>
+    <div class="cv-foot">
+      <div class="specs"><span><b>9</b> scenes</span><span><b>6</b> interactions</span><span><b>~30s</b> first-paint loop</span></div>
+      <div class="ix"><span>Layered</span><span>Blueprint</span><span>Flow-down</span></div>
+    </div>
+  </article>
+
+</div>
+
+<div class="cv-shared">
+  <h3>Shared scenes — identical in both directions</h3>
+  <p>Each direction renders the same nine scrollable scenes. The interactions are the same; only the visual treatment and the hero diagram differ.</p>
+  <div class="cv-sections">
+    <div class="cv-sec"><div class="dx">scene 01</div><div class="nm">Hero</div><div class="ds">Constellation hub · or layered stack with traveling packet</div></div>
+    <div class="cv-sec"><div class="dx">scene 02</div><div class="nm">A search travels</div><div class="ds">5-stop journey with real JSON payloads at each stop</div></div>
+    <div class="cv-sec"><div class="dx">scene 03</div><div class="nm">Connector pattern</div><div class="ds">Click pending suppliers to plug them into the live grid</div></div>
+    <div class="cv-sec"><div class="dx">scene 04</div><div class="nm">Curation engine</div><div class="ds">7 weighted sliders, top-3 recomputes live across 18 offers</div></div>
+    <div class="cv-sec"><div class="dx">scene 05</div><div class="nm">Saga &amp; holds</div><div class="ds">Run a 5-supplier hold; pick which one fails; watch compensation</div></div>
+    <div class="cv-sec"><div class="dx">scene 06</div><div class="nm">AI agent graph</div><div class="ds">LangGraph: 5 agents fire tools at the middleware in sequence</div></div>
+    <div class="cv-sec"><div class="dx">scene 07</div><div class="nm">Recommendation</div><div class="ds">Co-occurrence graph forms as bookings stream in; click a node</div></div>
+    <div class="cv-sec"><div class="dx">scene 08</div><div class="nm">Visa intelligence</div><div class="ds">Pick passport × destination; inline visa context appears</div></div>
+    <div class="cv-sec"><div class="dx">scene 09</div><div class="nm">Plug in next supplier</div><div class="ds">Drag-style drop zone · days counter ticks · live additions</div></div>
+  </div>
+</div>
+
+<script>
+  // Scale iframes to fit their container so they always render at 1440px design width
+  function fitFrames(){
+    document.querySelectorAll('[data-frame]').forEach(frame => {
+      const iframe = frame.querySelector('iframe');
+      const w = frame.clientWidth;
+      const scale = w / 1440;
+      iframe.style.transform = `scale(${scale})`;
+      iframe.style.width = '1440px';
+      iframe.style.height = (frame.clientHeight / scale) + 'px';
+    });
+  }
+  window.addEventListener('load', fitFrames);
+  window.addEventListener('resize', fitFrames);
+  // Refit after iframe loads (content may shift)
+  document.querySelectorAll('[data-frame] iframe').forEach(iframe => {
+    iframe.addEventListener('load', fitFrames);
+  });
+  fitFrames();
+</script>
+
+</body>
+</html>

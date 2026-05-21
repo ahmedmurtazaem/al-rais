@@ -1,0 +1,246 @@
+/* =========================================================
+   Al Rais Travel — Design Tokens
+   Source: Al Rais Branding Identity 2025 (Jan 2025, M. Zachariah)
+   ========================================================= */
+
+/* --- Web fonts ------------------------------------------------------- */
+/* Montserrat — bundled locally (brand-supplied). Full weight range. */
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 100; font-display: swap;
+  src: url('fonts/Montserrat-Thin.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 100; font-display: swap;
+  src: url('fonts/Montserrat-ThinItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 200; font-display: swap;
+  src: url('fonts/Montserrat-ExtraLight.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 200; font-display: swap;
+  src: url('fonts/Montserrat-ExtraLightItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 300; font-display: swap;
+  src: url('fonts/Montserrat-Light.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 300; font-display: swap;
+  src: url('fonts/Montserrat-LightItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 400; font-display: swap;
+  src: url('fonts/Montserrat-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 400; font-display: swap;
+  src: url('fonts/Montserrat-Italic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 500; font-display: swap;
+  src: url('fonts/Montserrat-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 500; font-display: swap;
+  src: url('fonts/Montserrat-MediumItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 600; font-display: swap;
+  src: url('fonts/Montserrat-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 600; font-display: swap;
+  src: url('fonts/Montserrat-SemiBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 700; font-display: swap;
+  src: url('fonts/Montserrat-Bold.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 700; font-display: swap;
+  src: url('fonts/Montserrat-BoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 800; font-display: swap;
+  src: url('fonts/Montserrat-ExtraBold.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 800; font-display: swap;
+  src: url('fonts/Montserrat-ExtraBoldItalic.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 900; font-display: swap;
+  src: url('fonts/Montserrat-Black.ttf') format('truetype'); }
+@font-face { font-family: 'Montserrat'; font-style: italic; font-weight: 900; font-display: swap;
+  src: url('fonts/Montserrat-BlackItalic.ttf') format('truetype'); }
+
+/* Inter + Tajawal — still substituted via Google Fonts (FLAGGED for user review). */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap');
+
+:root {
+  /* ============= COLOR — PRIMARY (from logo) ============= */
+  --ar-blue:        #1E40A0;   /* Pantone 2728 C — Al Rais Royal Blue */
+  --ar-blue-deep:   #15327E;   /* darker tint for hover / shadow */
+  --ar-blue-ink:    #0B1E55;   /* near-black blue, used for body text */
+  --ar-red:         #E4002B;   /* Pantone 185 C — Al Rais Red (the swoosh) */
+  --ar-red-deep:    #B40020;   /* hover / pressed */
+
+  /* ============= COLOR — SECONDARY (sky/sea/sand/airplane) ============= */
+  --ar-gold:        #AC8400;   /* Pantone 118 C — sand / golden hour */
+  --ar-gold-soft:   #E8D7A1;   /* tint for backgrounds */
+  --ar-sky:         #B4C9E2;   /* Pantone 10-10 C — sky & sea */
+  --ar-sky-deep:    #6E92BD;   /* deeper sky */
+  --ar-grey-40:     #999999;   /* K 40 — neutral grey */
+
+  /* ============= COLOR — NEUTRALS ============= */
+  --ar-bg:          #FFFFFF;
+  --ar-bg-soft:     #F6F8FC;   /* off-white with a hint of blue */
+  --ar-bg-sand:    #FAF5E8;   /* very subtle warm tint */
+  --ar-line:        #E4E8F0;   /* hairline borders */
+  --ar-line-strong: #C9D1E0;
+  --ar-text:        #0B1E55;   /* primary body — blue-ink */
+  --ar-text-soft:   #4A5878;   /* secondary text */
+  --ar-text-mute:   #8A93A8;   /* tertiary / captions */
+  --ar-white-trans: rgba(255,255,255,0.92);
+
+  /* ============= SEMANTIC ============= */
+  --ar-success:     #1B8A4B;
+  --ar-warning:     #D08400;
+  --ar-danger:      var(--ar-red);
+  --ar-info:        var(--ar-blue);
+
+  /* ============= TYPE — FAMILIES ============= */
+  --ar-font-display: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --ar-font-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --ar-font-arabic:  'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+  --ar-font-mono:    ui-monospace, 'SF Mono', 'Cascadia Mono', monospace;
+
+  /* ============= TYPE — SCALE (1.25 / major third-ish) ============= */
+  --ar-fs-display-1: clamp(48px, 6vw, 88px);
+  --ar-fs-display-2: clamp(36px, 4.5vw, 64px);
+  --ar-fs-h1:        clamp(32px, 3.5vw, 48px);
+  --ar-fs-h2:        clamp(24px, 2.6vw, 36px);
+  --ar-fs-h3:        22px;
+  --ar-fs-h4:        18px;
+  --ar-fs-body:      16px;
+  --ar-fs-body-sm:   14px;
+  --ar-fs-caption:   12px;
+  --ar-fs-eyebrow:   11px;
+
+  /* tracking */
+  --ar-tracking-tight:  -0.02em;
+  --ar-tracking-normal: 0;
+  --ar-tracking-loose:  0.04em;
+  --ar-tracking-eyebrow: 0.18em;   /* wide-tracked all-caps labels */
+
+  /* leading */
+  --ar-leading-tight: 1.05;
+  --ar-leading-snug:  1.2;
+  --ar-leading-body:  1.55;
+
+  /* ============= SPACING ============= */
+  --ar-s-1:  4px;
+  --ar-s-2:  8px;
+  --ar-s-3: 12px;
+  --ar-s-4: 16px;
+  --ar-s-5: 24px;
+  --ar-s-6: 32px;
+  --ar-s-7: 48px;
+  --ar-s-8: 64px;
+  --ar-s-9: 96px;
+
+  /* ============= RADIUS ============= */
+  /* Brand uses crisp, slightly-rounded forms (the logo is geometric).
+     Default radii are SMALL — capsules reserved for pills/avatars. */
+  --ar-r-xs: 2px;
+  --ar-r-sm: 4px;
+  --ar-r-md: 8px;
+  --ar-r-lg: 12px;
+  --ar-r-xl: 16px;
+  --ar-r-pill: 999px;
+
+  /* ============= ELEVATION ============= */
+  --ar-shadow-xs: 0 1px 2px rgba(11,30,85,0.06);
+  --ar-shadow-sm: 0 2px 6px rgba(11,30,85,0.07), 0 1px 2px rgba(11,30,85,0.04);
+  --ar-shadow-md: 0 8px 20px rgba(11,30,85,0.08), 0 2px 4px rgba(11,30,85,0.05);
+  --ar-shadow-lg: 0 18px 40px rgba(11,30,85,0.12), 0 4px 8px rgba(11,30,85,0.06);
+  --ar-shadow-blue: 0 10px 24px rgba(30,64,160,0.28);
+
+  /* ============= MOTION ============= */
+  --ar-ease:        cubic-bezier(0.2, 0.7, 0.2, 1);  /* gentle out */
+  --ar-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ar-dur-fast:    140ms;
+  --ar-dur-base:    220ms;
+  --ar-dur-slow:    420ms;
+
+  /* ============= PATTERN ============= */
+  /* The brand pattern is the logo's parallel-line element repeated
+     diagonally at 45°. Use sparingly. */
+  --ar-pattern-spacing: 12px;
+  --ar-pattern-color:   rgba(30,64,160,0.10);
+}
+
+/* =========================================================
+   Semantic element styles — drop a class on elements to apply.
+   ========================================================= */
+
+.ar-display-1 {
+  font-family: var(--ar-font-display);
+  font-weight: 800;
+  font-size: var(--ar-fs-display-1);
+  line-height: var(--ar-leading-tight);
+  letter-spacing: var(--ar-tracking-tight);
+  color: var(--ar-blue-ink);
+  text-wrap: balance;
+}
+.ar-display-2 {
+  font-family: var(--ar-font-display);
+  font-weight: 700;
+  font-size: var(--ar-fs-display-2);
+  line-height: var(--ar-leading-tight);
+  letter-spacing: var(--ar-tracking-tight);
+  color: var(--ar-blue-ink);
+  text-wrap: balance;
+}
+.ar-h1 {
+  font-family: var(--ar-font-display);
+  font-weight: 700;
+  font-size: var(--ar-fs-h1);
+  line-height: var(--ar-leading-snug);
+  letter-spacing: var(--ar-tracking-tight);
+  color: var(--ar-blue-ink);
+}
+.ar-h2 {
+  font-family: var(--ar-font-display);
+  font-weight: 700;
+  font-size: var(--ar-fs-h2);
+  line-height: var(--ar-leading-snug);
+  color: var(--ar-blue-ink);
+}
+.ar-h3 {
+  font-family: var(--ar-font-display);
+  font-weight: 600;
+  font-size: var(--ar-fs-h3);
+  color: var(--ar-blue-ink);
+}
+.ar-h4 {
+  font-family: var(--ar-font-display);
+  font-weight: 600;
+  font-size: var(--ar-fs-h4);
+  color: var(--ar-blue-ink);
+}
+.ar-body {
+  font-family: var(--ar-font-body);
+  font-weight: 400;
+  font-size: var(--ar-fs-body);
+  line-height: var(--ar-leading-body);
+  color: var(--ar-text);
+}
+.ar-body-sm {
+  font-family: var(--ar-font-body);
+  font-size: var(--ar-fs-body-sm);
+  line-height: var(--ar-leading-body);
+  color: var(--ar-text-soft);
+}
+.ar-caption {
+  font-family: var(--ar-font-body);
+  font-size: var(--ar-fs-caption);
+  line-height: 1.4;
+  color: var(--ar-text-mute);
+}
+.ar-eyebrow {
+  font-family: var(--ar-font-display);
+  font-size: var(--ar-fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: var(--ar-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ar-red);
+}
+.ar-arabic {
+  font-family: var(--ar-font-arabic);
+  direction: rtl;
+}
+
+/* =========================================================
+   Pattern — diagonal lines @ 45° derived from the logo.
+   ========================================================= */
+.ar-pattern {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--ar-pattern-color) 0,
+    var(--ar-pattern-color) 1.5px,
+    transparent 1.5px,
+    transparent var(--ar-pattern-spacing)
+  );
+}
+.ar-pattern--red { --ar-pattern-color: rgba(228,0,43,0.15); }
+.ar-pattern--gold { --ar-pattern-color: rgba(172,132,0,0.18); }
+.ar-pattern--white { --ar-pattern-color: rgba(255,255,255,0.22); }

@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Al Rais Middleware — Trajectory</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="constellation.css">
+<link rel="stylesheet" href="trajectory.css">
+<script defer src="shared.js"></script>
+<script defer src="constellation.js"></script>
+<script defer src="trajectory.js"></script>
+</head>
+<body class="trajectory">
+
+<!-- ============ TOP NAV ============ -->
+<nav class="topbar">
+  <div class="brand">
+    <img src="../assets/logo.png" alt="Al Rais Travel">
+    <small>Middleware · 2.0</small>
+  </div>
+  <div class="links">
+    <a href="#hero" class="active">Overview</a>
+    <a href="#search">A search travels</a>
+    <a href="#connectors">Connectors</a>
+    <a href="#curation">Curation</a>
+    <a href="#saga">Saga</a>
+    <a href="#ai">AI layer</a>
+    <a href="#visa">Visa intel</a>
+  </div>
+  <div class="actions">
+    <a class="btn btn-ghost" href="../collateral/Al Rais 2.0 Pitch Deck.html">Pitch deck</a>
+    <button class="btn btn-primary">Watch demo <span class="arrow">→</span></button>
+  </div>
+</nav>
+
+<!-- ============ 01 · HERO — BLUEPRINT TOWER ============ -->
+<section id="hero" class="scene hero-traj">
+  <div class="dot-grid"></div>
+  <div class="glow-blob" style="width:520px;height:520px;right:-160px;top:18%;opacity:0.4;"></div>
+  <div class="glow-blob red" style="width:380px;height:380px;left:-100px;top:62%;opacity:0.35;"></div>
+
+  <div class="scene-inner">
+    <div class="ht-grid">
+      <!-- Left: copy -->
+      <div class="ht-copy">
+        <span class="eyebrow">Platform demo · for Al Rais Holidays 2.0</span>
+        <h1 class="h-display reveal" style="font-size:clamp(40px,5vw,76px);">
+          Every search<br>
+          travels through<br>
+          <em style="font-style:normal;color:var(--red);">the same six layers.</em>
+        </h1>
+        <p class="lede reveal d1">
+          A blueprint view of the orchestration platform. Follow a single request down through the stack — auth, fan-out, normalization, curation, saga, response — and watch each layer light up as it works.
+        </p>
+        <div class="hero-cta reveal d2">
+          <a href="#search" class="btn btn-primary">Trace a search top-to-bottom <span class="arrow">↓</span></a>
+          <a href="#connectors" class="btn btn-ghost">Jump to a layer</a>
+        </div>
+
+        <!-- Coordinates -->
+        <div class="ht-coords reveal d3">
+          <div><span class="lbl">stack depth</span><span class="val">6 layers</span></div>
+          <div><span class="lbl">budget</span><span class="val">≤ 2 s p95</span></div>
+          <div><span class="lbl">throughput</span><span class="val">~ 8 req/s</span></div>
+          <div><span class="lbl">live suppliers</span><span class="val">3 · 5 ready</span></div>
+        </div>
+      </div>
+
+      <!-- Right: blueprint tower -->
+      <div class="ht-tower">
+        <div class="tower" id="tower">
+          <!-- packet — animated dot that travels down -->
+          <div class="packet" id="packet">
+            <div class="packet-dot"></div>
+            <div class="packet-trail"></div>
+          </div>
+
+          <!-- entry label -->
+          <div class="t-band entry">
+            <div class="t-side"><span>IN</span></div>
+            <div class="t-line"></div>
+          </div>
+
+          <!-- 6 layers -->
+          <div class="t-layer" data-layer="1">
+            <div class="t-num">01</div>
+            <div class="t-body">
+              <div class="t-name">Serving API</div>
+              <div class="t-sub">Zod validate · auth · rate-limit</div>
+            </div>
+            <div class="t-tag">2 ms</div>
+          </div>
+          <div class="t-layer" data-layer="2">
+            <div class="t-num">02</div>
+            <div class="t-body">
+              <div class="t-name">Orchestrator</div>
+              <div class="t-sub">Fan-out · timeout · circuit breakers</div>
+            </div>
+            <div class="t-tag">∥ 4 suppliers</div>
+          </div>
+          <div class="t-layer" data-layer="3">
+            <div class="t-num">03</div>
+            <div class="t-body">
+              <div class="t-name">Connectors</div>
+              <div class="t-sub">Per-supplier auth · payload shape · async</div>
+            </div>
+            <div class="t-tag">~ 412 ms</div>
+          </div>
+          <div class="t-layer" data-layer="4">
+            <div class="t-num">04</div>
+            <div class="t-body">
+              <div class="t-name">Normalize &amp; Dedupe</div>
+              <div class="t-sub">Canonical model · carrier×flight×depart fingerprint</div>
+            </div>
+            <div class="t-tag">73 → 59</div>
+          </div>
+          <div class="t-layer" data-layer="5">
+            <div class="t-num">05</div>
+            <div class="t-body">
+              <div class="t-name">Curation</div>
+              <div class="t-sub">7 weighted rules · score · explain</div>
+            </div>
+            <div class="t-tag">3 picks</div>
+          </div>
+          <div class="t-layer" data-layer="6">
+            <div class="t-num">06</div>
+            <div class="t-body">
+              <div class="t-name">Response Envelope</div>
+              <div class="t-sub">Curated + sorted + supplier-meta + cache hint</div>
+            </div>
+            <div class="t-tag">200 OK</div>
+          </div>
+
+          <!-- exit label -->
+          <div class="t-band exit">
+            <div class="t-line"></div>
+            <div class="t-side"><span>OUT</span></div>
+          </div>
+        </div>
+
+        <!-- side rail labels -->
+        <div class="t-rail t-rail-l">
+          <span>request</span>
+          <span class="dot"></span>
+          <span>downstream</span>
+        </div>
+        <div class="t-rail t-rail-r">
+          <span>response</span>
+          <span class="dot"></span>
+          <span>upstream</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · A SEARCH TRAVELS ============ -->
+<section id="search" class="scene search" data-idx="02" data-total="09">
+  <div class="dot-grid sparse"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section one · How a search travels</span>
+      <h2 class="h-display">Trace one request <em style="font-style:normal;color:var(--red);">end-to-end</em>.</h2>
+      <p class="lede">A customer searches DXB → LHR. The middleware fans out, normalizes, curates, and responds — in under 2 seconds. Hover any stop to see the actual call.</p>
+    </div>
+
+    <div class="journey" id="journey">
+      <div class="journey-rail"><div class="journey-pulse"></div></div>
+      <div class="stops">
+        <button class="stop" data-stop="1"><div class="stop-num">01</div><div class="stop-title">Request</div><div class="stop-sub">POST /flights/search</div></button>
+        <button class="stop" data-stop="2"><div class="stop-num">02</div><div class="stop-title">Fan-out</div><div class="stop-sub">Promise.allSettled · 4 connectors</div></button>
+        <button class="stop" data-stop="3"><div class="stop-num">03</div><div class="stop-title">Normalize</div><div class="stop-sub">→ NormalizedFlightOffer</div></button>
+        <button class="stop" data-stop="4"><div class="stop-num">04</div><div class="stop-title">Curate</div><div class="stop-sub">7 rules · top 3 + explain</div></button>
+        <button class="stop" data-stop="5"><div class="stop-num">05</div><div class="stop-title">Respond</div><div class="stop-sub">200 OK · meta included</div></button>
+      </div>
+    </div>
+
+    <div class="journey-detail" id="journeyDetail"></div>
+  </div>
+</section>
+
+<!-- ============ 03 · CONNECTOR PATTERN ============ -->
+<section id="connectors" class="scene connectors" data-idx="03" data-total="09">
+  <div class="dot-grid"></div>
+  <div class="glow-blob" style="width:520px;height:520px;left:8%;top:30%;opacity:0.4;"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section two · The connector pattern</span>
+      <h2 class="h-display">Every supplier, one interface.</h2>
+      <p class="lede">Each supplier implements <code style="font-family:'JetBrains Mono',ui-monospace,monospace;background:#ECF1FA;padding:2px 6px;border-radius:4px;font-size:0.92em;">SupplierConnector</code>. Auth, payload shape, and quirks are contained inside the connector — never leak out. Click any pending supplier to plug it in live.</p>
+    </div>
+
+    <div class="conn-layout">
+      <div class="conn-grid" id="connGrid">
+        <div class="conn-card live" data-supplier="provesio">
+          <div class="conn-status">● Live</div>
+          <div class="conn-name">Provesio</div>
+          <div class="conn-meta">
+            <span class="kv"><b>capabilities:</b> flight, hotel, fare-rules</span>
+            <span class="kv"><b>auth:</b> session login</span>
+            <span class="kv"><b>p50:</b> 287 ms</span>
+          </div>
+        </div>
+        <div class="conn-card live" data-supplier="duffel">
+          <div class="conn-status">● Live</div>
+          <div class="conn-name">Duffel</div>
+          <div class="conn-meta">
+            <span class="kv"><b>capabilities:</b> flight_search, flight_book, hotel_stays</span>
+            <span class="kv"><b>auth:</b> bearer token</span>
+            <span class="kv"><b>p50:</b> 412 ms</span>
+          </div>
+        </div>
+        <div class="conn-card live" data-supplier="visa">
+          <div class="conn-status">● Live</div>
+          <div class="conn-name">Visa Static</div>
+          <div class="conn-meta">
+            <span class="kv"><b>capabilities:</b> visa_check</span>
+            <span class="kv"><b>auth:</b> none</span>
+            <span class="kv"><b>p50:</b> 4 ms</span>
+          </div>
+        </div>
+        <div class="conn-card placeholder">
+          <div class="ph-content">
+            <div class="ph-icon">+</div>
+            <div class="ph-text">Click a pending supplier →<br>and watch it plug in.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="conn-side">
+        <div class="side-head">
+          <div class="eyebrow subtle">Pending · ready to plug in</div>
+          <div class="side-count"><span id="pendingCount">5</span> available</div>
+        </div>
+        <div class="conn-pending" id="connPending">
+          <button class="conn-pill" data-supplier="hotelbeds"><div class="conn-pill-l"><div class="conn-pill-name">Hotelbeds</div><div class="conn-pill-sub">Hotels · HMAC-SHA256 · ~3 days</div></div><div class="conn-pill-r">Plug in →</div></button>
+          <button class="conn-pill" data-supplier="viator"><div class="conn-pill-l"><div class="conn-pill-name">Viator</div><div class="conn-pill-sub">Activities · Bearer · ~2 days</div></div><div class="conn-pill-r">Plug in →</div></button>
+          <button class="conn-pill" data-supplier="sabre"><div class="conn-pill-l"><div class="conn-pill-name">Sabre GDS</div><div class="conn-pill-sub">Flights · SOAP/REST · ~4 days</div></div><div class="conn-pill-r">Plug in →</div></button>
+          <button class="conn-pill" data-supplier="tabby"><div class="conn-pill-l"><div class="conn-pill-name">Tabby</div><div class="conn-pill-sub">BNPL · Bearer + webhook · ~2 days</div></div><div class="conn-pill-r">Plug in →</div></button>
+          <button class="conn-pill" data-supplier="google"><div class="conn-pill-l"><div class="conn-pill-name">Google Places</div><div class="conn-pill-sub">Place intel · API key · ~1 day</div></div><div class="conn-pill-r">Plug in →</div></button>
+        </div>
+
+        <div class="code conn-code">
+<span class="c">// Every supplier implements this — nothing more.</span>
+<span class="k">interface</span> <span class="w">SupplierConnector</span> {
+  name: <span class="t">string</span>;
+  capabilities: <span class="t">Capability[]</span>;
+  auth: <span class="t">SupplierAuth</span>;
+
+  searchFlights?(req): <span class="t">FlightResult</span>;
+  searchHotels?(req): <span class="t">HotelResult</span>;
+  searchActivities?(req): <span class="t">ActivityResult</span>;
+
+  book?(offer): <span class="t">BookingRef</span>;
+  cancel?(ref): <span class="t">CancelResult</span>;
+}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 · CURATION ENGINE ============ -->
+<section id="curation" class="scene curation" data-idx="04" data-total="09">
+  <div class="dot-grid"></div>
+  <div class="glow-blob red" style="width:480px;height:480px;right:8%;top:30%;opacity:0.45;"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section three · The curation engine</span>
+      <h2 class="h-display">From <em style="font-style:normal;color:var(--red);">forty results</em> to three considered choices.</h2>
+      <p class="lede">Seven weighted rules. One scoring function. Three explanations, in plain language. Pull a slider — the recommendation re-ranks live.</p>
+    </div>
+
+    <div class="curation-layout">
+      <div class="offer-stream" id="offerStream">
+        <div class="os-head"><div class="os-title">Raw offers · DXB → LHR · Jun 12</div><div class="os-count"><span id="offerCount">24</span> offers from 3 suppliers</div></div>
+        <div class="os-list" id="osList"></div>
+      </div>
+      <div class="weights" id="weights">
+        <div class="w-head"><div class="w-title">Curation weights</div><button class="w-reset" id="wReset">Reset</button></div>
+        <div class="w-rule" data-rule="price"><div class="w-r-head"><span>Price</span><span class="w-val">0.30</span></div><input type="range" min="0" max="60" value="30" data-w="price"></div>
+        <div class="w-rule" data-rule="duration"><div class="w-r-head"><span>Duration</span><span class="w-val">0.20</span></div><input type="range" min="0" max="60" value="20" data-w="duration"></div>
+        <div class="w-rule" data-rule="stops"><div class="w-r-head"><span>Stops</span><span class="w-val">0.15</span></div><input type="range" min="0" max="60" value="15" data-w="stops"></div>
+        <div class="w-rule" data-rule="depart"><div class="w-r-head"><span>Departure time fit</span><span class="w-val">0.10</span></div><input type="range" min="0" max="60" value="10" data-w="depart"></div>
+        <div class="w-rule" data-rule="family"><div class="w-r-head"><span>Family compatibility</span><span class="w-val">0.10</span></div><input type="range" min="0" max="60" value="10" data-w="family"></div>
+        <div class="w-rule" data-rule="carrier"><div class="w-r-head"><span>Carrier preference</span><span class="w-val">0.10</span></div><input type="range" min="0" max="60" value="10" data-w="carrier"></div>
+        <div class="w-rule" data-rule="fresh"><div class="w-r-head"><span>Data freshness</span><span class="w-val">0.05</span></div><input type="range" min="0" max="60" value="5" data-w="fresh"></div>
+      </div>
+      <div class="curated" id="curated">
+        <div class="c-head"><div class="c-title">Top 3 · recomputed live</div><div class="c-sub">Each is scored, labelled, and explained.</div></div>
+        <div class="c-list" id="cList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 · SAGA ============ -->
+<section id="saga" class="scene saga scene--dark" data-idx="05" data-total="09">
+  <div class="dot-grid" style="opacity:0.15;"></div>
+  <div class="glow-blob" style="width:680px;height:680px;left:50%;top:40%;transform:translate(-50%,-50%);opacity:0.5;"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="color:#ff8aa0;">Section four · Saga &amp; coordinated holds</span>
+      <h2 class="h-display">Five suppliers. <em style="font-style:normal;color:#ff8aa0;">One transaction.</em></h2>
+      <p class="lede" style="color:rgba(255,255,255,0.78);">A dynamic package holds inventory across independent suppliers — together. If any one fails, the rest are released cleanly. Press the kill switch.</p>
+    </div>
+
+    <div class="saga-ui">
+      <div class="saga-controls">
+        <button class="btn btn-primary" id="sagaPlay" style="background:#fff;color:var(--ink-deep);">▶ Run saga</button>
+        <button class="btn btn-ghost" id="sagaReset" style="border-color:rgba(255,255,255,0.3);color:#fff;">Reset</button>
+        <div class="saga-spacer"></div>
+        <div class="saga-toggle">
+          <label>Kill a supplier mid-hold:</label>
+          <div class="killbtns">
+            <button class="killbtn" data-kill="flight">Flight</button>
+            <button class="killbtn" data-kill="hotel">Hotel</button>
+            <button class="killbtn" data-kill="activity">Activity</button>
+            <button class="killbtn on" data-kill="transfer">Transfer</button>
+            <button class="killbtn" data-kill="insurance">Insurance</button>
+          </div>
+        </div>
+      </div>
+      <div class="saga-rails" id="sagaRails"></div>
+      <div class="saga-log" id="sagaLog">
+        <div class="saga-log-head">Saga log</div>
+        <div class="saga-log-list" id="sagaLogList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 · AI LAYER ============ -->
+<section id="ai" class="scene ai" data-idx="06" data-total="09">
+  <div class="dot-grid"></div>
+  <div class="glow-blob gold" style="width:420px;height:420px;left:84%;top:48%;opacity:0.4;"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section five · The AI layer</span>
+      <h2 class="h-display">Five specialised agents. One conversation. Every supplier.</h2>
+      <p class="lede">A LangGraph that decomposes a request into tool calls against the middleware. Every supplier you plug in expands what every agent can do — no agent rewrites.</p>
+    </div>
+
+    <div class="ai-stage" id="aiStage">
+      <div class="ai-msg">
+        <div class="ai-msg-avatar">Z</div>
+        <div class="ai-msg-bubble">"7-day family trip to Bangkok in June. AED 8k all-in, baggage included, refundable if possible."</div>
+        <button class="ai-replay" id="aiReplay">↻ Replay</button>
+      </div>
+      <div class="ai-graph" id="aiGraph">
+        <svg class="ai-lines"></svg>
+        <div class="ai-agents" id="aiAgents">
+          <div class="ai-agent" data-agent="flight"><div class="ai-agent-name">Flight Agent</div><div class="ai-agent-tools">searchFlights · fareRules</div></div>
+          <div class="ai-agent" data-agent="hotel"><div class="ai-agent-name">Hotel Agent</div><div class="ai-agent-tools">searchHotels · details</div></div>
+          <div class="ai-agent" data-agent="activity"><div class="ai-agent-name">Activity Agent</div><div class="ai-agent-tools">searchActivities · avail</div></div>
+          <div class="ai-agent" data-agent="package"><div class="ai-agent-name">Package Agent</div><div class="ai-agent-tools">compose · hold · confirm</div></div>
+          <div class="ai-agent" data-agent="reco"><div class="ai-agent-name">Recommendation</div><div class="ai-agent-tools">curate · explain · co-occur</div></div>
+        </div>
+        <div class="ai-tools" id="aiTools">
+          <div class="ai-tool" data-tool="searchFlights"><span class="tk">POST</span> /middleware/flights/search</div>
+          <div class="ai-tool" data-tool="searchHotels"><span class="tk">POST</span> /middleware/hotels/search</div>
+          <div class="ai-tool" data-tool="searchActivities"><span class="tk">POST</span> /middleware/activities/search</div>
+          <div class="ai-tool" data-tool="composePackage"><span class="tk">POST</span> /middleware/packages/compose</div>
+          <div class="ai-tool" data-tool="checkVisa"><span class="tk">GET</span>&nbsp; /middleware/visa/check</div>
+          <div class="ai-tool" data-tool="getFareRules"><span class="tk">POST</span> /middleware/flights/fare-rules</div>
+          <div class="ai-tool" data-tool="holdPackage"><span class="tk">POST</span> /middleware/packages/hold</div>
+          <div class="ai-tool" data-tool="recommend"><span class="tk">GET</span>&nbsp; /middleware/reco/suggest</div>
+        </div>
+      </div>
+      <div class="ai-transcript" id="aiTranscript">
+        <div class="ai-trans-head">Tool-call transcript</div>
+        <div class="ai-trans-body" id="aiTransBody"><div class="ai-trans-line muted">Waiting for replay…</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 · RECOMMENDATION CO-OCCURRENCE ============ -->
+<section id="reco" class="scene reco" data-idx="07" data-total="09">
+  <div class="dot-grid sparse"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section six · The recommendation engine</span>
+      <h2 class="h-display">Smarter every month it runs.</h2>
+      <p class="lede">Curation rules score every offer. A co-occurrence layer learns from booking history — travellers who chose A often also chose B. Watch the graph form as bookings stream in.</p>
+    </div>
+
+    <div class="reco-stage">
+      <div class="reco-controls">
+        <button class="btn btn-ghost" id="recoStream">⏵ Stream 60 bookings</button>
+        <button class="btn btn-ghost" id="recoReset">Reset</button>
+        <div class="reco-stats">
+          <div><strong id="recoBookings">0</strong><span>bookings</span></div>
+          <div><strong id="recoEdges">0</strong><span>co-occur links</span></div>
+          <div><strong id="recoClusters">0</strong><span>clusters</span></div>
+        </div>
+      </div>
+      <svg class="reco-graph" id="recoGraph" viewBox="0 0 1100 480" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="reco-detail" id="recoDetail"><div class="rd-head">Click any destination to see what travellers also booked.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 · VISA INTELLIGENCE ============ -->
+<section id="visa" class="scene visa" data-idx="08" data-total="09">
+  <div class="dot-grid"></div>
+  <div class="glow-blob" style="width:520px;height:520px;left:18%;top:35%;opacity:0.35;"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section seven · Visa intelligence</span>
+      <h2 class="h-display">The context global OTAs don't surface.</h2>
+      <p class="lede">Visa requirements rendered inline at the point of search — for the passports Al Rais customers actually hold. Pick any combo.</p>
+    </div>
+
+    <div class="visa-stage">
+      <div class="visa-picker">
+        <div class="vp-group">
+          <label>Passport</label>
+          <div class="vp-options" id="vpPassports">
+            <button class="vp-opt on" data-passport="AE">🇦🇪 UAE</button>
+            <button class="vp-opt" data-passport="SA">🇸🇦 Saudi</button>
+            <button class="vp-opt" data-passport="PK">🇵🇰 Pakistan</button>
+            <button class="vp-opt" data-passport="IN">🇮🇳 India</button>
+            <button class="vp-opt" data-passport="EG">🇪🇬 Egypt</button>
+            <button class="vp-opt" data-passport="PH">🇵🇭 Philippines</button>
+          </div>
+        </div>
+        <div class="vp-group">
+          <label>Destination</label>
+          <div class="vp-options" id="vpDests">
+            <button class="vp-opt on" data-dest="TH">🇹🇭 Thailand</button>
+            <button class="vp-opt" data-dest="MY">🇲🇾 Malaysia</button>
+            <button class="vp-opt" data-dest="GB">🇬🇧 United Kingdom</button>
+            <button class="vp-opt" data-dest="GE">🇬🇪 Georgia</button>
+            <button class="vp-opt" data-dest="US">🇺🇸 United States</button>
+            <button class="vp-opt" data-dest="JP">🇯🇵 Japan</button>
+            <button class="vp-opt" data-dest="TR">🇹🇷 Turkey</button>
+          </div>
+        </div>
+      </div>
+      <div class="visa-result" id="visaResult"></div>
+      <div class="visa-code">
+        <div class="code">
+<span class="c">// One call. Every passport-destination pair.</span>
+<span class="k">GET</span> /middleware/visa/check?passport=<span class="n">UAE</span>&amp;destination=<span class="n">TH</span>
+
+<span class="k">→</span> {
+  "required": <span class="t">false</span>,
+  "stay_days": <span class="n">30</span>,
+  "entry_type": <span class="s">"visa_free"</span>,
+  "notes": <span class="s">"Visa-free entry for UAE passport"</span>,
+  "fetched_at": <span class="s">"2026-05-21T08:14Z"</span>
+}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 · CLOSING / DROP TARGET ============ -->
+<section id="closing" class="scene closing scene--dark" data-idx="09" data-total="09">
+  <div class="dot-grid" style="opacity:0.18;"></div>
+  <div class="glow-blob" style="width:780px;height:780px;left:50%;top:50%;transform:translate(-50%,-50%);opacity:0.5;"></div>
+  <div class="glow-blob red" style="width:480px;height:480px;right:5%;top:75%;opacity:0.35;"></div>
+  <div class="particles" data-particles="22"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="color:#ff8aa0;">Section eight · What's next</span>
+      <h2 class="h-display">Plug in the next supplier.</h2>
+      <p class="lede" style="color:rgba(255,255,255,0.8);">Each addition broadens the platform's competitive search and gives the recommendation engine more inventory to choose from. Drop one in — watch the days estimate update.</p>
+    </div>
+
+    <div class="closing-stage">
+      <div class="closing-floats" id="closingFloats">
+        <button class="float-chip" data-name="Sabre GDS" data-days="4">Sabre GDS<span>+4 days</span></button>
+        <button class="float-chip" data-name="Amadeus" data-days="5">Amadeus<span>+5 days</span></button>
+        <button class="float-chip" data-name="Travelport" data-days="4">Travelport<span>+4 days</span></button>
+        <button class="float-chip" data-name="Tabby" data-days="2">Tabby<span>+2 days</span></button>
+        <button class="float-chip" data-name="Tamara" data-days="2">Tamara<span>+2 days</span></button>
+        <button class="float-chip" data-name="Google Places" data-days="1">Google Places<span>+1 day</span></button>
+        <button class="float-chip" data-name="Travelfusion" data-days="3">Travelfusion<span>+3 days</span></button>
+        <button class="float-chip" data-name="Sherpa Visa" data-days="2">Sherpa Visa<span>+2 days</span></button>
+      </div>
+      <div class="drop-zone" id="dropZone">
+        <div class="dz-inner">
+          <div class="dz-plus">+</div>
+          <div class="dz-label">drop a supplier here</div>
+          <div class="dz-list" id="dzList"></div>
+        </div>
+        <div class="dz-rings"><span></span><span></span><span></span></div>
+      </div>
+      <div class="closing-stats">
+        <div class="cs-cell"><div class="cs-num"><span id="csCount">0</span></div><div class="cs-lbl">suppliers plugged in</div></div>
+        <div class="cs-cell"><div class="cs-num"><span id="csDays">0</span></div><div class="cs-lbl">days of engineering work</div></div>
+        <div class="cs-cell"><div class="cs-num"><span>0</span></div><div class="cs-lbl">changes to the website, chatbot, or admin panel</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="ft-l">
+      <img src="../assets/logo.png" alt="Al Rais Travel">
+      <p>The orchestration platform powering Al Rais Holidays 2.0.<br>Prepared by Epicmetry FZCO · May 2026.</p>
+    </div>
+    <div class="ft-r">
+      <a href="../collateral/Al Rais 2.0 Pitch Deck.html" class="btn btn-ghost">View pitch deck</a>
+      <div class="ft-contact">
+        <div><strong>Epicmetry FZCO</strong></div>
+        <div>Office 523, Block-C, Building 9W<br>Dubai Airport Free Zone, UAE</div>
+        <div>+971 55 633 2806 · epicmetry.com</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

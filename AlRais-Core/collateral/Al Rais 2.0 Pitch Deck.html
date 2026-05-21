@@ -1,0 +1,2025 @@
+<!DOCTYPE html><html lang="en"><head>
+
+
+<meta charset="utf-8">
+<title>Al Rais 2.0 — The AI-powered travel orchestration platform</title>
+<link rel="stylesheet" href="../ar-tokens.css">
+<script src="../deck-stage.js"></script>
+<style>
+  /* ---------- Type / spacing scale ---------- */
+  :root{
+    --type-display: 132px;
+    --type-title:   84px;
+    --type-h1:      60px;
+    --type-h2:      44px;
+    --type-h3:      32px;
+    --type-body:    28px;
+    --type-small:   24px;
+    --type-eyebrow: 26px;
+    --type-caption: 24px;
+
+    --pad-x:       110px;
+    --pad-top:     90px;
+    --pad-bottom:  90px;
+    --gap-title:   44px;
+    --gap-item:    28px;
+
+    --ink:         #0B1E55;
+    --royal:       #1E40A0;
+    --royal-deep:  #15327E;
+    --ink-deep:    #061434;
+    --red:         #E4002B;
+    --gold:        #AC8400;
+    --gold-soft:   #E8D7A1;
+    --sky:         #B4C9E2;
+    --sky-deep:    #6E92BD;
+    --soft:        #F6F8FC;
+    --line:        #E4E8F0;
+    --line-strong: #C9D1E0;
+    --mute:        #4A5878;
+  }
+
+  html,body{margin:0;padding:0;background:#0a0a0a;color:var(--ink);font-family:var(--ar-font-body);}
+
+  deck-stage section{
+    background:#fff;
+    color:var(--ink);
+    overflow:hidden;
+    position:relative;
+  }
+
+  /* ---------- Reusable atoms ---------- */
+  .eyebrow{
+    font-family:var(--ar-font-display);
+    font-weight:700;
+    font-size:var(--type-eyebrow);
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--red);
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:42px;height:2px;background:var(--red);display:inline-block;
+  }
+  .eyebrow.light{ color:rgba(255,255,255,0.92); }
+  .eyebrow.light::before{ background:#fff; }
+
+  h1.title{
+    font-family:var(--ar-font-display);
+    font-weight:800;
+    font-size:var(--type-title);
+    letter-spacing:-0.025em;
+    line-height:1.02;
+    margin:0;
+    color:var(--ink);
+    text-wrap:balance;
+    max-width:1500px;
+  }
+  h2.section-title{
+    font-family:var(--ar-font-display);
+    font-weight:700;
+    font-size:var(--type-h1);
+    letter-spacing:-0.022em;
+    line-height:1.05;
+    margin:0;
+    text-wrap:balance;
+  }
+  p.lede{
+    font-family:var(--ar-font-body);
+    font-weight:400;
+    font-size:var(--type-h3);
+    line-height:1.4;
+    color:var(--mute);
+    margin:0;
+    max-width:1300px;
+    text-wrap:pretty;
+  }
+  p.body{
+    font-family:var(--ar-font-body);
+    font-weight:400;
+    font-size:var(--type-body);
+    line-height:1.5;
+    color:var(--mute);
+    margin:0;
+    max-width:1100px;
+    text-wrap:pretty;
+  }
+
+  /* ---------- Layout helpers ---------- */
+  .frame{
+    position:absolute;inset:0;
+    padding:var(--pad-top) var(--pad-x) var(--pad-bottom);
+    display:flex;flex-direction:column;
+  }
+  .row{display:flex;}
+  .col{display:flex;flex-direction:column;}
+
+  .pattern{
+    background-image:repeating-linear-gradient(45deg,
+      rgba(30,64,160,0.10) 0,
+      rgba(30,64,160,0.10) 1.5px,
+      transparent 1.5px, transparent 12px);
+  }
+  .pattern.white{
+    background-image:repeating-linear-gradient(45deg,
+      rgba(255,255,255,0.18) 0,
+      rgba(255,255,255,0.18) 1.5px,
+      transparent 1.5px, transparent 14px);
+  }
+
+  /* ---------- Page chrome (footer) ---------- */
+  .chrome{
+    position:absolute;
+    left:var(--pad-x);right:var(--pad-x);bottom:40px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--ar-font-body);
+    font-size:24px;
+    color:var(--mute);
+    letter-spacing:0.06em;
+  }
+  .chrome.light{ color:rgba(255,255,255,0.72); }
+  .chrome .crumb{ text-transform:uppercase;letter-spacing:0.22em;font-weight:600;font-family:var(--ar-font-display);font-size:24px; }
+  .chrome .num{ font-family:var(--ar-font-mono);font-weight:600; }
+
+  .ar-logo{ height:48px; }
+  .ar-logo.invert{ filter:brightness(0) invert(1); }
+
+  /* ---------- Slide: Cover ---------- */
+  .cover{
+    background:
+      radial-gradient(120% 90% at 78% 14%, #6E92BD 0%, #1E40A0 36%, #0B1E55 78%, #061434 100%);
+    color:#fff;
+  }
+  .cover .aviation{
+    position:absolute;right:-160px;top:60px;width:1200px;height:780px;pointer-events:none;
+    opacity:0.95;
+  }
+  .cover .aviation svg{ width:100%;height:100%; overflow:visible; }
+  .cover .sun{
+    position:absolute;right:80px;top:140px;width:540px;height:540px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, rgba(250,245,232,0.35) 0%, rgba(232,215,161,0.15) 35%, transparent 70%);
+    filter:blur(40px);
+  }
+  .cover .swoosh{
+    position:absolute;left:-100px;bottom:-200px;width:1500px;height:900px;
+    background:radial-gradient(60% 50% at 50% 50%, rgba(228,0,43,0.18) 0%, transparent 70%);
+    transform:rotate(-12deg);
+  }
+  .cover .frame{ color:#fff; }
+  .cover h1.title{ color:#fff; font-size:148px; line-height:0.96; letter-spacing:-0.028em; }
+  .cover .sub{ font-size:34px;line-height:1.4;color:rgba(255,255,255,0.86);max-width:1100px;margin:0;text-wrap:pretty; }
+  .cover .meta{ display:flex;gap:48px;align-items:flex-end;justify-content:space-between; }
+  .cover .by{ font-size:24px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.6);font-family:var(--ar-font-display);font-weight:600; }
+  .cover .by strong{ color:#fff;display:block;margin-top:10px;font-size:26px;letter-spacing:0; }
+  .cover .pattern-strip{
+    position:absolute;left:0;right:0;bottom:0;height:120px;opacity:0.45;
+    background-image:repeating-linear-gradient(45deg,
+      rgba(255,255,255,0.20) 0, rgba(255,255,255,0.20) 2px,
+      transparent 2px, transparent 18px);
+  }
+
+  /* ---------- Slide: Section break (dark) ---------- */
+  .dark{ background:var(--ink-deep); color:#fff; }
+  .dark .eyebrow{ color:#fff; }
+  .dark h1.title, .dark h2.section-title{ color:#fff; }
+  .dark p.lede, .dark p.body{ color:rgba(255,255,255,0.78); }
+
+  .royal{ background:var(--royal); color:#fff; }
+  .royal .eyebrow{ color:#fff; }
+  .royal .eyebrow::before{ background:#fff; }
+  .royal h1.title, .royal h2.section-title{ color:#fff; }
+  .royal p.lede, .royal p.body{ color:rgba(255,255,255,0.85); }
+
+  /* ---------- Specific slide styles ---------- */
+
+  /* Vision slide — quotes wall */
+  .quote-wall{ display:grid;grid-template-columns:repeat(12,1fr);gap:32px;margin-top:60px; }
+  .qcard{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:30px 34px;
+    font-family:var(--ar-font-display);font-weight:600;font-size:30px;line-height:1.18;color:var(--ink);
+    letter-spacing:-0.012em;
+    box-shadow:0 4px 18px rgba(11,30,85,0.05);
+    position:relative;
+  }
+  .qcard small{
+    display:block;font-family:var(--ar-font-body);font-size:24px;font-weight:500;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--red);margin-bottom:14px;
+  }
+  .qcard.span4{ grid-column: span 4; }
+  .qcard.span5{ grid-column: span 5; }
+  .qcard.span6{ grid-column: span 6; }
+  .qcard.span7{ grid-column: span 7; }
+  .qcard.span8{ grid-column: span 8; }
+  .qcard.dark{ background:var(--ink); color:#fff; border-color:transparent; }
+  .qcard.dark small{ color:#fff;opacity:0.8; }
+  .qcard.red{ background:var(--red); color:#fff; border-color:transparent; }
+  .qcard.red small{ color:#fff;opacity:0.85; }
+
+  /* Statement slide — huge centered phrase */
+  .statement{
+    height:100%;
+    display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  }
+  .statement .big{
+    font-family:var(--ar-font-display);font-weight:800;
+    font-size:120px;line-height:1.24;letter-spacing:-0.03em;
+    max-width:1620px;text-wrap:balance;color:var(--ink);
+  }
+  .statement.dark .big{ color:#fff; }
+  .statement .big em{ font-style:normal;color:var(--red); }
+  .statement .by{ font-family:var(--ar-font-body);font-size:28px;color:var(--mute);max-width:1000px;margin-top:48px;line-height:1.45; }
+  .statement.dark .by{ color:rgba(255,255,255,0.78); }
+
+  /* 38-website slide */
+  .stat-row{ display:grid;grid-template-columns:repeat(3,1fr);gap:64px;margin-top:80px; }
+  .stat{ }
+  .stat .num{ font-family:var(--ar-font-display);font-weight:800;font-size:170px;line-height:0.95;color:var(--royal);letter-spacing:-0.04em; }
+  .stat .num em{ color:var(--red);font-style:normal; }
+  .stat .lbl{ font-family:var(--ar-font-display);font-weight:600;font-size:26px;color:var(--ink);margin-top:20px;line-height:1.3;max-width:430px; }
+  .stat .desc{ font-family:var(--ar-font-body);font-size:24px;color:var(--mute);margin-top:14px;line-height:1.45;max-width:430px;text-wrap:pretty; }
+
+  /* Diagram of platform */
+  .arch{ flex:1; display:grid; grid-template-columns:1.05fr 1.6fr 1.05fr; gap:30px; align-items:stretch; margin-top:36px; min-height:0; }
+  .arch .node{
+    background:#fff;border:1.5px solid var(--line-strong);border-radius:18px;padding:30px 30px;display:flex;flex-direction:column;gap:14px;
+    box-shadow:0 4px 20px rgba(11,30,85,0.04);
+  }
+  .arch .node h4{ margin:0;font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--ink); }
+  .arch .node p{ margin:0;font-size:20px;color:var(--mute);line-height:1.4; }
+  .arch .lbl{ font-family:var(--ar-font-display);font-weight:700;font-size:24px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red); }
+
+  .arch .middle{
+    background:var(--ink);color:#fff;border:none;
+    background-image:radial-gradient(100% 100% at 0% 0%, rgba(30,64,160,0.6) 0%, transparent 60%),
+      linear-gradient(180deg, #15327E 0%, #0B1E55 100%);
+    position:relative;overflow:hidden;
+  }
+  .arch .middle::after{
+    content:"";position:absolute;inset:0;opacity:0.18;pointer-events:none;
+    background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 14px);
+  }
+  .arch .middle h4{ color:#fff;font-size:36px; }
+  .arch .middle p{ color:rgba(255,255,255,0.78);font-size:24px; }
+  .arch .middle .lbl{ color:#fff;opacity:0.7; }
+  .arch .middle .caps{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px 22px;margin-top:auto;
+  }
+  .arch .middle .caps div{
+    background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.18);
+    padding:14px 18px;border-radius:8px;font-size:24px;font-weight:500;
+    font-family:var(--ar-font-body);color:#fff;
+  }
+  .arch .colstack{ display:flex;flex-direction:column;gap:14px; }
+  .arch .colstack .pill{
+    background:#fff;border:1.5px solid var(--line-strong);border-radius:14px;padding:16px 22px;
+    display:flex;align-items:center;gap:18px;
+  }
+  .arch .colstack .pill .dot{ width:12px;height:12px;border-radius:50%;background:var(--royal);flex-shrink:0; }
+  .arch .colstack .pill.muted .dot{ background:var(--line-strong); }
+  .arch .colstack .pill .name{ font-family:var(--ar-font-display);font-weight:600;font-size:24px;color:var(--ink); }
+  .arch .colstack .pill .tag{ font-family:var(--ar-font-body);font-size:24px;color:var(--mute);margin-left:auto;letter-spacing:0.06em;text-transform:uppercase; }
+
+  /* Five things grid */
+  .five-grid{ display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-top:56px;flex:1;min-height:0; }
+  .five-grid .item{
+    background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:36px 30px;
+    display:flex;flex-direction:column;gap:18px;position:relative;overflow:hidden;
+  }
+  .five-grid .item .n{
+    font-family:var(--ar-font-display);font-weight:800;font-size:110px;line-height:0.9;color:var(--royal);
+    letter-spacing:-0.04em;opacity:0.18;position:absolute;right:18px;top:6px;
+  }
+  .five-grid .item h4{ margin:0;font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--ink);line-height:1.18; }
+  .five-grid .item p{ margin:0;font-family:var(--ar-font-body);font-size:18px;line-height:1.5;color:var(--mute); }
+  .five-grid .item .kicker{ font-family:var(--ar-font-display);font-weight:700;font-size:14px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red); }
+
+  /* Single-capability slide layout */
+  .cap{ display:grid;grid-template-columns:0.95fr 1.05fr;gap:80px;margin-top:60px;flex:1;min-height:0;align-items:stretch; }
+  .cap .lhs{ display:flex;flex-direction:column;gap:32px;justify-content:center; }
+  .cap .lhs .nbig{ font-family:var(--ar-font-display);font-weight:800;font-size:32px;letter-spacing:0.32em;color:var(--red);text-transform:uppercase; }
+  .cap .lhs h2{ font-family:var(--ar-font-display);font-weight:700;font-size:68px;line-height:1.04;letter-spacing:-0.022em;color:var(--ink);margin:0;text-wrap:balance; }
+  .cap .lhs p{ font-size:24px;color:var(--mute);line-height:1.5;max-width:660px;margin:0; }
+  .cap .rhs{
+    background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:0;
+    box-shadow:0 12px 40px rgba(11,30,85,0.07);
+    overflow:hidden;position:relative;
+  }
+
+  /* Curation example slides */
+  .curex{ display:grid;grid-template-columns:1.05fr 1.4fr;gap:80px;margin-top:50px;flex:1;min-height:0;align-items:stretch; }
+  .curex .lhs{ display:flex;flex-direction:column;gap:28px; }
+  .curex .pers{ display:flex;align-items:center;gap:24px; }
+  .curex .pers .avatar{
+    width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--sky) 0%,var(--royal) 100%);
+    display:grid;place-items:center;color:#fff;font-family:var(--ar-font-display);font-weight:700;font-size:42px;
+    flex-shrink:0;box-shadow:0 6px 22px rgba(30,64,160,0.32);
+  }
+  .curex .pers .meta strong{ font-family:var(--ar-font-display);font-weight:700;font-size:28px;color:var(--ink);display:block; }
+  .curex .pers .meta span{ font-family:var(--ar-font-body);font-size:24px;color:var(--mute); }
+  .curex h2{ font-family:var(--ar-font-display);font-weight:700;font-size:62px;line-height:1.04;letter-spacing:-0.022em;color:var(--ink);margin:0;text-wrap:balance; }
+  .curex .tags{ display:flex;gap:10px;flex-wrap:wrap; }
+  .curex .tags span{ background:#F6F8FC;border:1px solid var(--line);padding:10px 16px;border-radius:999px;font-size:24px;color:var(--ink);font-weight:500;letter-spacing:0.01em; }
+  .curex .rule{
+    border-left:3px solid var(--red);padding:14px 22px;background:#FAF5E8;border-radius:0 10px 10px 0;
+    font-family:var(--ar-font-body);font-size:24px;color:var(--ink);line-height:1.4;
+  }
+  .curex .rule strong{ font-family:var(--ar-font-display);font-weight:700; }
+
+  /* Result cards */
+  .cards{ display:flex;flex-direction:column;gap:18px;justify-content:center; }
+  .card{
+    background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:24px 28px;
+    box-shadow:0 4px 16px rgba(11,30,85,0.04);
+    display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;
+  }
+  .card .badge{
+    background:#E6F7EE;color:#136E3F;border-radius:999px;padding:8px 16px;
+    font-family:var(--ar-font-display);font-weight:700;font-size:24px;letter-spacing:0.04em;
+    white-space:nowrap;
+  }
+  .card .badge.cheapest{ background:#EAF1FE;color:var(--royal); }
+  .card .badge.fastest{ background:#FFE9D5;color:#A65500; }
+  .card .badge.bestmatch{ background:#D5F5E3;color:#0F7B41; }
+  .card .name{ font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--ink); }
+  .card .why{ font-family:var(--ar-font-body);font-size:24px;color:var(--mute);margin-top:6px;line-height:1.4; }
+  .card .price{ font-family:var(--ar-font-display);font-weight:800;font-size:32px;color:var(--ink);letter-spacing:-0.01em; }
+  .card .price small{ display:block;font-family:var(--ar-font-body);font-weight:400;font-size:24px;color:var(--mute);letter-spacing:0; }
+  .card.featured{ border-color:var(--royal);box-shadow:0 12px 30px rgba(30,64,160,0.15); }
+
+  /* GCC slide — three panels */
+  .gcc{ display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:50px;flex:1;min-height:0; }
+  .gcc .panel{
+    background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:46px 40px;
+    display:flex;flex-direction:column;gap:22px;position:relative;overflow:hidden;
+  }
+  .gcc .panel.blue{ background:linear-gradient(180deg,#15327E 0%,#0B1E55 100%);color:#fff;border:none; }
+  .gcc .panel.blue h4{ color:#fff; }
+  .gcc .panel.blue p{ color:rgba(255,255,255,0.82); }
+  .gcc .panel.blue .icon{ color:#fff;opacity:0.85; }
+  .gcc .panel h4{ font-family:var(--ar-font-display);font-weight:700;font-size:30px;line-height:1.15;color:var(--ink);margin:0;text-wrap:balance; }
+  .gcc .panel p{ font-family:var(--ar-font-body);font-size:24px;line-height:1.5;color:var(--mute);margin:0;text-wrap:pretty; }
+  .gcc .icon{ width:64px;height:64px;color:var(--royal); }
+
+  /* Three-features overview */
+  .three{ display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:54px;flex:1;min-height:0; }
+  .three .feat{
+    background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:34px 32px;
+    display:flex;flex-direction:column;gap:18px;min-height:0;overflow:hidden;
+  }
+  .three .feat .tag{ font-family:var(--ar-font-display);font-weight:700;font-size:24px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red); }
+  .three .feat h3{ font-family:var(--ar-font-display);font-weight:700;font-size:32px;line-height:1.1;color:var(--ink);margin:0;letter-spacing:-0.015em; }
+  .three .feat p{ font-family:var(--ar-font-body);font-size:22px;line-height:1.45;color:var(--mute);margin:0; }
+  .three .feat .preview{ flex:1;margin-top:auto;border:1px dashed var(--line-strong);border-radius:12px;background:#FAFBFE;display:grid;place-items:center;min-height:120px;overflow:hidden; }
+
+  /* Supplier ready table */
+  .supp-grid{ display:grid;grid-template-columns:1.05fr 2fr;gap:18px;margin-top:42px;flex:1;min-height:0;overflow:hidden;align-content:start;grid-auto-rows:min-content; }
+  .supp-grid .row{ display:contents; }
+  .supp-grid .cell{
+    background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:18px 24px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .supp-grid .cell.head{
+    background:var(--ink);color:#fff;border-color:transparent;
+    font-family:var(--ar-font-display);font-weight:700;font-size:14px;letter-spacing:0.22em;text-transform:uppercase;
+    padding:14px 24px;
+  }
+  .supp-grid .cell .what{ font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);line-height:1.2; }
+  .supp-grid .cell .ex{ font-family:var(--ar-font-body);font-size:16px;color:var(--mute);margin-top:4px;letter-spacing:0.02em; }
+  .supp-grid .cell .adds{ font-family:var(--ar-font-body);font-size:20px;color:var(--ink);line-height:1.4;text-wrap:pretty; }
+
+  /* Closing */
+  .close{ display:flex;flex-direction:column;justify-content:center;height:100%;gap:48px; }
+  .close h1{ font-family:var(--ar-font-display);font-weight:800;font-size:108px;line-height:1.02;letter-spacing:-0.028em;color:#fff;margin:0;max-width:1540px;text-wrap:balance; }
+  .close p{ font-size:30px;color:rgba(255,255,255,0.82);max-width:1300px;line-height:1.5;margin:0; }
+
+  /* Thank you */
+  .thanks{ display:grid;grid-template-columns:1.2fr 1fr;gap:80px;height:100%;align-items:center; }
+  .thanks .l h1{ font-family:var(--ar-font-display);font-weight:800;font-size:188px;line-height:0.96;letter-spacing:-0.03em;color:#fff;margin:0; }
+  .thanks .l p{ font-size:30px;color:rgba(255,255,255,0.85);max-width:780px;line-height:1.5;margin:32px 0 0; }
+  .thanks .r{
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);
+    border-radius:24px;padding:56px 50px;
+    backdrop-filter:blur(8px);
+  }
+  .thanks .r .by{ font-family:var(--ar-font-display);font-weight:700;font-size:16px;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,0.55); }
+  .thanks .r .name{ font-family:var(--ar-font-display);font-weight:800;font-size:54px;color:#fff;margin:16px 0 28px;letter-spacing:-0.015em; }
+  .thanks .r .row2{ display:flex;flex-direction:column;gap:18px;font-family:var(--ar-font-body);font-size:22px;color:rgba(255,255,255,0.92);line-height:1.4; }
+  .thanks .r .row2 strong{ display:block;font-family:var(--ar-font-display);font-weight:600;font-size:18px;color:rgba(255,255,255,0.55);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:4px; }
+
+  /* ---- Product screen mocks ---- */
+  .browser{
+    width:100%;height:100%;background:#FAFBFE;border-radius:0;
+    display:flex;flex-direction:column;overflow:hidden;
+    font-family:var(--ar-font-body);
+  }
+  .bw-bar{
+    height:46px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 18px;gap:10px;flex-shrink:0;
+  }
+  .bw-bar .dots{ display:flex;gap:7px; }
+  .bw-bar .dots span{ width:11px;height:11px;border-radius:50%;background:#E5E8EE; }
+  .bw-bar .url{
+    flex:1;height:26px;background:#F1F3F8;border-radius:6px;display:flex;align-items:center;padding:0 14px;
+    font-size:13px;color:var(--mute);margin-left:16px;font-family:var(--ar-font-mono);
+  }
+  .nav{ height:74px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 38px;gap:42px;flex-shrink:0; }
+  .nav .logo{ height:36px; }
+  .nav .nlinks{ display:flex;gap:34px;font-size:17px;font-weight:500;color:var(--ink); }
+  .nav .nlinks .active{ color:var(--royal);border-bottom:2px solid var(--red);padding-bottom:4px; }
+  .nav .right{ margin-left:auto;display:flex;align-items:center;gap:14px; }
+  .nav .pill{ border:1.5px solid var(--royal);border-radius:14px;padding:8px 14px;font-size:13px;display:flex;gap:10px;align-items:center;color:var(--ink); }
+  .nav .av{ width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#E8D7A1,var(--gold));display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px; }
+
+  /* Landing mock */
+  .land{
+    flex:1;
+    background:linear-gradient(180deg, #D2F4FE 0%, #ffffff 14%, #ffffff 26%, #5383DA 56%, #2351A3 88%, #081326 100%);
+    padding:48px 60px 32px;display:flex;flex-direction:column;position:relative;overflow:hidden;
+  }
+  .land h2{ font-family:var(--ar-font-display);font-weight:800;font-size:60px;text-align:center;color:var(--ink);margin:8px 0 24px;letter-spacing:-0.025em; }
+  .land .search{ width:74%;margin:0 auto;background:#fff;border-radius:18px;padding:22px 28px;display:flex;align-items:center;gap:14px;box-shadow:0 10px 28px rgba(11,30,85,0.10); }
+  .land .search input{ flex:1;border:0;font-size:22px;color:var(--mute);outline:0;font-family:var(--ar-font-body); }
+  .land .search .send{ width:46px;height:46px;border-radius:50%;background:var(--royal);display:grid;place-items:center;color:#fff;font-weight:700; }
+  .land .curated{ margin-top:auto;padding:36px 0 0; }
+  .land .curated h3{ color:var(--ink);font-family:var(--ar-font-display);font-weight:700;font-size:22px;margin:0 0 14px; }
+  .land .filters{ display:flex;justify-content:space-between;align-items:center;margin-bottom:22px; }
+  .land .filters .tabs{ display:flex;gap:14px;background:rgba(35,81,163,0.32);border-radius:14px;padding:6px;backdrop-filter:blur(6px); }
+  .land .filters .tabs span{ padding:10px 22px;font-size:16px;color:rgba(255,255,255,0.78);font-weight:500;border-radius:10px; }
+  .land .filters .tabs .on{ background:var(--royal);color:#fff;font-weight:700; }
+  .land .filters .umrah{ background:rgba(11,30,85,0.45);color:#fff;border:1px solid rgba(255,255,255,0.18);padding:12px 18px;border-radius:12px;font-size:15px; }
+  .land .packs{ display:grid;grid-template-columns:repeat(4,1fr);gap:18px; }
+  .land .packs .p{
+    background:#1E40A0;color:#fff;border-radius:16px;overflow:hidden;height:240px;position:relative;
+    display:flex;flex-direction:column;justify-content:space-between;padding:16px;
+    background-image:linear-gradient(180deg, rgba(11,30,85,0.05) 0%, rgba(11,30,85,0.7) 100%);
+  }
+  .land .packs .p::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(135deg, var(--royal-deep), var(--royal));
+  }
+  .land .packs .p.hero{ height:300px;margin-top:-60px;box-shadow:0 18px 40px rgba(0,0,0,0.20); }
+  .land .packs .p .top-row{ display:flex;justify-content:space-between;align-items:flex-start; }
+  .land .packs .p .desto{ font-family:var(--ar-font-display);font-weight:700;font-size:22px;line-height:1.1; }
+  .land .packs .p .info{ font-size:14px;opacity:0.85;margin-top:4px;line-height:1.4; }
+  .land .packs .p .price{ text-align:right;}
+  .land .packs .p .price .from{ font-size:12px;opacity:0.78; }
+  .land .packs .p .price .v{ font-family:var(--ar-font-display);font-weight:800;font-size:24px;line-height:1; }
+  .land .packs .p .book{ background:#fff;color:var(--royal);text-align:center;padding:10px;border-radius:10px;font-weight:700;font-size:14px;font-family:var(--ar-font-display); }
+  .land .packs .p .bottom-block{ display:flex;flex-direction:column;gap:10px; }
+
+  /* Chat mock */
+  .chat{ flex:1;display:grid;grid-template-columns:0.95fr 1.45fr;background:#fff;min-height:0; }
+  .chat .l{ border-right:1px solid var(--line);padding:28px 26px 22px;display:flex;flex-direction:column;gap:14px;overflow:hidden; }
+  .chat .u-bubble{ background:var(--royal);color:#fff;border-radius:18px 18px 4px 18px;padding:12px 18px;font-size:16px;align-self:flex-end;max-width:60%;font-weight:600; }
+  .chat .bot{ display:flex;gap:12px;align-items:flex-start; }
+  .chat .bot .ava{ width:30px;height:30px;border-radius:50%;background:var(--royal);flex-shrink:0;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;margin-top:4px; }
+  .chat .bot-bubble{ background:#F1F3F8;border-radius:18px 18px 18px 4px;padding:13px 18px;font-size:16px;color:var(--ink);max-width:80%;line-height:1.45; }
+  .chat .bot-bubble strong{ font-weight:700; }
+  .chat .flight-c{
+    background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+  }
+  .chat .flight-c.best{ border-color:var(--royal); }
+  .chat .badge2{ font-family:var(--ar-font-display);font-weight:700;font-size:11px;border-radius:999px;padding:5px 10px; }
+  .chat .badge2.bm{ background:#D5F5E3;color:#0F7B41; }
+  .chat .badge2.cp{ background:#EAF1FE;color:var(--royal); }
+  .chat .badge2.fs{ background:#FFE9D5;color:#A65500; }
+  .chat .flight-c .info{ display:flex;flex-direction:column;gap:2px; }
+  .chat .flight-c .car{ font-family:var(--ar-font-display);font-weight:700;font-size:14px;color:var(--ink); }
+  .chat .flight-c .sub{ font-size:11px;color:var(--mute); }
+  .chat .flight-c .timeline{ display:flex;align-items:center;gap:6px;margin-top:6px;grid-column:2/-1; }
+  .chat .flight-c .timeline .t{ font-size:12px;font-weight:600;color:var(--ink); }
+  .chat .flight-c .timeline .line{ flex:1;height:1.5px;background:var(--line-strong);position:relative; }
+  .chat .flight-c .timeline .line::before,.chat .flight-c .timeline .line::after{ content:"";width:7px;height:7px;border-radius:50%;background:var(--royal);position:absolute;top:50%;transform:translateY(-50%); }
+  .chat .flight-c .timeline .line::before{ left:0; } .chat .flight-c .timeline .line::after{ right:0; }
+  .chat .flight-c .timeline .mid{ position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--mute); }
+  .chat .flight-c .timeline .mid2{ position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--mute); }
+  .chat .flight-c .price2{ font-family:var(--ar-font-display);font-weight:800;font-size:16px;color:var(--ink); }
+  .chat .input{ margin-top:auto;background:#F1F3F8;border-radius:14px;padding:12px 16px;font-size:14px;color:var(--mute);display:flex;align-items:center;gap:10px; }
+  .chat .input .sd{ margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--royal);display:grid;place-items:center;color:#fff;font-size:12px; }
+
+  /* Right panel of chat */
+  .chat .r{ background:#FAFBFE;padding:26px 32px;display:flex;flex-direction:column;gap:14px;overflow:hidden; }
+  .chat .r .head{ display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:18px;border-bottom:1px solid var(--line); }
+  .chat .r .head .where{ font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink); }
+  .chat .r .head .where small{ display:block;font-family:var(--ar-font-body);font-weight:400;font-size:13px;color:var(--mute);margin-top:2px; }
+  .chat .r .head .total{ text-align:right;font-family:var(--ar-font-display);font-weight:800;font-size:24px;color:var(--ink); }
+  .chat .r .head .total small{ display:block;font-family:var(--ar-font-body);font-weight:400;font-size:12px;color:var(--mute);margin-top:2px; }
+  .chat .r .empty{ flex:1;border:1.5px dashed var(--line-strong);border-radius:14px;display:grid;place-items:center;color:var(--mute);font-size:15px;text-align:center;padding:30px; }
+  .chat .r .empty svg{ width:42px;height:42px;display:block;margin:0 auto 12px;color:var(--royal);opacity:0.6; }
+
+  /* Review screen */
+  .review .r .head .total{ color:var(--ink); }
+  .review .pl{
+    background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:14px 18px;
+  }
+  .review .pl + .pl{ margin-top:10px; }
+  .review .pl h5{ margin:0;font-family:var(--ar-font-display);font-weight:700;font-size:15px;color:var(--ink);display:flex;justify-content:space-between;align-items:center; }
+  .review .pl h5 .pr{ font-weight:800;font-size:15px; }
+  .review .pl small{ display:block;font-family:var(--ar-font-body);font-size:12px;color:var(--mute);margin-top:4px;line-height:1.4; }
+  .review .savings{
+    background:#D5F5E3;color:#0F7B41;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .review .lock{
+    background:#FFE5EB;color:var(--red);border-radius:10px;padding:12px 14px;
+    font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center;
+  }
+  .review .lock .l1{ display:flex;flex-direction:column;gap:2px; }
+  .review .lock small{ font-weight:400;font-size:11px;color:var(--red);opacity:0.85; }
+  .review .lock .pay{ background:#fff;color:var(--red);padding:8px 18px;border-radius:8px;font-weight:700;font-size:13px;font-family:var(--ar-font-display); }
+
+  /* Diagram (orchestration) */
+  .orch{
+    display:flex;flex-direction:column;gap:24px;margin-top:40px;flex:1;min-height:0;padding:30px 60px;
+  }
+  .orch .layer{ display:grid;grid-template-columns:repeat(4,1fr);gap:18px; }
+  .orch .layer.center{ grid-template-columns:1fr; }
+  .orch .node2{
+    background:#fff;border:1.5px solid var(--line-strong);border-radius:14px;padding:18px 22px;
+    display:flex;flex-direction:column;gap:4px;text-align:center;
+  }
+  .orch .node2 .nm{ font-family:var(--ar-font-display);font-weight:700;font-size:20px;color:var(--ink); }
+  .orch .node2 .sub{ font-size:14px;color:var(--mute); }
+  .orch .node2.middle{ background:linear-gradient(135deg,var(--royal-deep),var(--royal));color:#fff;border:none;padding:30px;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center; }
+  .orch .node2.middle .nm{ color:#fff;font-size:26px; }
+  .orch .node2.middle .sub{ color:rgba(255,255,255,0.85);font-size:18px; }
+  .orch .node2.middle .pills{ display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end; }
+  .orch .node2.middle .pills span{ background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.22);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:500; }
+  .orch .arrow-down{
+    display:flex;justify-content:space-around;align-items:center;
+    color:var(--line-strong);height:14px;
+  }
+  .orch .arrow-down span{ font-size:24px;color:var(--royal); }
+
+  /* big "five things" wide layout */
+  .wide-five{ display:grid;grid-template-columns:repeat(5,1fr);gap:28px;margin-top:64px;flex:1;min-height:0; }
+  .wide-five .it{ display:flex;flex-direction:column;gap:18px; }
+  .wide-five .it .num{ font-family:var(--ar-font-display);font-weight:800;font-size:72px;color:var(--red);letter-spacing:-0.03em;line-height:1; }
+  .wide-five .it h4{ font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);line-height:1.22;margin:0;text-wrap:balance; }
+  .wide-five .it p{ font-family:var(--ar-font-body);font-size:24px;color:var(--mute);line-height:1.5;margin:0;text-wrap:pretty; }
+
+  /* generic 2-col layout */
+  .twocol{ display:grid;grid-template-columns:1fr 1.2fr;gap:80px;margin-top:48px;flex:1;align-items:stretch; }
+  .twocol .l{ display:flex;flex-direction:column;gap:30px;justify-content:center; }
+  .twocol .r{ display:flex;flex-direction:column;gap:20px;justify-content:center; }
+
+  /* Connected diagram */
+  .connected{
+    flex:1;margin-top:40px;background:#FAFBFE;border:1.5px solid var(--line);border-radius:24px;
+    padding:60px;position:relative;overflow:hidden;
+    display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:60px;align-items:center;
+  }
+  .connected .col h4{ font-family:var(--ar-font-display);font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:0.18em;color:var(--red);margin:0 0 24px; }
+  .connected .col .item{ display:flex;align-items:center;gap:16px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:14px; }
+  .connected .col .item .dot{ width:10px;height:10px;border-radius:50%;background:var(--royal); }
+  .connected .col .item .nm{ font-family:var(--ar-font-display);font-weight:600;font-size:22px;color:var(--ink); }
+  .connected .mid{
+    background:linear-gradient(135deg,var(--royal-deep),var(--royal));color:#fff;border-radius:20px;padding:48px 42px;
+    box-shadow:0 22px 50px rgba(30,64,160,0.30);position:relative;overflow:hidden;
+  }
+  .connected .mid::after{
+    content:"";position:absolute;inset:0;opacity:0.18;
+    background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 14px);
+  }
+  .connected .mid h3{ font-family:var(--ar-font-display);font-weight:800;font-size:38px;letter-spacing:-0.018em;margin:0; }
+  .connected .mid p{ font-size:20px;color:rgba(255,255,255,0.86);margin:18px 0 0;line-height:1.5; }
+  .connected .mid .ms{ margin-top:28px;display:flex;flex-wrap:wrap;gap:10px; }
+  .connected .mid .ms span{ background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.22);border-radius:999px;padding:8px 14px;font-size:15px; }
+
+  /* slide num for chrome */
+  .pg{ font-family:var(--ar-font-mono);font-weight:600; }
+</style>
+</head>
+<body style="">
+
+<deck-stage width="1920" height="1080" style="--deck-rail-w: 188px;">
+
+  <!-- ===================== 01 — COVER ===================== -->
+  <section class="cover">
+    <div class="sun"></div>
+    <div class="swoosh"></div>
+    <div class="aviation">
+      <svg viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Curved vapor trail -->
+        <path d="M -80 720 Q 380 720 580 540 T 1100 180" stroke="rgba(255,255,255,0.10)" stroke-width="56" stroke-linecap="round" fill="none"></path>
+        <path d="M -80 720 Q 380 720 580 540 T 1100 180" stroke="rgba(255,255,255,0.25)" stroke-width="28" stroke-linecap="round" fill="none"></path>
+        <path d="M -80 720 Q 380 720 580 540 T 1100 180" stroke="rgba(255,255,255,0.55)" stroke-width="10" stroke-linecap="round" fill="none"></path>
+        <!-- Red brand swoosh echoing the Al Rais logo mark -->
+        <path d="M 200 760 Q 460 760 660 600 T 1140 240" stroke="#E4002B" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.85"></path>
+        <path d="M 1100 260 L 1140 240 L 1118 282" stroke="#E4002B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85"></path>
+        <!-- Airliner silhouette -->
+        <g transform="translate(940 200) rotate(-22)">
+          <!-- Fuselage -->
+          <path d="M -150 0 C -130 -14, -90 -22, -40 -22 L 90 -22 C 130 -22, 158 -16, 180 -2 L 200 0 L 180 2 C 158 16, 130 22, 90 22 L -40 22 C -90 22, -130 14, -150 0 Z" fill="#ffffff"></path>
+          <!-- Nose accent -->
+          <path d="M 168 -8 C 184 -6, 196 -2, 200 0 L 196 0 L 200 0 L 196 0 C 196 0, 184 6, 168 8 Z" fill="#E4002B"></path>
+          <!-- Main wing -->
+          <path d="M -30 -4 L 100 -90 L 50 -90 L -70 -4 Z" fill="#ffffff" opacity="0.92"></path>
+          <path d="M -30 4 L 100 90 L 50 90 L -70 4 Z" fill="#ffffff" opacity="0.8"></path>
+          <!-- Tail fin -->
+          <path d="M -110 -6 L -150 -54 L -120 -54 L -100 -6 Z" fill="#ffffff" opacity="0.9"></path>
+          <!-- Window strip -->
+          <rect x="-30" y="-6" width="180" height="2" fill="rgba(11,30,85,0.45)" rx="1"></rect>
+          <!-- Engine -->
+          <ellipse cx="30" cy="34" rx="22" ry="10" fill="#ffffff" opacity="0.85"></ellipse>
+        </g>
+        <!-- Subtle stars / distance dots -->
+        <circle cx="1080" cy="100" r="3" fill="#ffffff" opacity="0.6"></circle>
+        <circle cx="980" cy="60" r="2" fill="#ffffff" opacity="0.4"></circle>
+        <circle cx="1130" cy="320" r="2" fill="#ffffff" opacity="0.3"></circle>
+      </svg>
+    </div>
+    <div class="pattern-strip"></div>
+    <div class="frame" data-comment-anchor="261ab37883-div">
+      <div class="row" style="justify-content:space-between;align-items:flex-start;">
+        <img src="../assets/logo.png" alt="Al Rais Travel" class="ar-logo invert" style="height:64px;">
+        <div class="eyebrow light"><span>Platform Capability Brief</span></div>
+      </div>
+      <div style="margin-top:auto;">
+        <div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.62);margin-bottom:26px;">Al Rais Holidays &amp; Tours · 2.0</div>
+        <h1 class="title">The AI-powered Holidays Operating System.</h1>
+        <p class="sub" style="margin-top:36px;">An orchestration platform built to power the Al Rais vision — software that thinks, not software that searches.</p>
+      </div>
+      <div class="meta" style="margin-top:80px;">
+        <div class="by">
+          Prepared by
+          <strong>Epicmetry FZCO · May 2026</strong>
+        </div>
+        <div class="by" style="text-align:right;">
+          Presentation
+          <strong>27 slides · 25 minutes</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 02 — VISION ===================== -->
+  <section>
+    <div class="frame">
+      <div class="row" style="justify-content:space-between;align-items:center;">
+        <div class="eyebrow"><span>Section one · The vision we were given</span></div>
+        <img src="../assets/logo.png" class="ar-logo" style="height:42px;">
+      </div>
+      <h1 class="title" style="margin-top:30px;max-width:1500px;">Al Rais set the destination plainly. The platform had to live up to it.</h1>
+      <p class="lede" style="margin-top:28px;">The Scope of Work signed in May 2025 named four ambitions. None of them work locked to a single supplier.</p>
+
+      <div class="quote-wall" style="margin-top:50px;">
+        <div class="qcard span6">
+          <small>SOW · Foundational</small>
+          A platform that creates a unique experience for B2B and B2C travelers.
+        </div>
+        <div class="qcard span6 dark">
+          <small>SOW · Exclusive to Al Rais</small>
+          A dynamic packaging engine that builds a holiday in a single interface.
+        </div>
+        <div class="qcard span7 red">
+          <small>SOW · Al-Rais IP</small>
+          A recommendation engine that scores its own suggestions and explains its choices.
+        </div>
+        <div class="qcard span5">
+          <small>SOW · Positioning</small>
+          A chatbot positioned not as a support widget but as a travel assistant.
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Al Rais 2.0 · The vision</span>
+        <span class="pg">02 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 03 — THESIS ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>The thesis</span></div>
+      <div class="statement" style="margin-top:auto;margin-bottom:auto;">
+        <div class="big" style="color:var(--royal);">
+          <div>Software that <em style="color:var(--red);">thinks</em>,</div>
+          <div>not software that <em style="color:var(--ink-deep);font-style:normal;">searches</em>.</div>
+        </div>
+        <p class="by">
+          A platform that scores its own suggestions and tags them. A platform that builds a holiday in a single interface and prices it intelligently. A platform that learns from how customers behave and improves over time.
+        </p>
+      </div>
+      <div class="chrome">
+        <span class="crumb">Al Rais 2.0 · Thesis</span>
+        <span class="pg">03 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 04 — INDUSTRY CONTEXT ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>What we're up against</span></div>
+      <h1 class="title" style="margin-top:30px;max-width:1500px;">Travelers visit dozens of websites before they book a holiday — and most of what they see is noise.</h1>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="num">38<em>+</em></div>
+          <div class="lbl">Websites visited on average</div>
+          <div class="desc">Inspiration scattered across blogs, OTAs, Instagram and supplier sites — none of which talk to each other.</div>
+        </div>
+        <div class="stat">
+          <div class="num" style=""><em style="color: rgb(30, 64, 160);">95</em><span style="color: rgb(228, 0, 43);">%</span></div>
+          <div class="lbl">Of leads typically lost</div>
+          <div class="desc">Slow turnaround, cookie-cutter packages, weak personalisation. The industry calls this "normal." It isn't.</div>
+        </div>
+        <div class="stat">
+          <div class="num">3<em>×</em></div>
+          <div class="lbl">Cards from one search</div>
+          <div class="desc">Al Rais 2.0 collapses forty supplier results into three considered recommendations — each one explained.</div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Al Rais 2.0 · Context</span>
+        <span class="pg">04 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 05 — THE DECISION ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Section two · The decision the build required</span></div>
+      <h1 class="title" style="margin-top:30px;max-width:1480px;">None of the SOW's features work well when the platform is locked to one supplier.</h1>
+
+      <div class="row" style="gap:60px;margin-top:48px;flex:1;align-items:stretch;min-height:0;">
+        <div class="col" style="flex:1;gap:22px;justify-content:center;">
+          <div class="qcard span4" style="background:#F6F8FC;border:1px solid var(--line);font-size:26px;padding:24px 28px;">
+            <small style="margin-bottom:10px;">Recommendation engine</small>
+            A recommendation engine that only sees one airline's inventory cannot meaningfully recommend.
+          </div>
+          <div class="qcard span4" style="background:#F6F8FC;border:1px solid var(--line);font-size:26px;padding:24px 28px;">
+            <small style="margin-bottom:10px;">Package builder</small>
+            Pulling flight, hotel and activity from the same source isn't really a package. It's a bundle.
+          </div>
+          <div class="qcard span4" style="background:#F6F8FC;border:1px solid var(--line);font-size:26px;padding:24px 28px;">
+            <small style="margin-bottom:10px;">Chatbot &amp; commercial rules</small>
+            Both inherit the limitations of whichever supplier they happen to depend on.
+          </div>
+        </div>
+        <div class="col" style="flex:1.05;justify-content:center;gap:28px;">
+          <div class="eyebrow"><span>The answer</span></div>
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:48px;line-height:1.05;letter-spacing:-0.022em;color:var(--ink);max-width:760px;text-wrap:balance;">
+            A layer that speaks to many suppliers through one interface — and serves as the foundation for every AI-powered feature.
+          </div>
+          <p class="body" style="max-width:680px;">That layer is the <strong style="color:var(--ink);font-weight:700;">middleware</strong>. The rest of this brief is about what it does, how it does it, and what the business gets from it.</p>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Al Rais 2.0 · The decision</span>
+        <span class="pg">05 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 06 — MEET THE MIDDLEWARE ===================== -->
+  <section>
+    <style>
+      .arch-toggle{ display:flex;background:#F1F4FB;border:1px solid var(--line);border-radius:14px;padding:4px;gap:4px; }
+      .arch-toggle button{
+        background:transparent;border:0;cursor:pointer;
+        font-family:var(--ar-font-display);font-weight:700;font-size:18px;
+        padding:10px 18px;border-radius:10px;color:var(--mute);
+        letter-spacing:0.08em;text-transform:uppercase;
+      }
+      .arch-toggle button.on{ background:var(--ink);color:#fff;box-shadow:0 4px 12px rgba(11,30,85,0.18); }
+      .arch-views{ flex:1;display:flex;min-height:0;position:relative;margin-top:30px; }
+      .arch-views .view{ display:none;width:100%; }
+      .arch-views[data-view="a"] .view-a{ display:flex; }
+      .arch-views[data-view="b"] .view-b{ display:flex; }
+      .view-a{ width:100%; }
+      .view-a .arch{ width:100%;margin-top:0; }
+
+      /* View B — layered stack */
+      .view-b{ flex-direction:column;gap:16px;width:100%; }
+      .stack-row{ display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
+      .stack-row .chip{
+        background:#fff;border:1.5px solid var(--line-strong);border-radius:999px;
+        padding:12px 22px;font-family:var(--ar-font-display);font-weight:600;font-size:22px;color:var(--ink);
+        display:flex;align-items:center;gap:10px;
+      }
+      .stack-row .chip .dot{ width:9px;height:9px;border-radius:50%;background:var(--royal); }
+      .stack-row .chip.muted .dot{ background:var(--line-strong); }
+      .stack-row .chip .tag{ font-size:16px;color:var(--mute);font-weight:500;text-transform:uppercase;letter-spacing:0.12em; }
+      .stack-band{ display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:22px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;font-family:var(--ar-font-display); }
+      .stack-band .l{ flex:1;height:1.5px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent);margin:0 16px; }
+      .stack-mw{
+        background:linear-gradient(135deg,var(--royal-deep) 0%,var(--royal) 100%);
+        border-radius:20px;padding:24px;position:relative;overflow:hidden;
+        box-shadow:0 18px 40px rgba(30,64,160,0.25);
+      }
+      .stack-mw::after{
+        content:"";position:absolute;inset:0;opacity:0.15;pointer-events:none;
+        background:repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 14px);
+      }
+      .stack-mw .mw-label{
+        position:relative;display:flex;justify-content:space-between;align-items:center;color:#fff;
+        font-family:var(--ar-font-display);font-weight:700;font-size:18px;
+        letter-spacing:0.22em;text-transform:uppercase;margin-bottom:14px;
+      }
+      .stack-mw .mw-label span:last-child{ opacity:0.7;font-size:16px; }
+      .stack-mw .layers{ position:relative;display:flex;flex-direction:column;gap:8px; }
+      .stack-mw .layer{
+        background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.20);
+        border-radius:12px;padding:14px 22px;
+        display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:center;
+      }
+      .stack-mw .layer .ln{ font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:#fff;letter-spacing:-0.005em; }
+      .stack-mw .layer .lbits{ display:flex;flex-wrap:wrap;gap:8px; }
+      .stack-mw .layer .lbits span{
+        background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);
+        border-radius:6px;padding:6px 12px;font-size:16px;color:#fff;font-weight:500;
+        font-family:var(--ar-font-body);
+      }
+    </style>
+    <div class="frame">
+      <div class="row" style="justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="eyebrow"><span>Section three · What the middleware does</span></div>
+          <h1 class="title" style="margin-top:24px;">Meet the layer between Al Rais and every supplier.</h1>
+        </div>
+        <div class="arch-toggle" id="archToggle">
+          <button class="on" data-view="a" onclick="this.parentElement.parentElement.parentElement.querySelector('.arch-views').setAttribute('data-view','a'); [...this.parentElement.children].forEach(b=&gt;b.classList.toggle('on', b===this));">View A · Layered</button>
+          <button data-view="b" onclick="this.parentElement.parentElement.parentElement.querySelector('.arch-views').setAttribute('data-view','b'); [...this.parentElement.children].forEach(b=&gt;b.classList.toggle('on', b===this));" class="">View B · Stack</button>
+        </div>
+      </div>
+
+      <div class="arch-views" data-view="a" data-comment-anchor="c7287a8293-div">
+        <!-- ============ VIEW A — Layered horizontal ============ -->
+        <div class="view view-a">
+          <div class="arch">
+            <div class="node colstack">
+              <span class="lbl">Customer Surfaces</span>
+              <div class="pill"><span class="dot"></span><span class="name">Al Rais Website</span></div>
+              <div class="pill"><span class="dot"></span><span class="name">Mobile App</span></div>
+              <div class="pill"><span class="dot"></span><span class="name">Chatbot Assistant</span></div>
+              <div class="pill"><span class="dot"></span><span class="name">Admin Panel</span></div>
+              <div class="pill muted"><span class="dot"></span><span class="name">Agent Console</span></div>
+            </div>
+
+            <div class="node middle">
+              <span class="lbl">The Middleware</span>
+              <h4>One interface for every supplier. One place for every rule.</h4>
+              <p>Multi-supplier orchestration, canonical data model, curation engine, saga-based packaging, commercial rules, visa intelligence — all in one layer.</p>
+              <div class="caps">
+                <div>Orchestrator (fan-out)</div>
+                <div>Normalizer</div>
+                <div>Curation engine</div>
+                <div>Saga coordinator</div>
+                <div>Pricing &amp; yield</div>
+                <div>Circuit breakers</div>
+                <div>Offer-map ledger</div>
+                <div>Visa &amp; place intel</div>
+              </div>
+            </div>
+
+            <div class="node colstack">
+              <span class="lbl">Suppliers (Plug &amp; Play)</span>
+              <div class="pill"><span class="dot"></span><span class="name">Provesio</span><span class="tag">Live</span></div>
+              <div class="pill"><span class="dot"></span><span class="name">Duffel</span><span class="tag">Live</span></div>
+              <div class="pill muted"><span class="dot"></span><span class="name">Hotelbeds</span><span class="tag">Ready</span></div>
+              <div class="pill muted"><span class="dot"></span><span class="name">Viator</span><span class="tag">Ready</span></div>
+              <div class="pill muted"><span class="dot"></span><span class="name">Tabby · Tamara</span><span class="tag">Ready</span></div>
+              <div class="pill muted"><span class="dot"></span><span class="name">+ next supplier</span><span class="tag">Days</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ VIEW B — Vertical layered stack ============ -->
+        <div class="view view-b">
+          <!-- Frontend row -->
+          <div class="stack-band"><span class="l"></span><span>Customer Surfaces</span><span class="l"></span></div>
+          <div class="stack-row">
+            <div class="chip"><span class="dot"></span>Al Rais Website</div>
+            <div class="chip"><span class="dot"></span>Mobile App</div>
+            <div class="chip"><span class="dot"></span>Chatbot Assistant</div>
+            <div class="chip"><span class="dot"></span>Admin Panel</div>
+            <div class="chip muted"><span class="dot"></span>Agent Console</div>
+          </div>
+
+          <!-- Middleware stack -->
+          <div class="stack-mw">
+            <div class="mw-label"><span>The Middleware · One platform, four layers</span><span>al-rais 2.0</span></div>
+            <div class="layers">
+              <div class="layer">
+                <div class="ln">Serving API</div>
+                <div class="lbits"><span>Unified endpoints</span><span>Auth &amp; rate-limit</span><span>Response envelope</span></div>
+              </div>
+              <div class="layer">
+                <div class="ln">Curation &amp; Pricing</div>
+                <div class="lbits"><span>7-rule engine</span><span>Explanations</span><span>Bundle pricing</span><span>Yield rules</span></div>
+              </div>
+              <div class="layer">
+                <div class="ln">Orchestration &amp; Saga</div>
+                <div class="lbits"><span>Fan-out</span><span>Dedupe</span><span>Coordinated holds</span><span>Compensation</span></div>
+              </div>
+              <div class="layer">
+                <div class="ln">Connectors &amp; Cache</div>
+                <div class="lbits"><span>SupplierConnector</span><span>Normalizer</span><span>Circuit breakers</span><span>Redis cache</span><span>Offer map</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Suppliers row -->
+          <div class="stack-band"><span class="l"></span><span>Suppliers · Plug &amp; Play</span><span class="l"></span></div>
+          <div class="stack-row">
+            <div class="chip"><span class="dot"></span>Provesio<span class="tag">Live</span></div>
+            <div class="chip"><span class="dot"></span>Duffel<span class="tag">Live</span></div>
+            <div class="chip muted"><span class="dot"></span>Hotelbeds<span class="tag">Ready</span></div>
+            <div class="chip muted"><span class="dot"></span>Viator<span class="tag">Ready</span></div>
+            <div class="chip muted"><span class="dot"></span>Tabby · Tamara<span class="tag">Ready</span></div>
+            <div class="chip muted"><span class="dot"></span>Google Places<span class="tag">Ready</span></div>
+            <div class="chip muted"><span class="dot"></span>+ next<span class="tag">Days</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Al Rais 2.0 · Architecture</span>
+        <span class="pg">06 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 07 — FIVE THINGS IT DOES ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>What the middleware does</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1500px;">Five things, each one serving the SOW's commercial vision directly.</h1>
+      <div class="wide-five">
+        <div class="it">
+          <div class="num">01</div>
+          <h4>Every supplier, interchangeable.</h4>
+          <p>Provesio today; Sabre, Amadeus, Hotelbeds, Duffel or Viator tomorrow — all behind one consistent interface.</p>
+        </div>
+        <div class="it">
+          <div class="num">02</div>
+          <h4>A live competition on every search.</h4>
+          <p>Every supplier queried in parallel. Duplicates removed. The customer sees the best offer; Al Rais sees the margin.</p>
+        </div>
+        <div class="it">
+          <div class="num">03</div>
+          <h4>Commercial rules, applied once.</h4>
+          <p>Markups, blackouts, currency, residence-based pricing, yield — set once in the admin panel, respected everywhere.</p>
+        </div>
+        <div class="it">
+          <div class="num">04</div>
+          <h4>Multi-supplier packages, held together.</h4>
+          <p>Three components, three suppliers, one transaction — with safe rollback if any single component fails.</p>
+        </div>
+        <div class="it">
+          <div class="num">05</div>
+          <h4>Failure, contained.</h4>
+          <p>If one supplier's API goes down, the others keep serving. Customers never see an error screen the platform could prevent.</p>
+        </div>
+      </div>
+      <div class="chrome">
+        <span class="crumb">Al Rais 2.0 · The five capabilities</span>
+        <span class="pg">07 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 08 — ONE. EVERY SUPPLIER ===================== -->
+  <section>
+    <div class="frame">
+      <div class="cap">
+        <div class="lhs">
+          <span class="nbig">One</span>
+          <h2>Every supplier, interchangeable.</h2>
+          <p>Adding a new supplier is a contained engineering task — typically days, not months. The website, chatbot, recommendation engine and admin panel do not need to change.</p>
+          <p>This is what makes the platform durable. The travel industry's suppliers come and go; Al Rais's product never has to.</p>
+        </div>
+        <div class="rhs" style="background:linear-gradient(180deg,#FAFBFE 0%, #fff 100%);padding:54px;display:flex;flex-direction:column;gap:24px;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);">The connector pattern</div>
+          <div style="font-family:var(--ar-font-mono);background:#0B1E55;color:#9DB6E8;border-radius:12px;padding:30px 36px;font-size:24px;line-height:1.7;">
+            <span style="color:#E4D29D;">interface</span> <span style="color:#fff;">SupplierConnector</span> {<br>
+            &nbsp;&nbsp;name: <span style="color:#7FC59A;">string</span>;<br>
+            &nbsp;&nbsp;capabilities: <span style="color:#7FC59A;">Capability[]</span>;<br>
+            <br>
+            &nbsp;&nbsp;searchFlights?(req): <span style="color:#7FC59A;">FlightResult</span>;<br>
+            &nbsp;&nbsp;searchHotels?(req): <span style="color:#7FC59A;">HotelResult</span>;<br>
+            &nbsp;&nbsp;searchActivities?(req): <span style="color:#7FC59A;">ActivityResult</span>;<br>
+            <br>
+            &nbsp;&nbsp;book?(offer): <span style="color:#7FC59A;">BookingRef</span>;<br>
+            &nbsp;&nbsp;cancel?(ref): <span style="color:#7FC59A;">CancelResult</span>;<br>
+            }
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;">
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:18px;">
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);">Provesio · Duffel</div>
+              <div style="font-size:24px;color:#0F7B41;margin-top:4px;">● Live in production</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:18px;">
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);">Hotelbeds · Viator · +N</div>
+              <div style="font-size:24px;color:var(--royal);margin-top:4px;">○ Days to add</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chrome">
+        <span class="crumb">Capability one · Interchangeable suppliers</span>
+        <span class="pg">08 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 09 — TWO. LIVE COMPETITION ===================== -->
+  <section>
+    <div class="frame">
+      <div class="cap">
+        <div class="lhs">
+          <span class="nbig">Two</span>
+          <h2>A live competition on every search.</h2>
+          <p>When a customer searches Dubai → London, the middleware queries every connected supplier in parallel, removes duplicates, and ranks the results.</p>
+          <p>The customer sees the best offer. Al Rais sees the margin opportunity across all of them. Both numbers are visible in the admin panel.</p>
+        </div>
+        <div class="rhs" style="padding: 0px; height: 600px; border-width: 2px;">
+          <!-- Fan-out diagram -->
+          <div style="height: 600px; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(rgb(250, 251, 254) 0%, rgb(241, 244, 251) 100%) center center / contain; padding: 0px 48px; gap: 16px;" data-comment-anchor="38e8abb5b6-div">
+            <div style="display:flex;justify-content:center;">
+              <div style="background:#fff;border:1.5px solid var(--royal);border-radius:14px;padding:14px 24px;font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);box-shadow:0 6px 18px rgba(30,64,160,0.16);">
+                Search Dubai → London · Jul 12
+              </div>
+            </div>
+            <div style="display:flex;justify-content:center;align-items:center;color:var(--royal);font-size:22px;">▼</div>
+            <div style="background:linear-gradient(135deg,var(--royal-deep),var(--royal));color:#fff;border-radius:14px;padding:18px 28px;text-align:center;font-family:var(--ar-font-display);font-weight:700;font-size:26px;box-shadow:0 12px 30px rgba(30,64,160,0.30);position:relative;overflow:hidden;">
+              Middleware Orchestrator · fan-out
+              <div style="position:absolute;inset:0;opacity:0.15;background:repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 14px);"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+              <div style="background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;">Provesio</div><div style="font-size:24px;color:#0F7B41;margin-top:2px;">● 412 ms</div></div>
+              <div style="background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;">Duffel</div><div style="font-size:24px;color:#0F7B41;margin-top:2px;">● 287 ms</div></div>
+              <div style="background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;">Sabre</div><div style="font-size:24px;color:#0F7B41;margin-top:2px;">● 521 ms</div></div>
+              <div style="background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px;text-align:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;">Travelpayouts</div><div style="font-size:24px;color:#A65500;margin-top:2px;">● 198 ms</div></div>
+            </div>
+            <div style="display:flex;justify-content:center;color:var(--royal);font-size:22px;">▼</div>
+            <div style="background:#fff;border:1.5px solid var(--ink);border-radius:14px;padding:16px;text-align:center;font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);">
+              73 offers normalized · 14 deduped · <span style="color:var(--red);">3 recommended</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chrome">
+        <span class="crumb">Capability two · Real-time supplier competition</span>
+        <span class="pg">09 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 10 — THREE. COMMERCIAL RULES ===================== -->
+  <section>
+    <div class="frame">
+      <div class="cap">
+        <div class="lhs">
+          <span class="nbig">Three</span>
+          <h2>Commercial rules, applied once.</h2>
+          <p>Markups, commissions, residence-based discounts, currency conversion, yield management, blackout dates, promotional pricing — applied consistently regardless of which supplier provided the inventory.</p>
+          <p>The admin panel changes a rule once. Every supplier and every channel respects it immediately.</p>
+        </div>
+        <div class="rhs" style="padding:42px 44px;background:#FAFBFE;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);margin-bottom:18px;">Admin → Pricing Rules</div>
+          <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:6px;display:flex;flex-direction:column;gap:0;">
+            <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr 150px;gap:14px;padding:18px 22px;border-bottom:1px solid var(--line);align-items:center;">
+              <div style="font-family:var(--ar-font-display);font-weight:600;font-size:24px;color:var(--ink);">Flight markup — Economy</div>
+              <div style="font-size:24px;color:var(--mute);">All suppliers</div>
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--ink);">3.0%</div>
+              <div style="font-size:24px;background:#D5F5E3;color:#0F7B41;border-radius:999px;padding:6px 12px;text-align:center;font-weight:700;">Active</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr 150px;gap:14px;padding:18px 22px;border-bottom:1px solid var(--line);align-items:center;">
+              <div style="font-family:var(--ar-font-display);font-weight:600;font-size:24px;color:var(--ink);">Hotel markup — 4★ &amp; above</div>
+              <div style="font-size:24px;color:var(--mute);">Duffel, Hotelbeds</div>
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--ink);">12.0%</div>
+              <div style="font-size:24px;background:#D5F5E3;color:#0F7B41;border-radius:999px;padding:6px 12px;text-align:center;font-weight:700;">Active</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr 150px;gap:14px;padding:18px 22px;border-bottom:1px solid var(--line);align-items:center;">
+              <div style="font-family:var(--ar-font-display);font-weight:600;font-size:24px;color:var(--ink);">UAE residency discount</div>
+              <div style="font-size:24px;color:var(--mute);">All packages</div>
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--red);">−4.0%</div>
+              <div style="font-size:24px;background:#D5F5E3;color:#0F7B41;border-radius:999px;padding:6px 12px;text-align:center;font-weight:700;">Active</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr 150px;gap:14px;padding:18px 22px;border-bottom:1px solid var(--line);align-items:center;background:#FFF7E9;">
+              <div style="font-family:var(--ar-font-display);font-weight:600;font-size:24px;color:var(--ink);">Hajj/Umrah blackout</div>
+              <div style="font-size:24px;color:var(--mute);">Package builder</div>
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--ink);">Blocked</div>
+              <div style="font-size:24px;background:#FFE9D5;color:#A65500;border-radius:999px;padding:6px 12px;text-align:center;font-weight:700;">Seasonal</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr 150px;gap:14px;padding:18px 22px;align-items:center;">
+              <div style="font-family:var(--ar-font-display);font-weight:600;font-size:24px;color:var(--ink);">Yield uplift — &lt; 7 days</div>
+              <div style="font-size:24px;color:var(--mute);">Flights only</div>
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;color:var(--ink);">+2.5%</div>
+              <div style="font-size:24px;background:#EAF1FE;color:var(--royal);border-radius:999px;padding:6px 12px;text-align:center;font-weight:700;">Auto</div>
+            </div>
+          </div>
+          <div style="margin-top:18px;font-family:var(--ar-font-body);font-size:24px;color:var(--mute);font-style:italic;">One rule. Every supplier. Every channel. Every booking.</div>
+        </div>
+      </div>
+      <div class="chrome">
+        <span class="crumb">Capability three · Commercial rules</span>
+        <span class="pg">10 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 11 — FOUR. PACKAGES HELD TOGETHER ===================== -->
+  <section>
+    <div class="frame">
+      <div class="cap">
+        <div class="lhs">
+          <span class="nbig">Four</span>
+          <h2>Multi-supplier packages, held together.</h2>
+          <p>A flight from one supplier. A hotel from another. An activity from a third. The middleware holds all three components together as a single saga — and if any one fails, the others are released cleanly.</p>
+          <p>This is the engineering foundation of the Dynamic Package Builder the SOW described as exclusive to Al Rais.</p>
+        </div>
+        <div class="rhs" style="padding:42px 44px;background:#FAFBFE;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);margin-bottom:20px;">Saga · Coordinated hold</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:18px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;">
+              <div style="width:42px;height:42px;border-radius:50%;background:#D5F5E3;color:#0F7B41;display:grid;place-items:center;font-weight:800;font-size:24px;">✓</div>
+              <div><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);">Flight · Flydubai</div><div style="font-size:24px;color:var(--mute);">Hold OK · expires 14:32</div></div>
+              <div style="font-family:var(--ar-font-display);font-weight:800;font-size:24px;color:var(--ink);">AED 854</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:18px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;">
+              <div style="width:42px;height:42px;border-radius:50%;background:#D5F5E3;color:#0F7B41;display:grid;place-items:center;font-weight:800;font-size:24px;">✓</div>
+              <div><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);">Hotel · dGates Lahore</div><div style="font-size:24px;color:var(--mute);">Hold OK · expires 14:30</div></div>
+              <div style="font-family:var(--ar-font-display);font-weight:800;font-size:24px;color:var(--ink);">AED 1,245</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:18px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;">
+              <div style="width:42px;height:42px;border-radius:50%;background:#D5F5E3;color:#0F7B41;display:grid;place-items:center;font-weight:800;font-size:24px;">✓</div>
+              <div><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);">Activity · 2F2F Karting</div><div style="font-size:24px;color:var(--mute);">Hold OK · expires 14:35</div></div>
+              <div style="font-family:var(--ar-font-display);font-weight:800;font-size:24px;color:var(--ink);">AED 750</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid var(--red);border-radius:12px;padding:18px 22px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;">
+              <div style="width:42px;height:42px;border-radius:50%;background:#FFE5EB;color:var(--red);display:grid;place-items:center;font-weight:800;font-size:24px;">✕</div>
+              <div><div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;color:var(--ink);">Transfer · Provider down</div><div style="font-size:24px;color:var(--red);">Compensating · released the 3 holds above</div></div>
+              <div style="font-family:var(--ar-font-display);font-weight:800;font-size:24px;color:var(--mute);">—</div>
+            </div>
+            <div style="background:#FAF5E8;border:1px solid var(--gold-soft);border-radius:10px;padding:16px 18px;font-size:24px;color:var(--ink);line-height:1.45;margin-top:6px;">
+              <strong style="font-family:var(--ar-font-display);font-weight:700;">No partial bookings, ever.</strong> The customer retries the transfer alone, or swaps to a different provider — the rest of the holiday is intact.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chrome">
+        <span class="crumb">Capability four · Safe composition</span>
+        <span class="pg">11 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 12 — FIVE. FAILURE CONTAINED ===================== -->
+  <section>
+    <div class="frame">
+      <div class="cap">
+        <div class="lhs">
+          <span class="nbig">Five</span>
+          <h2>Failure, contained.</h2>
+          <p>If one supplier's API goes down, the platform keeps serving the others. Customers don't see error screens — they see the offers from suppliers still responding.</p>
+          <p>Per-supplier circuit breakers track failures, open the circuit, and quietly retry until the supplier is healthy again. The platform never depends entirely on any single external system.</p>
+        </div>
+        <div class="rhs" style="padding:48px;background:#FAFBFE;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:24px;letter-spacing:0.22em;text-transform:uppercase;color:var(--red);margin-bottom:18px;">Supplier health · live</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:24px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;">Provesio</div><div style="width:12px;height:12px;border-radius:50%;background:#1B8A4B;"></div></div>
+              <div style="margin-top:14px;font-size:24px;color:var(--mute);">P50 · 287 ms</div>
+              <div style="font-size:24px;color:var(--mute);">Success · 99.2%</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:24px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;">Duffel</div><div style="width:12px;height:12px;border-radius:50%;background:#1B8A4B;"></div></div>
+              <div style="margin-top:14px;font-size:24px;color:var(--mute);">P50 · 412 ms</div>
+              <div style="font-size:24px;color:var(--mute);">Success · 99.8%</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid var(--red);border-radius:14px;padding:24px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;">Hotelbeds</div><div style="width:12px;height:12px;border-radius:50%;background:var(--red);"></div></div>
+              <div style="margin-top:14px;font-size:24px;color:var(--red);font-weight:600;">Circuit OPEN</div>
+              <div style="font-size:24px;color:var(--mute);">Retrying in 30s</div>
+            </div>
+            <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:24px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;"><div style="font-family:var(--ar-font-display);font-weight:700;font-size:26px;">Viator</div><div style="width:12px;height:12px;border-radius:50%;background:#1B8A4B;"></div></div>
+              <div style="margin-top:14px;font-size:24px;color:var(--mute);">P50 · 521 ms</div>
+              <div style="font-size:24px;color:var(--mute);">Success · 98.4%</div>
+            </div>
+          </div>
+          <div style="margin-top:20px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:20px 22px;font-size:24px;color:var(--ink);line-height:1.4;">
+            <strong style="font-family:var(--ar-font-display);font-weight:700;">Customer impact, Hotelbeds outage:</strong> <span style="color:#0F7B41;font-weight:600;">none.</span> Hotel results served from Duffel Stays only — flagged in admin, transparent to the user.
+          </div>
+        </div>
+      </div>
+      <div class="chrome">
+        <span class="crumb">Capability five · Failure isolation</span>
+        <span class="pg">12 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 13 — CURATION ENGINE INTRO ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Section four · The curation engine, by example</span></div>
+      <div class="statement" style="margin-top:auto;margin-bottom:auto;">
+        <div class="big" style="font-size:128px;color:var(--royal);">
+          <div>From <em style="color: var(--red); font-style:normal">forty results</em></div>
+          <div data-comment-anchor="208a57da02-div">to <em style="color:var(--ink-deep);font-style:normal;">three recommendations</em>.</div>
+        </div>
+        <p class="by" style="max-width:1380px;">
+          The closest thing in the platform to the Al-Rais IP the SOW described. Cheapest, fastest, best balance — each one accompanied by a short, plain-language explanation of why it was chosen. The design principle Booking.com and Expedia can't follow, because their audiences are too broad. Al Rais can.
+        </p>
+      </div>
+      <div class="chrome">
+        <span class="crumb">The curation engine</span>
+        <span class="pg">13 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 14 — FAMILY TO BANGKOK ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Curation in practice · scenario one</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1500px;">A family of four to Bangkok.</h1>
+
+      <div class="curex">
+        <div class="lhs">
+          <div class="pers">
+            <div class="avatar">F4</div>
+            <div class="meta"><strong>Two adults + two children</strong><span>School holidays · 60 days out · DXB → BKK</span></div>
+          </div>
+          <div class="tags">
+            <span>Family · weight 0.10 active</span>
+            <span>Refundable preferred</span>
+            <span>Baggage required</span>
+            <span>Direct or 1-stop</span>
+          </div>
+          <div class="rule">
+            <strong>The family-compatibility rule activates.</strong> The recommended option prioritises carriers with included checked baggage, refundable fare classes, and family-friendly service.
+          </div>
+          <p class="body" style="font-size:24px;">The cheapest option may be a budget carrier — the explanation flags that it does not include baggage. The customer sees the tradeoff before they choose.</p>
+        </div>
+        <div class="cards">
+          <div class="card featured">
+            <span class="badge bestmatch">Best match</span>
+            <div>
+              <div class="name">Emirates · EK 384 · Direct</div>
+              <div class="why">Checked baggage included for all 4 · refundable in case plans change · family-friendly service</div>
+            </div>
+            <div class="price">AED 3,420 <small>per family · taxes incl.</small></div>
+          </div>
+          <div class="card">
+            <span class="badge fastest">Fastest</span>
+            <div>
+              <div class="name">Qatar · QR 1004 · 1 stop, 1h DOH</div>
+              <div class="why">Saves 50 minutes total · baggage included · short layover at Hamad</div>
+            </div>
+            <div class="price">AED 3,610</div>
+          </div>
+          <div class="card">
+            <span class="badge cheapest">Cheapest</span>
+            <div>
+              <div class="name">Air Arabia · G9 521 · 1 stop, SHJ</div>
+              <div class="why"><strong style="color:var(--red);">Heads up:</strong> baggage extra (AED 60 × 4 = AED 240) · non-refundable</div>
+            </div>
+            <div class="price">AED 2,180</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Curation · scenario one</span>
+        <span class="pg">14 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 15 — SOLO TO LONDON ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Curation in practice · scenario two</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1500px;">A solo business traveller to London.</h1>
+
+      <div class="curex">
+        <div class="lhs">
+          <div class="pers">
+            <div class="avatar" style="background:linear-gradient(135deg,#AC8400 0%,#E4002B 100%);">B1</div>
+            <div class="meta"><strong>One adult · business profile</strong><span>5 days out · 4-day trip · DXB → LHR</span></div>
+          </div>
+          <div class="tags">
+            <span>Departure-time fit active</span>
+            <span>Refundable preferred</span>
+            <span>Direct strongly favoured</span>
+            <span>Lounge access surfaced</span>
+          </div>
+          <div class="rule">
+            <strong>The departure-time-fit rule favours morning and afternoon.</strong> If a premium-economy or business option is within range, it surfaces with lounge-access context.
+          </div>
+          <p class="body" style="font-size:24px;">The platform shows price, but it also shows productivity — refundability, time in the air, time at the seat. A business traveller's true cost isn't on the ticket.</p>
+        </div>
+        <div class="cards">
+          <div class="card featured">
+            <span class="badge bestmatch">Best match</span>
+            <div>
+              <div class="name">Emirates · EK 5 · 09:25 dep · Direct</div>
+              <div class="why">Refundable Flex fare · Skywards lounge included · arrives 13:10 local</div>
+            </div>
+            <div class="price">AED 4,250 <small>economy flex</small></div>
+          </div>
+          <div class="card">
+            <span class="badge" style="background:#EAF1FE;color:var(--royal);">Upgrade option</span>
+            <div>
+              <div class="name">Emirates · EK 5 · Business</div>
+              <div class="why">Lie-flat · chauffeur transfer · within +18% of best match price</div>
+            </div>
+            <div class="price">AED 5,010</div>
+          </div>
+          <div class="card">
+            <span class="badge cheapest">Cheapest</span>
+            <div>
+              <div class="name">British Airways · BA 106 · Direct</div>
+              <div class="why"><strong style="color:var(--red);">Heads up:</strong> non-refundable · 17:15 departure means a wasted half-day</div>
+            </div>
+            <div class="price">AED 3,820</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Curation · scenario two</span>
+        <span class="pg">15 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 16 — PAKISTANI PASSPORT TO KL ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Curation in practice · scenario three</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1500px;">A Pakistani passport holder to Kuala Lumpur.</h1>
+
+      <div class="curex">
+        <div class="lhs">
+          <div class="pers">
+            <div class="avatar" style="background:linear-gradient(135deg,#1B8A4B 0%,#0B1E55 100%);">PK</div>
+            <div class="meta"><strong>One adult · Pakistani passport</strong><span>30 days out · DXB → KUL</span></div>
+          </div>
+          <div class="tags">
+            <span>Visa intelligence active</span>
+            <span>eVisa required</span>
+            <span>Processing time surfaced</span>
+            <span>Inline · not buried</span>
+          </div>
+          <div class="rule">
+            <strong>Information no global OTA surfaces for this passport-destination pair</strong> — rendered automatically by the middleware's visa intelligence layer at the point of search, not three pages into the booking flow.
+          </div>
+          <p class="body" style="font-size:24px;">This is the small act of design judgment that distinguishes a UAE travel brand from a global aggregator.</p>
+        </div>
+        <div class="cards">
+          <div class="card featured" style="background:#FAF5E8;border-color:var(--gold);">
+            <span class="badge" style="background:#FFE9D5;color:#A65500;">Visa context</span>
+            <div>
+              <div class="name">Malaysia · eVisa required for PK passport</div>
+              <div class="why"><strong>Processing:</strong> ~3 business days · <strong>Stay:</strong> 30 days · <strong>Fee:</strong> ~AED 90 · <strong>Docs:</strong> Passport scan, photo, return ticket, hotel booking</div>
+            </div>
+            <div class="price" style="font-size:24px;color:var(--royal);">Apply →</div>
+          </div>
+          <div class="card">
+            <span class="badge bestmatch">Best match</span>
+            <div>
+              <div class="name">Emirates · EK 342 · Direct · 09:25</div>
+              <div class="why">Arrives KUL 22:50 local · baggage included · documents-OK badge confirms visa fits timeline</div>
+            </div>
+            <div class="price">AED 1,940</div>
+          </div>
+          <div class="card">
+            <span class="badge cheapest">Cheapest</span>
+            <div>
+              <div class="name">Indigo · 6E 1473 · 1 stop, BOM</div>
+              <div class="why"><strong style="color:var(--red);">Heads up:</strong> BOM transit may need separate Indian visa for PK passport holders</div>
+            </div>
+            <div class="price">AED 1,420</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Curation · scenario three · visa intelligence</span>
+        <span class="pg">16 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 17 — GCC TRAVELER ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Section five · Designed for the GCC traveller</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1500px;">Built with the regional traveller in mind, not the global average.</h1>
+
+      <div class="gcc">
+        <div class="panel blue">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18"></path><path d="M9 4v16"></path><circle cx="14" cy="14" r="2"></circle></svg>
+          <h4>Visa intelligence, surfaced inline.</h4>
+          <p>Saudi passport holders flying to Malaysia. UAE residents flying to Georgia. Pakistani passport holders flying through Kuala Lumpur. Each one receives accurate context as a small badge on the result card — not buried three pages into the booking flow.</p>
+        </div>
+        <div class="panel">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"></path><path d="M15 21v-1.5a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3V21"></path></svg>
+          <h4>Family-first defaults.</h4>
+          <p>UAE and Saudi travel skews heavily family. The scoring rules treat two adults and two children as a first-class scenario, not a deviation from the solo-traveller default — surfacing carriers and fares that respect this profile without requiring the customer to filter for them.</p>
+        </div>
+        <div class="panel">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6"></path><circle cx="12" cy="16.5" r="0.6" fill="currentColor"></circle></svg>
+          <h4>Honest commercial framing.</h4>
+          <p>Suppliers are named transparently. Where a fare excludes baggage or seat selection, the exclusion is flagged before the customer commits — not discovered after payment. The platform respects the customer's time and trust, the qualities that distinguish a UAE travel brand from a commodity aggregator.</p>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Designed for the GCC traveller</span>
+        <span class="pg">17 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 18 — THE PLATFORM BEHIND EVERY AI FEATURE ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Section six · The chatbot, the recommendation engine, the package builder</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1600px;">The SOW's three AI-powered features are not standalone. They're interfaces to the same intelligence.</h1>
+
+      <div class="three">
+        <div class="feat" data-comment-anchor="9cc63f64c4-div">
+          <div class="tag">Feature one</div>
+          <h3>The chatbot.</h3>
+          <p>Five specialised agents — flight, hotel, activity, package, recommendation — each with a full toolset. Built on LangGraph. Every supplier added to the platform expands what the chatbot can do, without changing the chatbot itself.</p>
+          <div class="preview" style="background:linear-gradient(135deg,#FAFBFE,#EAF1FE);border:none;">
+            <div style="display:flex;flex-direction:column;gap:8px;padding:18px;width:100%;max-width:280px;">
+              <div style="background:var(--royal);color:#fff;padding:8px 14px;border-radius:14px 14px 4px 14px;font-size:13px;align-self:flex-end;max-width:80%;">Family of 4 to Bangkok, June 2-8</div>
+              <div style="background:#fff;border:1px solid var(--line);padding:8px 14px;border-radius:14px 14px 14px 4px;font-size:13px;align-self:flex-start;max-width:90%;">Got it. Querying flights, hotels, and family activities matched to your profile…</div>
+            </div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="tag">Feature two</div>
+          <h3>The recommendation engine.</h3>
+          <p>Curation rules plus a co-occurrence layer that learns from booking history. The longer the platform runs, the better recommendations get. Cross-sell triggers fire at meaningful points — after a flight booking, before checkout, on return-to-site within a day.</p>
+          <div class="preview" style="background:linear-gradient(135deg,#FAFBFE,#FFE9D5);border:none;">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:18px;width:100%;">
+              <div style="font-family:var(--ar-font-display);font-weight:700;font-size:14px;color:var(--ink);">Travellers who booked DXB→BKK also liked:</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+                <span style="background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px;color:var(--ink);">River cruise</span>
+                <span style="background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px;color:var(--ink);">Ayutthaya day trip</span>
+                <span style="background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px;color:var(--ink);">eSIM 30 days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="tag">Feature three</div>
+          <h3>The dynamic package builder.</h3>
+          <p>The composition engine assembles a holiday from independent suppliers as if it were a single offer. Pricing calculated as a bundle. Cancellation terms aggregated. The customer sees one holiday; the platform manages the underlying complexity.</p>
+          <div class="preview" style="background:linear-gradient(135deg,#FAFBFE,#D5F5E3);border:none;">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:18px;width:100%;">
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ink);"><span>Flight · Flydubai</span><span style="font-weight:700;">AED 854</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ink);"><span>Hotel · 7 nights</span><span style="font-weight:700;">AED 1,245</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ink);"><span>Activity · Karting</span><span style="font-weight:700;">AED 750</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#0F7B41;font-weight:700;margin-top:6px;border-top:1px dashed var(--line);padding-top:6px;"><span>Bundle saving</span><span>−AED 85</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Section six · Three AI-powered features</span>
+        <span class="pg">18 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 19 — THE CHATBOT ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Feature one · The chatbot</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1500px;">Five agents. One conversation. Every supplier.</h1>
+
+      <div class="twocol">
+        <div class="l">
+          <p class="body" style="font-size:26px;max-width:680px;">Built on LangGraph. Each agent has its own toolset and works inside one orchestrated graph — coordinating searches, holds, bookings, retrievals, cancellations.</p>
+          <p class="body" style="font-size:23px;max-width:680px;">Because the chatbot consumes the middleware's API, every new supplier added to the platform automatically expands what the chatbot can do. No agent rewrites. No tool re-definitions.</p>
+          <div style="display:flex;gap:14px;margin-top:14px;flex-wrap:wrap;">
+            <span style="background:var(--royal);color:#fff;padding:14px 22px;border-radius:14px;font-family:var(--ar-font-display);font-weight:700;font-size:18px;">Flight Agent</span>
+            <span style="background:var(--royal);color:#fff;padding:14px 22px;border-radius:14px;font-family:var(--ar-font-display);font-weight:700;font-size:18px;">Hotel Agent</span>
+            <span style="background:var(--royal);color:#fff;padding:14px 22px;border-radius:14px;font-family:var(--ar-font-display);font-weight:700;font-size:18px;">Activity Agent</span>
+            <span style="background:var(--royal);color:#fff;padding:14px 22px;border-radius:14px;font-family:var(--ar-font-display);font-weight:700;font-size:18px;">Package Agent</span>
+            <span style="background:var(--red);color:#fff;padding:14px 22px;border-radius:14px;font-family:var(--ar-font-display);font-weight:700;font-size:18px;">Recommendation Agent</span>
+          </div>
+        </div>
+        <div class="r">
+          <div style="background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:28px 30px;box-shadow:0 12px 30px rgba(11,30,85,0.06);display:flex;flex-direction:column;gap:14px;max-width:700px;">
+            <div style="display:flex;gap:12px;align-items:flex-start;">
+              <div style="width:48px;height:48px;flex-shrink:0;aspect-ratio:1;border-radius:50%;background:var(--royal);color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px;font-family:var(--ar-font-display);">AR</div>
+              <div style="background:#F1F3F8;padding:14px 18px;border-radius:14px 14px 14px 4px;font-size:19px;color:var(--ink);">Hi Zeeshan — where are you headed?</div>
+            </div>
+            <div style="background:var(--royal);color:#fff;padding:14px 18px;border-radius:14px 14px 4px 14px;font-size:19px;align-self:flex-end;max-width:80%;">7 days in Bangkok with the kids, leaving 2 June. AED 8k all-in.</div>
+            <div style="display:flex;gap:12px;align-items:flex-start;" data-comment-anchor="35ce03e17a-div">
+              <div style="width:48px;height:48px;flex-shrink:0;aspect-ratio:1;border-radius:50%;background:var(--royal);color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px;font-family:var(--ar-font-display);">AR</div>
+              <div style="background:#F1F3F8;padding:14px 18px;border-radius:14px 14px 14px 4px;font-size:19px;color:var(--ink);">Got it. <strong>Flight agent</strong> is querying 3 suppliers. <strong>Hotel agent</strong> looking at Sukhumvit. <strong>Activity agent</strong> shortlisting family-friendly options. One moment…</div>
+            </div>
+            <div style="background:#FAF5E8;border:1px solid var(--gold-soft);border-radius:10px;padding:12px 16px;font-size:17px;color:var(--ink);"><strong>Visa note · </strong>UAE passport holders enter Thailand visa-free for 30 days.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Feature one · The chatbot</span>
+        <span class="pg">19 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 20 — RECOMMENDATION ENGINE ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Feature two · The recommendation engine</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1500px;">Seven weighted dimensions. Plus everything the platform has ever booked.</h1>
+
+      <div class="twocol">
+        <div class="l">
+          <p class="body" style="font-size:25px;max-width:680px;">Curation rules score every offer across seven dimensions. A co-occurrence layer learns from past bookings: travellers who chose A often also chose B. Together, they make the platform <em>smarter every month it runs</em>.</p>
+          <p class="body" style="font-size:21px;max-width:680px;">Cross-sell triggers fire at meaningful points — after a flight booking, just before checkout, when the customer revisits within 24 hours. Each one with appropriate context, not a "you might also like" banner.</p>
+        </div>
+        <div class="r">
+          <div style="background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:32px 36px;display:flex;flex-direction:column;gap:14px;box-shadow:0 12px 30px rgba(11,30,85,0.05);">
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:16px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);">Curation weights</div>
+            <!-- Bars -->
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:18px;color:var(--ink);font-family:var(--ar-font-display);font-weight:600;"><span>Price</span><span>0.30</span></div>
+                <div style="height:10px;background:#F1F3F8;border-radius:5px;margin-top:6px;"><div style="height:100%;width:100%;background:var(--royal);border-radius:5px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:18px;color:var(--ink);font-family:var(--ar-font-display);font-weight:600;"><span>Duration</span><span>0.20</span></div>
+                <div style="height:10px;background:#F1F3F8;border-radius:5px;margin-top:6px;"><div style="height:100%;width:66%;background:var(--royal);border-radius:5px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:18px;color:var(--ink);font-family:var(--ar-font-display);font-weight:600;"><span>Stops</span><span>0.15</span></div>
+                <div style="height:10px;background:#F1F3F8;border-radius:5px;margin-top:6px;"><div style="height:100%;width:50%;background:var(--royal);border-radius:5px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:18px;color:var(--ink);font-family:var(--ar-font-display);font-weight:600;"><span>Departure time fit</span><span>0.10</span></div>
+                <div style="height:10px;background:#F1F3F8;border-radius:5px;margin-top:6px;"><div style="height:100%;width:33%;background:var(--royal);border-radius:5px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:18px;color:var(--ink);font-family:var(--ar-font-display);font-weight:600;"><span>Family compatibility</span><span>0.10</span></div>
+                <div style="height:10px;background:#F1F3F8;border-radius:5px;margin-top:6px;"><div style="height:100%;width:33%;background:var(--red);border-radius:5px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:18px;color:var(--ink);font-family:var(--ar-font-display);font-weight:600;"><span>Carrier preference</span><span>0.10</span></div>
+                <div style="height:10px;background:#F1F3F8;border-radius:5px;margin-top:6px;"><div style="height:100%;width:33%;background:var(--royal);border-radius:5px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:18px;color:var(--ink);font-family:var(--ar-font-display);font-weight:600;"><span>Data freshness</span><span>0.05</span></div>
+                <div style="height:10px;background:#F1F3F8;border-radius:5px;margin-top:6px;"><div style="height:100%;width:17%;background:var(--royal);border-radius:5px;"></div></div>
+              </div>
+            </div>
+            <div style="margin-top:8px;font-size:17px;color:var(--mute);font-style:italic;">Weights are configurable per market and per customer segment from the admin panel.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Feature two · The recommendation engine</span>
+        <span class="pg">20 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 21 — DYNAMIC PACKAGE BUILDER ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Feature three · The dynamic package builder</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1600px;">One holiday. Five suppliers. Priced as a bundle, cancelled as a policy.</h1>
+      <p class="lede" style="margin-top:24px;max-width:1500px;font-size:26px;">The composition engine treats flight + hotel + activity + transfer + insurance as a single saga. Bundle pricing applies margins and savings consistently. Cancellation terms aggregate into one unified policy the customer can actually understand.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:50px;flex:1;min-height:0;">
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:18px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);">Component 1</div>
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);">Flight/div&gt;
+          <div style="font-size:17px;color:var(--mute);">DXB → LHR · Flydubai · FD 1234</div>
+          <div style="font-family:var(--ar-font-display);font-weight:800;font-size:22px;color:var(--ink);margin-top:4px;">AED 854</div>
+        </div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:18px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);">Component 2</div>
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);">Hotel/div&gt;
+          <div style="font-size:17px;color:var(--mute);">Hotel dGates · 7 nights · free cancel</div>
+          <div style="font-family:var(--ar-font-display);font-weight:800;font-size:22px;color:var(--ink);margin-top:4px;">AED 1,245</div>
+        </div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;" data-comment-anchor="556e584ff2-div">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:18px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);">Component 3</div>
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);">Activity/div&gt;
+          <div style="font-size:17px;color:var(--mute);">2F2F Karting · adventure · 2h</div>
+          <div style="font-family:var(--ar-font-display);font-weight:800;font-size:22px;color:var(--ink);margin-top:4px;">AED 750</div>
+        </div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:18px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);">Component 4</div>
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);">Transfer/div&gt;
+          <div style="font-size:17px;color:var(--mute);">Private · airport ↔ hotel</div>
+          <div style="font-family:var(--ar-font-display);font-weight:800;font-size:22px;color:var(--ink);margin-top:4px;">AED 65</div>
+        </div>
+        <div style="background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:18px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);">Component 5</div>
+          <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);">Insurance/div&gt;
+          <div style="font-size:17px;color:var(--mute);">Premium · medical AED 2M · concierge</div>
+          <div style="font-family:var(--ar-font-display);font-weight:800;font-size:22px;color:var(--ink);margin-top:4px;">AED 98</div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;background:linear-gradient(135deg,var(--royal-deep),var(--royal));border-radius:16px;padding:28px 40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;color:#fff;align-items:center;box-shadow:0 14px 36px rgba(30,64,160,0.30);">
+        <div><div style="font-size:14px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7;font-family:var(--ar-font-display);font-weight:600;">À la carte total</div><div style="font-family:var(--ar-font-display);font-weight:700;font-size:34px;margin-top:6px;">AED 3,012</div></div>
+        <div><div style="font-size:14px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7;font-family:var(--ar-font-display);font-weight:600;">Bundle saving</div><div style="font-family:var(--ar-font-display);font-weight:700;font-size:34px;margin-top:6px;color:#85FFCA;">−AED 85</div></div>
+        <div style="text-align:right;"><div style="font-size:14px;letter-spacing:0.18em;text-transform:uppercase;opacity:0.7;font-family:var(--ar-font-display);font-weight:600;">One holiday · one price</div><div style="font-family:var(--ar-font-display);font-weight:800;font-size:46px;margin-top:6px;">AED 2,927</div></div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Feature three · The dynamic package builder</span>
+        <span class="pg">21 / 27</span>
+      </div>
+    </div>
+  </div></div></div></div></div></section>
+
+  <!-- ===================== 22 — PRODUCT: LANDING ===================== -->
+  <section>
+    <div class="frame" style="padding:60px 80px 130px;">
+      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:32px;">
+        <div class="eyebrow"><span>The product · 1 of 3</span></div>
+        <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;letter-spacing:-0.01em;color:var(--ink);">Where to next?</div>
+      </div>
+
+      <div style="flex:1;border-radius:18px;overflow:hidden;border:1.5px solid var(--line);box-shadow:0 24px 60px rgba(11,30,85,0.15);min-height:0;">
+        <div class="browser">
+          <div class="bw-bar"><div class="dots"><span></span><span></span><span></span></div><div class="url">alrais.ae/packages</div></div>
+          <div class="nav">
+            <img src="../assets/logo.png" class="logo" alt="Al Rais">
+            <div class="nlinks">
+              <span>Flights</span><span>Hotels</span><span>Rentals</span><span>Sights</span><span class="active">Packages</span>
+            </div>
+            <div class="right">
+              <div class="pill">🇺🇸 USD&nbsp;·&nbsp;English ▾</div>
+              <div class="av">Z</div>
+            </div>
+          </div>
+          <div class="land">
+            <h2>Where to next?</h2>
+            <div class="search">
+              <span style="color:var(--mute);">💬</span>
+              <input placeholder="Let's start planning your next trip…" disabled="">
+              <div class="send">→</div>
+            </div>
+            <div class="curated">
+              <div class="filters" data-comment-anchor="67f6edd238-div">
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <h3>Our Curated Packages</h3>
+                  <div class="tabs">
+                    <span class="on">Below $199</span><span>Below $399</span><span>Below $699</span><span>Below $999</span>
+                  </div>
+                </div>
+                <div class="umrah">Umrah packages ▾</div>
+              </div>
+              <div class="packs">
+                <div class="p">
+                  <div class="top-row"><div><div class="desto">Switzerland</div><div class="info">Round-trip flights<br>4 nights hotels</div></div><div class="price"><div class="from">Starting from</div><div class="v">$98</div></div></div>
+                  <div class="book">Book now</div>
+                </div>
+                <div class="p" style="background-image:linear-gradient(135deg,#6E92BD,#1E40A0);">
+                  <div class="top-row"><div><div class="desto">France</div><div class="info">Round-trip flights<br>2 nights hotels</div></div><div class="price"><div class="from">Starting from</div><div class="v">$157</div></div></div>
+                  <div class="book">Book now</div>
+                </div>
+                <div class="p hero" style="background-image:linear-gradient(180deg,rgba(11,30,85,0.0) 0%, rgba(11,30,85,0.85) 100%), url('https://images.unsplash.com/photo-1486299267070-83823f5448dd?auto=format&amp;fit=crop&amp;w=900&amp;q=70');background-size:cover;background-position:center;">
+                  <div class="top-row"><div></div><div class="price"><div class="from">Starting from</div><div class="v">$132</div></div></div>
+                  <div class="bottom-block">
+                    <div><div class="desto">England</div><div class="info">Round-trip flights · 2 nights hotels</div></div>
+                    <div class="book">Book now</div>
+                  </div>
+                </div>
+                <div class="p" style="background-image:linear-gradient(135deg,var(--ink-deep),#15327E);">
+                  <div class="top-row"><div><div class="desto">Dubai</div><div class="info">Round-trip flights<br>4 nights hotels</div></div><div class="price"><div class="from">Starting from</div><div class="v">$189</div></div></div>
+                  <div class="book">Book now</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Product · the landing</span>
+        <span class="pg">22 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 23 — PRODUCT: CHAT FLOW ===================== -->
+  <section>
+    <div class="frame" style="padding:60px 80px 130px;">
+      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:32px;">
+        <div class="eyebrow"><span>The product · 2 of 3</span></div>
+        <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);">Curation, in conversation.</div>
+      </div>
+
+      <div style="flex:1;border-radius:18px;overflow:hidden;border:1.5px solid var(--line);box-shadow:0 24px 60px rgba(11,30,85,0.15);min-height:0;">
+        <div class="browser">
+          <div class="bw-bar"><div class="dots"><span></span><span></span><span></span></div><div class="url">alrais.ae/packages/build</div></div>
+          <div class="nav">
+            <img src="../assets/logo.png" class="logo" alt="Al Rais">
+            <div class="nlinks"><span>Flights</span><span>Hotels</span><span>Rentals</span><span>Sights</span><span class="active">Packages</span></div>
+            <div class="right"><div class="pill">🇺🇸 USD · English ▾</div><div class="av">Z</div></div>
+          </div>
+          <div class="chat">
+            <div class="l">
+              <div class="u-bubble">Economy</div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble"><strong>Got it.</strong> Dubai · Jun 2-8 · Adventure · Economy. I'm querying flights matched to your profile.</div></div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble">Searching Flights… Dubai → Lahore · Jun 2-8</div></div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble"><strong>Your top 3 matches.</strong> Select one that suits you best.</div></div>
+
+              <div class="flight-c best" style="margin-top:6px;">
+                <span class="badge2 bm">Best Match</span>
+                <div class="info">
+                  <div class="car">Emirates Airlines</div>
+                  <div class="sub">EK 1234 · Boeing 777</div>
+                </div>
+                <div class="price2">AED 1,245</div>
+                <div class="timeline" style="grid-column:1/-1;">
+                  <span class="t">10:45 AM</span>
+                  <div class="line"><span class="mid">3h 15m</span><span class="mid2">Direct</span></div>
+                  <span class="t">02:00 PM</span>
+                </div>
+              </div>
+
+              <div class="flight-c">
+                <span class="badge2 cp">Cheapest</span>
+                <div class="info">
+                  <div class="car">Flydubai</div>
+                  <div class="sub">FD 1234 · Boeing 777</div>
+                </div>
+                <div class="price2">AED 854</div>
+                <div class="timeline" style="grid-column:1/-1;">
+                  <span class="t">04:10 PM</span>
+                  <div class="line"><span class="mid">4h 40m</span><span class="mid2">Direct</span></div>
+                  <span class="t">08:40 PM</span>
+                </div>
+              </div>
+
+              <div class="flight-c">
+                <span class="badge2 fs">Fastest</span>
+                <div class="info">
+                  <div class="car">Qatar Airways</div>
+                  <div class="sub">QR 1234 · Boeing 777</div>
+                </div>
+                <div class="price2">AED 1,570</div>
+                <div class="timeline" style="grid-column:1/-1;">
+                  <span class="t">03:15 PM</span>
+                  <div class="line"><span class="mid">2h 45m</span><span class="mid2">Direct</span></div>
+                  <span class="t">06:00 PM</span>
+                </div>
+              </div>
+
+              <div style="text-align:center;font-family:var(--ar-font-display);font-weight:700;font-size:14px;color:var(--royal);margin-top:6px;">View all options</div>
+
+              <div class="input">
+                <span>Let's start planning your next trip…</span>
+                <div class="sd">→</div>
+              </div>
+            </div>
+
+            <div class="r">
+              <div class="head">
+                <div class="where">Dubai · Jun 2-8<small>1 passenger · Economy</small></div>
+                <div class="total">AED 0<small>Running total</small></div>
+              </div>
+              <div class="empty">
+                <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h20M12 2v20M5 7l14 10M5 17l14-10"></path></svg>Flight not selected yet.</div>
+              </div>
+              <div style="border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--mute);">Nothing added yet.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome" data-comment-anchor="fee5b1db57-div">
+        <span class="crumb">Product · chat-flow curation</span>
+        <span class="pg">23 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 24 — PRODUCT: REVIEW / PAY ===================== -->
+  <section>
+    <div class="frame" style="padding:60px 80px 130px;">
+      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:32px;">
+        <div class="eyebrow"><span>The product · 3 of 3</span></div>
+        <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;color:var(--ink);">One holiday, locked in.</div>
+      </div>
+
+      <div style="flex:1;border-radius:18px;overflow:hidden;border:1.5px solid var(--line);box-shadow:0 24px 60px rgba(11,30,85,0.15);min-height:0;">
+        <div class="browser">
+          <div class="bw-bar"><div class="dots"><span></span><span></span><span></span></div><div class="url">alrais.ae/packages/review</div></div>
+          <div class="nav">
+            <img src="../assets/logo.png" class="logo" alt="Al Rais">
+            <div class="nlinks"><span>Flights</span><span>Hotels</span><span>Rentals</span><span>Sights</span><span class="active">Packages</span></div>
+            <div class="right"><div class="pill">🇺🇸 USD · English ▾</div><div class="av">Z</div></div>
+          </div>
+          <div class="chat review">
+            <div class="l">
+              <div class="u-bubble">Premium Cover</div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble"><strong>Added.</strong> Premium cover at AED 98.</div></div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble">Ready to review your trip?</div></div>
+              <div class="u-bubble">Yes</div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble"><strong>Prices locked.</strong> Temporary locks created with Flydubai and Hotel dGates.</div></div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble">You have 10 minutes to pay.</div></div>
+              <div class="bot"><div class="ava">AR</div><div class="bot-bubble">Total: <strong>AED 2,927</strong> (includes AED 85 savings). Everything look alright?</div></div>
+              <div style="display:flex;gap:10px;margin-top:4px;">
+                <span style="border:1.5px solid var(--line);border-radius:18px;padding:8px 16px;font-size:14px;color:var(--ink);">Yes, proceed to payment</span>
+                <span style="border:1.5px solid var(--line);border-radius:18px;padding:8px 16px;font-size:14px;color:var(--ink);">Change something</span>
+              </div>
+              <div class="input" style="margin-top:auto;" data-comment-anchor="cc0e1a0a48-div">
+                <span>Let's start planning your next trip…</span>
+                <div class="sd">→</div>
+              </div>
+            </div>
+
+            <div class="r">
+              <div class="head">
+                <div class="where">Dubai · Jun 2-8<small>1 passenger · Economy</small></div>
+                <div class="total">AED 2,927<small>Running total</small></div>
+              </div>
+
+              <div class="pl">
+                <h5>Flydubai · FD 1234<span class="pr">AED 854</span></h5>
+                <small>04:10 PM DXB (T3 Int.) → 08:40 PM LHR (T1 Int.) · 4h 40m · Direct · Mon 16 June</small>
+              </div>
+              <div class="pl">
+                <h5>Hotel dGates · 7 nights<span class="pr">AED 1,245</span></h5>
+                <small>Ferozpur Rd · Free cancellation · Early check-in confirmed · High-speed internet · Free parking</small>
+              </div>
+              <div class="pl">
+                <h5>2F2F Formula Karting<span class="pr">AED 750</span></h5>
+                <small>15 Jun · 10:00 PM · 2h · Adventure</small>
+              </div>
+              <div class="pl">
+                <h5>Private transfer<span class="pr">AED 65</span></h5>
+                <small>Airport ↔ hotel · meet &amp; greet</small>
+              </div>
+              <div class="pl">
+                <h5>Premium Cover<span class="pr">AED 98</span></h5>
+                <small>Full cancel AED 2,829 · Medical AED 2M · 24/7 concierge</small>
+              </div>
+
+              <div class="savings" style="margin-top:8px;">
+                ● Bundle saving — AED 85 applied
+              </div>
+              <div class="lock">
+                <div class="l1">
+                  <span>09:45 remaining</span>
+                  <small>Prices hard-locked · PNR hold active · complete before expiry</small>
+                </div>
+                <span class="pay">Pay now →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Product · the unified review</span>
+        <span class="pg">24 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 25 — WHAT IT'S READY FOR ===================== -->
+  <section>
+    <div class="frame">
+      <div class="eyebrow"><span>Section seven · What the platform is ready for next</span></div>
+      <h1 class="title" style="margin-top:24px;max-width:1600px;font-size:64px;">Days of engineering work — not months. None of these touch the website, the chatbot, the engine, or the admin panel.</h1>
+
+      <div class="supp-grid" style="grid-template-columns:1.05fr 2fr;grid-auto-rows:1fr;">
+        <div class="cell head">Capability</div>
+        <div class="cell head">What it adds</div>
+
+        <div class="cell"><div class="what">Additional flight suppliers</div><div class="ex">Sabre · Amadeus · Travelport</div></div>
+        <div class="cell"><div class="adds">Each addition broadens the platform's competitive search and gives the recommendation engine more inventory to choose from.</div></div>
+
+        <div class="cell"><div class="what">Hotel &amp; activity wholesalers</div><div class="ex">Hotelbeds · Duffel Stays · Viator</div></div>
+        <div class="cell"><div class="adds">Hotel deduplication across suppliers is built in. Activities plug in via the same connector pattern.</div></div>
+
+        <div class="cell"><div class="what">Payment gateways</div><div class="ex">Tabby · Tamara · alongside PayFort</div></div>
+        <div class="cell"><div class="adds">The UAE &amp; KSA installment-payment providers fit the same payment abstraction. Multi-currency capture supported.</div></div>
+
+        <div class="cell"><div class="what">Reviews &amp; place intelligence</div><div class="ex">Google Places</div></div>
+        <div class="cell"><div class="adds">Ratings, reviews, photos and rich place data on every hotel and activity. Same connector pattern.</div></div>
+
+        <div class="cell"><div class="what">Transfers &amp; insurance</div><div class="ex">Suppliers TBD per market</div></div>
+        <div class="cell"><div class="adds">The composition engine is ready for both — completing the full-stack holiday package the SOW envisioned.</div></div>
+      </div>
+
+      <div class="chrome">
+        <span class="crumb">Ready for what's next</span>
+        <span class="pg">25 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 26 — CLOSING ===================== -->
+  <section class="dark">
+    <div class="frame">
+      <div class="eyebrow light"><span>In closing</span></div>
+      <div class="close">
+        <h1>A platform built to grow with the business.</h1>
+        <p>The middleware is, in effect, a travel orchestration platform. Supplier-agnostic. Commercially flexible. Engineered for the long-term growth of Al Rais Holidays &amp; Tours.</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:24px;">
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:24px 22px;">
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:14px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;opacity:0.7;">Recommendation</div>
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;margin-top:8px;line-height:1.25;color:#fff;">Recommends with judgment.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:24px 22px;">
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:14px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;opacity:0.7;">Packages</div>
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;margin-top:8px;line-height:1.25;color:#fff;">Compose safely across suppliers.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:24px 22px;">
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:14px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;opacity:0.7;">Chatbot</div>
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;margin-top:8px;line-height:1.25;color:#fff;">More capable as the business grows.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:24px 22px;">
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:14px;letter-spacing:0.2em;text-transform:uppercase;color:#fff;opacity:0.7;">Admin</div>
+            <div style="font-family:var(--ar-font-display);font-weight:700;font-size:22px;margin-top:8px;line-height:1.25;color:#fff;">Change a rule once. Respected everywhere.</div>
+          </div>
+        </div>
+      </div>
+      <div class="chrome light">
+        <span class="crumb">In closing</span>
+        <span class="pg">26 / 27</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 27 — THANK YOU ===================== -->
+  <section style="background:radial-gradient(120% 90% at 22% 18%, #6E92BD 0%, #1E40A0 36%, #0B1E55 78%, #061434 100%);" data-deck-last-visible="">
+    <div class="pattern-strip" style="position:absolute;left:0;right:0;bottom:0;height:120px;opacity:0.4;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.2) 0,rgba(255,255,255,0.2) 2px,transparent 2px,transparent 18px);"></div>
+    <div style="position:absolute;right:-160px;top:60px;width:1200px;height:780px;pointer-events:none;opacity:0.9;">
+      <svg viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;overflow:visible;">
+        <path d="M 1280 720 Q 820 720 620 540 T 100 180" stroke="rgba(255,255,255,0.10)" stroke-width="56" stroke-linecap="round" fill="none"></path>
+        <path d="M 1280 720 Q 820 720 620 540 T 100 180" stroke="rgba(255,255,255,0.25)" stroke-width="28" stroke-linecap="round" fill="none"></path>
+        <path d="M 1280 720 Q 820 720 620 540 T 100 180" stroke="rgba(255,255,255,0.55)" stroke-width="10" stroke-linecap="round" fill="none"></path>
+        <path d="M 1000 760 Q 740 760 540 600 T 60 240" stroke="#E4002B" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.85"></path>
+        <path d="M 100 260 L 60 240 L 82 282" stroke="#E4002B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.85"></path>
+        <g transform="translate(260 200) rotate(202)">
+          <path d="M -150 0 C -130 -14, -90 -22, -40 -22 L 90 -22 C 130 -22, 158 -16, 180 -2 L 200 0 L 180 2 C 158 16, 130 22, 90 22 L -40 22 C -90 22, -130 14, -150 0 Z" fill="#ffffff"></path>
+          <path d="M 168 -8 C 184 -6, 196 -2, 200 0 L 196 0 L 200 0 L 196 0 C 196 0, 184 6, 168 8 Z" fill="#E4002B"></path>
+          <path d="M -30 -4 L 100 -90 L 50 -90 L -70 -4 Z" fill="#ffffff" opacity="0.92"></path>
+          <path d="M -30 4 L 100 90 L 50 90 L -70 4 Z" fill="#ffffff" opacity="0.8"></path>
+          <path d="M -110 -6 L -150 -54 L -120 -54 L -100 -6 Z" fill="#ffffff" opacity="0.9"></path>
+          <rect x="-30" y="-6" width="180" height="2" fill="rgba(11,30,85,0.45)" rx="1"></rect>
+          <ellipse cx="30" cy="34" rx="22" ry="10" fill="#ffffff" opacity="0.85"></ellipse>
+        </g>
+        <circle cx="120" cy="100" r="3" fill="#ffffff" opacity="0.6"></circle>
+        <circle cx="220" cy="60" r="2" fill="#ffffff" opacity="0.4"></circle>
+        <circle cx="70" cy="320" r="2" fill="#ffffff" opacity="0.3"></circle>
+      </svg>
+    </div>
+    <div class="frame">
+      <div class="row" style="justify-content:space-between;align-items:flex-start;">
+        <img src="../assets/logo.png" alt="Al Rais Travel" class="ar-logo invert" style="height:56px;">
+        <div class="eyebrow light"><span>End of brief</span></div>
+      </div>
+      <div class="thanks">
+        <div class="l">
+          <h1>Thank you.</h1>
+          <p>The platform works today. It is ready to grow tomorrow. The architecture has been built so that growth is a matter of integration and content — not redevelopment.</p>
+        </div>
+        <div class="r">
+          <div class="by">Prepared by</div>
+          <div class="name">Epicmetry FZCO</div>
+          <div class="row2">
+            <div><strong>Address</strong>Office 523, Block-C, Building 9W<br>Dubai Airport Free Zone, UAE</div>
+            <div><strong>Phone</strong>+971 55 633 2806</div>
+            <div><strong>Web</strong>epicmetry.com</div>
+            <div><strong>Date</strong>May 2026</div>
+          </div>
+        </div>
+      </div>
+      <div class="chrome light">
+        <span class="crumb">Thank you · Al Rais Holidays 2.0</span>
+        <span class="pg">27 / 27</span>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+
+
+</body></html>

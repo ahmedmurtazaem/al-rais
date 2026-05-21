@@ -1,0 +1,470 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PLATFORM CAPABILITY BRIEF
+
+
+
+Al Rais
+
+
+
+Holidays & Tours
+
+
+
+
+
+
+
+
+
+The orchestration platform built to power
+
+
+
+the Al Rais Holidays & Tours vision.
+
+
+
+
+
+
+
+
+
+
+
+PREPARED BY
+
+
+
+Epicmetry FZCO
+
+
+
+May 2026
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION ONE
+
+
+
+The vision we were given
+
+
+
+Al Rais Holidays & Tours is a UAE travel platform with a clear ambition: to be more than a search engine for flights and hotels. The Scope of Work signed in May 2025 set the destination plainly. A platform that creates a unique experience for B2B and B2C travelers. A recommendation engine described as Al-Rais IP. A dynamic packaging engine described as exclusive to Al Rais. A chatbot positioned not as a support widget but as a travel assistant.
+
+
+
+The vision was for software that thinks, not software that searches. A platform that scores its own suggestions and tags them — Unreal Deal, Once in a Lifetime, Value, Reserve. A platform that builds a holiday in a single interface and prices it intelligently. A platform that learns from how customers behave and improves over time.
+
+
+
+This brief documents what Epicmetry built to make that vision possible, what the platform can do today, and what it is ready to do as the business grows.
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION TWO
+
+
+
+The decision the build required
+
+
+
+The features in the SOW — multi-supplier search, the recommendation engine, the dynamic package builder, the chatbot — share a common requirement. None of them works well when locked to a single supplier.
+
+
+
+A recommendation engine that only sees one airline’s inventory cannot meaningfully recommend. A package builder that pulls a flight, hotel, and activity from the same source is not really a package; it is a bundle. A chatbot that depends on one supplier’s API inherits that supplier’s downtime, pricing, and limitations. And a commercial team that wants to change markup rules, blackout dates, or supplier priorities cannot do so cleanly when those rules are scattered across multiple disconnected backends.
+
+
+
+To deliver the SOW’s vision durably, the platform needed a layer that could speak to many suppliers through one interface, apply Al Rais’s commercial rules consistently, compose multi-component holidays safely, and serve as the foundation for every AI-powered feature.
+
+
+
+That layer is the middleware. It is the part of the platform that this brief is about.
+
+
+
+
+
+
+SECTION THREE
+
+
+
+What the middleware does
+
+
+
+The middleware sits between Al Rais’s website and every external supplier. It does five things, each of which serves the SOW’s commercial vision directly.
+
+
+
+
+
+
+
+One. It treats every supplier as interchangeable.
+
+
+
+Whether an offer comes from Provesio today or from Sabre, Amadeus, Hotelbeds, Duffel, Viator, or a supplier Al Rais signs next year, the platform handles it through a single, consistent interface. Adding a new supplier is a contained engineering task. The website, chatbot, recommendation engine, and admin panel do not need to change.
+
+
+
+Two. It runs a real-time competition between suppliers on every search.
+
+
+
+When a customer searches for a flight from Dubai to London, the middleware queries every connected supplier in parallel, removes duplicates, and ranks the results. The customer sees the best offer; Al Rais sees the margin opportunity across all of them.
+
+
+
+Three. It enforces Al Rais’s commercial rules at the platform level.
+
+
+
+Markups, commissions, residence-based discounts, currency conversion, yield management, blackout dates, and promotional pricing are applied consistently regardless of which supplier provided the underlying inventory. The admin panel changes a rule once; every supplier and every channel respects it immediately.
+
+
+
+Four. It composes multi-supplier packages safely.
+
+
+
+When a customer builds a holiday package — flight from one supplier, hotel from another, activity from a third — the middleware holds all three components together. If any one fails, the others are released cleanly. This is the engineering foundation of the Dynamic Package Builder the SOW described as exclusive to Al Rais.
+
+
+
+Five. It isolates failure.
+
+
+
+If one supplier’s API goes down, the platform continues serving the others. Customers do not see error screens; they see the offers from the suppliers that are still responding. The platform never depends entirely on any single external system.
+
+
+
+
+
+
+SECTION FOUR
+
+
+
+The curation engine, by example
+
+
+
+The middleware’s curation engine is the closest thing in the platform to the Al-Rais IP the SOW described. It is the part that turns forty search results into three considered recommendations, and it is the part that explains, in plain language, why each one was chosen.
+
+
+
+The intention behind the curation engine is to present three options instead of forty results — cheapest, fastest, and best balance — each accompanied by a short explanation of why it was selected. This is the design principle Booking.com and Expedia cannot follow because their audiences are too broad. Al Rais can.
+
+
+
+The engine has been built with named scenarios in mind. A small selection follows, to illustrate how the same architecture produces different recommendations for different travelers.
+
+
+
+
+
+
+
+A family of four to Bangkok
+
+
+
+Two adults, two children, school holidays, sixty days out. The family compatibility rule activates. The recommended option prioritizes carriers with included checked baggage, refundable fare classes, and family-friendly service — Emirates, Etihad, Singapore, Qatar. The explanation reads, in plain language, “checked baggage included for all passengers” and “refundable in case plans change.” The cheapest option may be a budget carrier; the explanation flags that it does not include baggage.
+
+
+
+A solo business traveler to London
+
+
+
+One adult, five days out, four-day trip. The departure-time-fit rule favors morning and afternoon. The recommended option is a direct flight balanced for price, with refundability flagged. If a premium economy or business-class option is available within range, it surfaces with lounge-access context.
+
+
+
+A Pakistani passport holder to Kuala Lumpur
+
+
+
+The curated flight options appear alongside visa context: eVisa required, thirty days, approximate fee, processing time. This is information no global online travel agency surfaces for this passport-destination combination, and it is rendered automatically by the middleware’s visa intelligence layer.
+
+
+
+The intention is for every recommendation to be explainable. Customers should know why the platform chose what it chose. This is the difference between a curated experience and a list of results.
+
+
+
+
+
+
+SECTION FIVE
+
+
+
+Designed for the GCC traveler
+
+
+
+The platform was built with the regional traveler in mind, not the global average. Some of this is already running; some of it is intentional architecture waiting for content. All of it sits on the middleware.
+
+
+
+
+
+
+
+Visa intelligence, surfaced inline
+
+
+
+The middleware exposes a visa-check endpoint that returns requirements, processing time, documents, and fees for a given nationality and destination. Saudi passport holders flying to Malaysia, UAE residents flying to Georgia, Pakistani passport holders flying through Kuala Lumpur — each receives accurate context at the point of search, not buried three pages into the booking flow.
+
+
+
+This is information the customers of Al Rais need and that global online travel agencies handle generically or not at all. It is rendered as a small badge on flight result cards and as a richer panel on the package detail view.
+
+
+
+Family-first defaults
+
+
+
+UAE and Saudi travel skews heavily family. The platform’s scoring rules treat a family of two adults and two children as a first-class scenario, not a deviation from the solo-traveler default. The recommendation engine surfaces carriers and fare classes that respect this profile — included baggage, refundability, family-friendly service — without requiring the customer to filter for them.
+
+
+
+Honest commercial framing
+
+
+
+Where the platform shows a supplier’s offer, the supplier is named transparently. Where a fare excludes baggage or seat selection, the exclusion is flagged before the customer commits, not discovered after payment. The intent throughout has been to build a platform that respects the customer’s time and trust — the qualities that distinguish a UAE travel brand from a commodity aggregator.
+
+
+
+
+
+
+
+
+
+
+
+
+
+SECTION SIX
+
+
+
+The chatbot, the recommendation engine, the package builder
+
+
+
+The SOW’s three AI-powered enhancements all consume the middleware. They are not standalone features; they are interfaces to the same underlying intelligence.
+
+
+
+The chatbot
+
+
+
+Built on the LangGraph framework, the chatbot is structured as five specialized agents — flight, hotel, activity, package, and recommendation. Each agent has a full set of tools and can search, book, retrieve, and cancel. The chatbot is not an isolated widget; it is an interface to the middleware. Every supplier added to the platform expands what the chatbot can do, without changing the chatbot itself.
+
+
+
+The recommendation engine
+
+
+
+The engine combines the curation rules described above with a co-occurrence layer that learns from booking history. The longer the platform runs, the better the recommendations get. Cross-sell triggers fire at meaningful points — after a flight booking, before checkout, when the customer revisits within a day — each with appropriate context.
+
+
+
+The dynamic package builder
+
+
+
+The package builder uses the middleware’s composition engine to assemble a holiday from independent suppliers as if it were a single offer. Pricing is calculated as a bundle, with margin and yield rules applied. Cancellation terms are aggregated and presented as a single policy. The customer sees one holiday; the platform manages the underlying complexity.
+
+
+
+
+
+
+SECTION SEVEN
+
+
+
+What the platform is ready for next
+
+
+
+The middleware is supplier-agnostic by design. Each of the following is a contained integration, not a redevelopment.
+
+
+
+
+
+Capability
+
+What it adds
+
+Additional flight suppliers
+
+
+
+Sabre, Amadeus, Travelport, and others plug into the same connector framework as the existing supplier. Each addition broadens the platform’s competitive search and gives the recommendation engine more inventory to choose from.
+
+Hotel and activity wholesalers
+
+
+
+The platform supports Hotelbeds, Duffel Stays, Viator, and additional providers through the same architecture. Hotel deduplication across suppliers is built in.
+
+Payment gateways
+
+
+
+The architecture supports multiple gateways alongside the existing PayFort integration. Tabby and Tamara, the installment-payment providers that have become standard in the UAE and Saudi markets, fit the same payment abstraction.
+
+Reviews and place intelligence
+
+
+
+A connector to Google Places adds ratings, reviews, photos, and rich place data to every hotel and activity. The connector pattern is established.
+
+Transfer and insurance providers
+
+
+
+The composition engine is ready for both. Transfer and insurance components plug in to complete the full-stack holiday package the SOW envisioned.
+
+Communication channels
+
+
+
+Email and SMS are integrated. The platform is positioned to add channels that match how UAE customers actually communicate, as those integrations are scoped.
+
+
+
+
+
+
+
+Each of these is days of engineering work, not months. None of them requires changes to the website, the chatbot, the recommendation engine, or the admin panel. This is the dividend of having built the middleware.
+
+
+
+
+
+
+
+
+
+
+IN CLOSING
+
+
+
+A platform built to grow with the business
+
+
+
+The middleware is, in effect, a travel orchestration platform. It is supplier-agnostic, commercially flexible, and engineered for the long-term growth of Al Rais Holidays & Tours.
+
+
+
+It enables the recommendation engine to recommend with judgment. It enables the dynamic package builder to compose holidays safely across multiple suppliers. It enables the chatbot to grow more capable as the business grows. It enables the admin team to change commercial rules once and have every supplier and every channel respect them. It enables visa intelligence, regional context, and the small acts of design judgment that distinguish a UAE travel brand from a global aggregator.
+
+
+
+The platform works today. It is ready to grow tomorrow. The architecture has been built so that growth is a matter of integration and content, not redevelopment.
+
+
+
+This document is a record of what was built and what it is capable of. It is offered in the spirit of the work itself — with care, with judgment, and with the intention of serving the vision Al Rais Holidays & Tours set out to realize.
+
+
+
+
+
+
+
+
+
+
+
+
+
+PREPARED BY
+
+
+
+Epicmetry FZCO
+
+
+
+Office 523, Block-C, Building 9W
+
+
+
+Dubai Airport Free Zone, Dubai, United Arab Emirates
+
+
+
++971 55 633 2806
+
+
+
+https://epicmetry.com
+
+
+
+
+
