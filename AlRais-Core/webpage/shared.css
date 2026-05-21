@@ -107,7 +107,7 @@ button{ font-family:inherit;cursor:pointer;border:0;background:transparent;color
 }
 .h-mega{
   font-family:'Montserrat', sans-serif;
-  font-weight:900;font-size:var(--t-mega);line-height:0.96;
+  font-weight:600;font-size:100px;line-height:0.96;
   letter-spacing:-0.035em;color:var(--ink);margin:0;
 }
 .h-1{
