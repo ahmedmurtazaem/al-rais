@@ -540,31 +540,51 @@
   // 07 — Recommendation co-occurrence graph
   // =========================================================
   const DESTINATIONS = [
-    { id:'BKK', label:'Bangkok',     x: 540, y: 160 },
-    { id:'CRUISE', label:'River Cruise', x: 320, y:  80 },
-    { id:'AYUT',   label:'Ayutthaya',    x: 720, y:  90 },
-    { id:'ESIM',   label:'eSIM 30d',     x: 880, y: 180 },
-    { id:'LHR',    label:'London',       x: 180, y: 280 },
-    { id:'PREMIER',label:'EPL Tour',     x:  60, y: 340 },
-    { id:'PADD',   label:'Paddington Hotel', x: 220, y: 380 },
-    { id:'CMB',    label:'Colombo',      x: 460, y: 380 },
-    { id:'BEACH',  label:'Beach Stay',   x: 360, y: 440 },
-    { id:'KUL',    label:'Kuala Lumpur', x: 740, y: 280 },
-    { id:'PEN',    label:'Penang Food',  x: 880, y: 320 },
-    { id:'DXB',    label:'Dubai',        x: 540, y: 280 },
-    { id:'DESSAFARI', label:'Desert Safari', x: 620, y: 400 },
+    // Bangkok cluster (center-top)
+    { id:'BKK',       label:'Bangkok',         x: 540, y: 200, hub:true },
+    { id:'CRUISE',    label:'River Cruise',    x: 360, y: 120 },
+    { id:'AYUT',      label:'Ayutthaya day',   x: 720, y: 100 },
+    { id:'PHUKET',    label:'Phuket beach',    x: 470, y:  80 },
+    // Istanbul cluster (top-left)
+    { id:'IST',       label:'Istanbul',        x: 200, y: 130, hub:true },
+    { id:'BOSPHORUS', label:'Bosphorus cruise',x: 180, y:  50 },
+    // Cross-cluster connectors
+    { id:'ESIM',      label:'eSIM 30d',        x: 940, y: 180 },
+    { id:'INSURE',    label:'Travel cover',    x: 110, y: 240 },
+    // London cluster (left)
+    { id:'LHR',       label:'London',          x: 240, y: 290, hub:true },
+    { id:'PREMIER',   label:'EPL tour',        x: 120, y: 360 },
+    { id:'PADD',      label:'Paddington stay', x: 260, y: 410 },
+    { id:'AFTERNOON', label:'Afternoon tea',   x: 100, y: 430 },
+    // Dubai cluster (center)
+    { id:'DXB',       label:'Dubai',           x: 540, y: 310, hub:true },
+    { id:'DESSAFARI', label:'Desert safari',   x: 580, y: 410 },
+    { id:'DXBABRA',   label:'Abra cruise',     x: 650, y: 250 },
+    // Singapore cluster (right)
+    { id:'SIN',       label:'Singapore',       x: 860, y: 260, hub:true },
+    { id:'GBB',       label:'Gardens by Bay',  x: 970, y: 290 },
+    // Malaysia cluster (right-mid)
+    { id:'KUL',       label:'Kuala Lumpur',    x: 760, y: 360, hub:true },
+    { id:'PEN',       label:'Penang food',     x: 910, y: 400 },
+    { id:'LANGKAWI',  label:'Langkawi',        x: 830, y: 460 },
+    // Sri Lanka (bottom-center)
+    { id:'CMB',       label:'Colombo',         x: 440, y: 410, hub:true },
+    { id:'BEACH',     label:'Beach stay',      x: 350, y: 470 },
+    { id:'KANDY',     label:'Kandy temple',    x: 470, y: 480 },
   ];
 
-  // Booking stream — pairs that co-occur
+  // Booking stream — pairs that co-occur (richer pattern across more hubs)
   const BOOKINGS = [
-    ['BKK','CRUISE'], ['BKK','AYUT'], ['BKK','ESIM'], ['BKK','AYUT'],
-    ['LHR','PREMIER'], ['LHR','PADD'], ['LHR','ESIM'], ['LHR','PREMIER'],
-    ['CMB','BEACH'], ['CMB','BEACH'],
-    ['KUL','PEN'], ['KUL','PEN'], ['KUL','ESIM'],
-    ['DXB','DESSAFARI'], ['DXB','DESSAFARI'], ['DXB','ESIM'],
-    ['BKK','CRUISE'], ['BKK','ESIM'], ['BKK','AYUT'],
-    ['LHR','PADD'], ['LHR','PREMIER'], ['LHR','PADD'],
-    ['BKK','CRUISE'],
+    ['BKK','CRUISE'], ['BKK','AYUT'], ['BKK','ESIM'], ['BKK','AYUT'], ['BKK','PHUKET'],
+    ['LHR','PREMIER'], ['LHR','PADD'], ['LHR','ESIM'], ['LHR','PREMIER'], ['LHR','AFTERNOON'],
+    ['CMB','BEACH'], ['CMB','BEACH'], ['CMB','KANDY'],
+    ['KUL','PEN'], ['KUL','PEN'], ['KUL','ESIM'], ['KUL','LANGKAWI'],
+    ['DXB','DESSAFARI'], ['DXB','DESSAFARI'], ['DXB','ESIM'], ['DXB','DXBABRA'],
+    ['BKK','CRUISE'], ['BKK','ESIM'], ['BKK','AYUT'], ['BKK','INSURE'],
+    ['LHR','PADD'], ['LHR','PREMIER'], ['LHR','PADD'], ['LHR','INSURE'],
+    ['BKK','CRUISE'], ['IST','BOSPHORUS'], ['IST','INSURE'],
+    ['SIN','GBB'], ['SIN','ESIM'], ['SIN','GBB'],
+    ['DXB','SIN'], ['BKK','SIN'], ['LHR','DXB'], ['KUL','SIN'],
   ];
 
   function bindReco(){
@@ -581,24 +601,40 @@
 
     function buildNodes(){
       svg.innerHTML = '';
+      // Pan/zoom wrapper group
+      const root = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      root.setAttribute('id', 'recoRoot');
+      svg.appendChild(root);
+
       DESTINATIONS.forEach(d => {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'reco-node');
+        g.setAttribute('class', 'reco-node' + (d.hub ? ' is-hub' : ''));
         g.setAttribute('transform', `translate(${d.x} ${d.y})`);
         g.dataset.id = d.id;
-        // Inner group is the thing that scales on hover — keeps the outer
-        // translate untouched so nodes don't jump to origin.
+
+        // Inner group for hover scaling without overriding outer translate
         const inner = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         inner.setAttribute('class', 'reco-node-inner');
-        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        c.setAttribute('r', 28);
-        inner.appendChild(c);
+
+        // Approximate pill width from label
+        const w = Math.max(72, d.label.length * 8.4 + 28);
+        const h = d.hub ? 36 : 30;
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', -w / 2);
+        rect.setAttribute('y', -h / 2);
+        rect.setAttribute('width', w);
+        rect.setAttribute('height', h);
+        rect.setAttribute('rx', h / 2);
+        rect.setAttribute('ry', h / 2);
+        inner.appendChild(rect);
+
         const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        t.setAttribute('dy', '4');
+        t.setAttribute('dy', d.hub ? '5' : '4.5');
         t.textContent = d.label;
         inner.appendChild(t);
+
         g.appendChild(inner);
-        svg.appendChild(g);
+        root.appendChild(g);
         nodeEls[d.id] = g;
         g.addEventListener('click', () => showDetail(d.id));
       });
@@ -610,7 +646,10 @@
     function drawEdges(){
       // Remove existing edges
       svg.querySelectorAll('.reco-edge').forEach(e => e.remove());
-      // Draw all edges (insert before nodes so they're below)
+      const root = svg.querySelector('#recoRoot');
+      if (!root) return;
+      // Draw all edges (insert before first node so they're below)
+      const firstNode = root.firstChild;
       Object.entries(edges).forEach(([k, n]) => {
         const [a,b] = k.split('|');
         const da = DESTINATIONS.find(x => x.id === a);
@@ -620,7 +659,7 @@
         path.setAttribute('x1', da.x); path.setAttribute('y1', da.y);
         path.setAttribute('x2', db.x); path.setAttribute('y2', db.y);
         path.setAttribute('class', 'reco-edge' + (n >= 3 ? ' heavy' : ''));
-        svg.insertBefore(path, svg.firstChild);
+        root.insertBefore(path, firstNode);
       });
     }
 
@@ -683,12 +722,66 @@
       }
     }
 
+    // Pan & zoom on the SVG root (must be declared before buildNodes/bindPanZoom calls
+    // — they reference these via closure but `let` is in TDZ until this point)
+    var view = { x: 0, y: 0, k: 1 };
+    function applyView(){
+      const root = svg.querySelector('#recoRoot');
+      if (!root) return;
+      root.setAttribute('transform', `translate(${view.x} ${view.y}) scale(${view.k})`);
+    }
+    function bindPanZoom(){
+      view = { x: 0, y: 0, k: 1 };
+      applyView();
+      // Wheel-to-zoom (anchored to cursor)
+      svg.onwheel = (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+        const rect = svg.getBoundingClientRect();
+        const vb = svg.viewBox.baseVal;
+        const sx = vb.width / rect.width;
+        const sy = vb.height / rect.height;
+        const mx = (e.clientX - rect.left) * sx;
+        const my = (e.clientY - rect.top) * sy;
+        const newK = Math.max(0.5, Math.min(2.4, view.k * factor));
+        view.x = mx - (mx - view.x) * (newK / view.k);
+        view.y = my - (my - view.y) * (newK / view.k);
+        view.k = newK;
+        applyView();
+      };
+      let drag = null;
+      svg.onmousedown = (e) => {
+        if (e.target.closest('.reco-node')) return;
+        drag = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
+        svg.style.cursor = 'grabbing';
+      };
+      window.addEventListener('mousemove', (e) => {
+        if (!drag) return;
+        const rect = svg.getBoundingClientRect();
+        const vb = svg.viewBox.baseVal;
+        const sx = vb.width / rect.width;
+        const sy = vb.height / rect.height;
+        view.x = drag.vx + (e.clientX - drag.x) * sx;
+        view.y = drag.vy + (e.clientY - drag.y) * sy;
+        applyView();
+      });
+      window.addEventListener('mouseup', () => { drag = null; svg.style.cursor = ''; });
+      const zIn = document.getElementById('recoZoomIn');
+      const zOut = document.getElementById('recoZoomOut');
+      const zReset = document.getElementById('recoZoomReset');
+      if (zIn) zIn.onclick = () => { view.k = Math.min(2.4, view.k * 1.18); applyView(); };
+      if (zOut) zOut.onclick = () => { view.k = Math.max(0.5, view.k / 1.18); applyView(); };
+      if (zReset) zReset.onclick = () => { view = { x:0, y:0, k:1 }; applyView(); };
+    }
+
     buildNodes();
+    bindPanZoom();
     document.getElementById('recoStream').addEventListener('click', streamBookings);
     document.getElementById('recoReset').addEventListener('click', () => {
       edges = {}; bookCount = 0;
       bookingsEl.textContent = '0'; edgesEl.textContent = '0'; clustersEl.textContent = '0';
       buildNodes();
+      bindPanZoom();
       detail.innerHTML = '<div class="rd-head">Click any destination to see what travellers also booked.</div>';
     });
 

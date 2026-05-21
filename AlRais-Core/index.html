@@ -480,7 +480,15 @@
           <div><strong id="recoClusters">0</strong><span>clusters</span></div>
         </div>
       </div>
-      <svg class="reco-graph" id="recoGraph" viewBox="0 0 1100 480" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="reco-graph-wrap" style="position:relative;">
+        <svg class="reco-graph" id="recoGraph" viewBox="0 0 1100 540" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="reco-zoom">
+          <button id="recoZoomIn" title="Zoom in">+</button>
+          <button id="recoZoomOut" title="Zoom out">−</button>
+          <button id="recoZoomReset" title="Reset view" style="font-size:11px;">⊙</button>
+        </div>
+        <div class="reco-hint">drag to pan · scroll to zoom · click a pill</div>
+      </div>
       <div class="reco-detail" id="recoDetail">
         <div class="rd-head">Click any destination to see what travellers also booked.</div>
       </div>
