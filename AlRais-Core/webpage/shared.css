@@ -316,3 +316,19 @@ button{ font-family:inherit;cursor:pointer;border:0;background:transparent;color
   font-weight:500;
   z-index:2;
 }
+
+/* ---------- Footer (shared across pages) ---------- */
+.footer{ background:#fff;border-top:1px solid var(--line);padding:50px var(--pad-x); }
+.footer-inner{ max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap; }
+.ft-l{ display:flex;flex-direction:column;gap:14px;max-width:480px; }
+.ft-l img{ height:32px;width:auto;align-self:flex-start; }
+.ft-l p{ font-size:14px;color:var(--mute);line-height:1.55;margin:0; }
+.ft-r{ display:flex;flex-direction:column;gap:18px;align-items:flex-end; }
+.ft-contact{ font-size:13px;color:var(--mute);line-height:1.55;text-align:right; }
+.ft-contact strong{ color:var(--ink);font-family:'Montserrat',sans-serif;font-weight:700; }
+.ft-contact > div{ margin-bottom:6px; }
+@media (max-width:700px){
+  .footer-inner{ flex-direction:column; }
+  .ft-r{ align-items:flex-start; }
+  .ft-contact{ text-align:left; }
+}

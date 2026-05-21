@@ -685,15 +685,7 @@
 .cs-lbl{ font-size:14px;color:rgba(255,255,255,0.6);line-height:1.4; }
 
 /* ============ FOOTER ============ */
-.footer{ background:#fff;border-top:1px solid var(--line);padding:50px var(--pad-x); }
-.footer-inner{ max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap; }
-.ft-l{ display:flex;flex-direction:column;gap:14px;max-width:480px; }
-.ft-l img{ height:32px;width:auto;align-self:flex-start; }
-.ft-l p{ font-size:14px;color:var(--mute);line-height:1.55;margin:0; }
-.ft-r{ display:flex;flex-direction:column;gap:18px;align-items:flex-end; }
-.ft-contact{ font-size:13px;color:var(--mute);line-height:1.55;text-align:right; }
-.ft-contact strong{ color:var(--ink);font-family:'Montserrat',sans-serif;font-weight:700; }
-.ft-contact > div{ margin-bottom:6px; }
+/* Footer styles now live in shared.css (used by multiple pages). */
 
 /* ============ Responsive ============ */
 @media (max-width: 900px){

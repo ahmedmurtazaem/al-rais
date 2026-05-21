@@ -242,7 +242,7 @@ body.whats-next{ background:var(--bg); }
 .ts-note strong{ color:var(--ink);font-family:'Montserrat',sans-serif;font-weight:600; }
 
 /* ============ 05 · CLOSING ============ */
-.next-actions-sec{ background:var(--bg); padding-top:80px; padding-bottom:120px; }
+.next-actions-sec{ padding-top:100px; padding-bottom:120px; }
 .na-cta-row{
   display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap;
 }
