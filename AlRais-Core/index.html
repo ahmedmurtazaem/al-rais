@@ -608,6 +608,68 @@
   </div>
 </section>
 
+<!-- ============ WHAT'S NEXT FOLD ============ -->
+<section id="whats-next-fold" class="scene wn-fold scene--dark">
+  <div class="dot-grid" style="opacity:0.16;"></div>
+  <div class="glow-blob" style="width:680px;height:680px;left:50%;top:40%;transform:translate(-50%,-50%);opacity:0.45;"></div>
+  <div class="glow-blob red" style="width:380px;height:380px;right:6%;top:75%;opacity:0.32;"></div>
+  <div class="scene-inner" style="text-align:center;">
+    <div class="wn-fold-inner">
+      <span class="eyebrow" style="color:#ff8aa0;justify-content:center;">The operating handover</span>
+      <h2 class="h-display reveal" style="color:#fff;margin-top:18px;text-wrap:balance;">What's next?</h2>
+      <p class="lede reveal d1" style="color:rgba(255,255,255,0.82);margin:24px auto 0;max-width:820px;">
+        The platform is built. Three handovers stand between Al Rais and full operation — supplier credentials to activate connectors, commercial decisions to configure the curation engine, and a shared map of what's tunable versus structural so growth is planned with realistic expectations.
+      </p>
+      <div class="wn-cards reveal d2">
+        <div class="wn-mini">
+          <div class="wn-mini-num">01</div>
+          <div class="wn-mini-title">Supplier landscape</div>
+          <div class="wn-mini-sub">15 suppliers · 3 live · 12 awaiting credentials or registration</div>
+        </div>
+        <div class="wn-mini">
+          <div class="wn-mini-num">02</div>
+          <div class="wn-mini-title">Commercial decisions</div>
+          <div class="wn-mini-sub">10 decision areas · configurable from the admin panel</div>
+        </div>
+        <div class="wn-mini">
+          <div class="wn-mini-num">03</div>
+          <div class="wn-mini-title">Tunable vs structural</div>
+          <div class="wn-mini-sub">What takes minutes · what takes weeks</div>
+        </div>
+      </div>
+      <div class="wn-cta reveal d3">
+        <a href="webpage/whats-next.html" class="btn btn-primary" style="background:#fff;color:var(--ink-deep);">See the operating brief <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wn-fold{ padding-top:120px;padding-bottom:120px; }
+  .wn-fold-inner{ max-width:1080px;margin:0 auto; }
+  .wn-fold .eyebrow{ display:inline-flex; }
+  .wn-cards{ display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:48px auto 0;max-width:980px; }
+  .wn-mini{
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);
+    border-radius:14px;padding:22px 24px;text-align:left;
+    transition:all var(--dur-base) var(--ease);
+  }
+  .wn-mini:hover{ background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.26);transform:translateY(-2px); }
+  .wn-mini-num{
+    font-family:'Montserrat',sans-serif;font-weight:600;font-size:14px;
+    color:#ff8aa0;letter-spacing:0.18em;
+  }
+  .wn-mini-title{
+    font-family:'Montserrat',sans-serif;font-weight:600;font-size:20px;color:#fff;margin-top:8px;line-height:1.2;
+  }
+  .wn-mini-sub{
+    font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:rgba(255,255,255,0.62);
+    margin-top:8px;line-height:1.5;
+  }
+  .wn-cta{ margin-top:40px; }
+  @media (max-width: 900px){ .wn-cards{ grid-template-columns:1fr; } }
+</style>
+
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="footer-inner">

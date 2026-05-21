@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Al Rais Middleware — What's Next</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="whats-next.css">
+<script defer src="shared.js"></script>
+<script defer src="whats-next.js"></script>
+</head>
+<body class="whats-next">
+
+<!-- ============ TOP NAV ============ -->
+<nav class="topbar">
+  <div class="brand">
+    <a href="../index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
+      <img src="../assets/logo.png" alt="Al Rais Travel">
+      <small>Middleware · 2.0</small>
+    </a>
+  </div>
+  <div class="actions">
+    <a class="btn btn-ghost" href="../index.html">← Back to demo</a>
+    <a class="btn btn-ghost" href="../collateral/Al Rais 2.0 Pitch Deck.html">Pitch deck</a>
+    <a class="btn btn-primary" href="https://hadyem26.github.io/alrais-docs/" target="_blank" rel="noopener noreferrer">Documentation <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<!-- ============ 01 · HERO ============ -->
+<section id="hero" class="scene hero-wn">
+  <div class="dot-grid"></div>
+  <div class="glow-blob" style="width:680px;height:680px;left:50%;top:10%;transform:translate(-50%,-50%);opacity:0.45;"></div>
+  <div class="glow-blob red" style="width:380px;height:380px;right:6%;top:60%;opacity:0.32;"></div>
+
+  <div class="scene-inner">
+    <div class="hero-top">
+      <span class="eyebrow">Operating decisions brief · companion to the platform demo</span>
+      <h1 class="h-mega reveal" style="font-size:88px;">What's next.</h1>
+      <p class="lede reveal d1">
+        The platform is built. These are the <strong style="color:var(--ink);">three handovers</strong> it's ready to receive — supplier credentials to activate connectors, commercial decisions to configure the curation engine, and a shared understanding of what's tunable versus structural so growth is planned with realistic expectations.
+      </p>
+    </div>
+
+    <!-- Top-level matrix anchors -->
+    <div class="hero-handovers reveal d2">
+      <a href="#suppliers" class="ho-card">
+        <div class="ho-num">01</div>
+        <div class="ho-body">
+          <div class="ho-title">Supplier landscape</div>
+          <div class="ho-sub">15 suppliers · 3 live · 3 built &amp; tested · 9 framework-ready</div>
+        </div>
+        <div class="ho-arrow">↓</div>
+      </a>
+      <a href="#decisions" class="ho-card">
+        <div class="ho-num">02</div>
+        <div class="ho-body">
+          <div class="ho-title">Commercial decisions</div>
+          <div class="ho-sub">10 decision areas · configurable from the admin panel</div>
+        </div>
+        <div class="ho-arrow">↓</div>
+      </a>
+      <a href="#tunable" class="ho-card">
+        <div class="ho-num">03</div>
+        <div class="ho-body">
+          <div class="ho-title">Tunable vs structural</div>
+          <div class="ho-sub">What takes minutes, what takes weeks</div>
+        </div>
+        <div class="ho-arrow">↓</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · SUPPLIER LANDSCAPE ============ -->
+<section id="suppliers" class="scene suppliers-sec">
+  <div class="dot-grid sparse"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Part one · Supplier landscape</span>
+      <h2 class="h-display">Each connector evaluated, built, and waiting for its credential.</h2>
+      <p class="lede">Three are live in production. Three are built and tested, awaiting credentials. Nine are framework-ready — activating them is days of work per supplier, plus registration. Filter by status, click any to see the connector contract.</p>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="sp-filters reveal d1">
+      <button class="sp-chip on" data-filter="all">All <span>15</span></button>
+      <button class="sp-chip" data-filter="live">● Live <span>3</span></button>
+      <button class="sp-chip" data-filter="built">◐ Built &amp; tested <span>3</span></button>
+      <button class="sp-chip" data-filter="ready">○ Framework ready <span>9</span></button>
+    </div>
+
+    <!-- Supplier grid -->
+    <div class="sp-grid" id="spGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 03 · COMMERCIAL DECISIONS ============ -->
+<section id="decisions" class="scene decisions-sec scene--dark">
+  <div class="dot-grid" style="opacity:0.16;"></div>
+  <div class="glow-blob" style="width:680px;height:680px;left:50%;top:40%;transform:translate(-50%,-50%);opacity:0.45;"></div>
+  <div class="glow-blob red" style="width:380px;height:380px;left:10%;top:80%;opacity:0.30;"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="color:#ff8aa0;">Part two · Decisions awaiting Al Rais's commercial input</span>
+      <h2 class="h-display">Ten decisions. <em style="font-style:normal;color:#ff8aa0;">Zero engineering.</em></h2>
+      <p class="lede" style="color:rgba(255,255,255,0.78);">
+        The engineering decisions — how to score, how to compose, how to enforce, how to apply commercial logic — have been made and built. The commercial decisions — what to prioritize, what to mark up, what to promote — are deliberately left to Al Rais. Click any card to see what's behind it.
+      </p>
+    </div>
+
+    <div class="dc-grid" id="dcGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 04 · TUNABLE VS STRUCTURAL ============ -->
+<section id="tunable" class="scene tunable-sec">
+  <div class="dot-grid"></div>
+  <div class="glow-blob gold" style="width:480px;height:480px;left:8%;top:40%;opacity:0.32;"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal">
+      <span class="eyebrow">Part three · Tunable vs structural</span>
+      <h2 class="h-display">What takes minutes. What takes weeks.</h2>
+      <p class="lede">
+        A request to change a markup formula or a curation label is a configuration change measured in minutes. A request to add a new supplier type or alter the canonical data model is engineering work measured in weeks. Knowing which is which upfront prevents surprises in either direction.
+      </p>
+    </div>
+
+    <div class="ts-split">
+      <!-- Tunable side -->
+      <div class="ts-col ts-tunable">
+        <div class="ts-head">
+          <div class="ts-tag" style="color:#0F7B41;background:#E5F8EE;">Tunable</div>
+          <div class="ts-meta">
+            <strong>Configuration · minutes</strong><br>
+            <small>Takes effect immediately across the website, chatbot, recommendation engine and admin panel.</small>
+          </div>
+        </div>
+        <div class="ts-list" id="tunableList"></div>
+      </div>
+
+      <!-- Structural side -->
+      <div class="ts-col ts-structural">
+        <div class="ts-head">
+          <div class="ts-tag" style="color:var(--ink);background:#FFE9D5;">Structural</div>
+          <div class="ts-meta">
+            <strong>Engineering · weeks</strong><br>
+            <small>Deliberate architectural decisions. Their stability is what makes everything else reliable and extensible.</small>
+          </div>
+        </div>
+        <div class="ts-list" id="structuralList"></div>
+      </div>
+    </div>
+
+    <div class="ts-note reveal d2">
+      <strong>Read this as evidence of deliberate design, not limitation.</strong> The platform is built to absorb commercial change through configuration, and to absorb supplier growth through its connector pattern. What is fixed is fixed because keeping it fixed is what keeps everything else flexible.
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 · CLOSING / NEXT ACTIONS ============ -->
+<section id="next-actions" class="scene next-actions-sec">
+  <div class="dot-grid"></div>
+  <div class="scene-inner">
+    <div class="section-head reveal" style="text-align:center;align-items:center;">
+      <span class="eyebrow">In closing</span>
+      <h2 class="h-display" style="text-align:center;">From platform to operation.</h2>
+      <p class="lede" style="text-align:center;margin-left:auto;margin-right:auto;">Each item on this page is a small handover. Taken together, they constitute the operating layer of the platform — the layer that turns the engineering work into a commercial product owned and steered by Al Rais Holidays &amp; Tours.</p>
+    </div>
+
+    <div class="na-cta-row reveal d1">
+      <a href="../collateral/Al Rais 2.0 Pitch Deck.html" class="btn btn-ghost">Back to the pitch deck</a>
+      <a href="../index.html" class="btn btn-primary">Return to the demo <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="ft-l">
+      <img src="../assets/logo.png" alt="Al Rais Travel">
+      <p>The orchestration platform powering Al Rais Holidays 2.0.<br>Prepared by Epicmetry FZCO · May 2026.</p>
+    </div>
+    <div class="ft-r">
+      <a href="../collateral/Al Rais 2.0 Pitch Deck.html" class="btn btn-ghost">View pitch deck</a>
+      <div class="ft-contact">
+        <div><strong>Epicmetry FZCO</strong></div>
+        <div>Office 523, Block-C, Building 9W<br>Dubai Airport Free Zone, UAE</div>
+        <div>+971 55 633 2806 · epicmetry.com</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
