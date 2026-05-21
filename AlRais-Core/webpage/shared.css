@@ -101,7 +101,7 @@ button{ font-family:inherit;cursor:pointer;border:0;background:transparent;color
 
 .h-display{
   font-family:'Montserrat', sans-serif;
-  font-weight:800;font-size:var(--t-display);line-height:1.02;
+  font-weight:600;font-size:var(--t-display);line-height:1.02;
   letter-spacing:-0.028em;color:var(--ink);margin:0;
   text-wrap:balance;
 }
@@ -112,7 +112,7 @@ button{ font-family:inherit;cursor:pointer;border:0;background:transparent;color
 }
 .h-1{
   font-family:'Montserrat', sans-serif;
-  font-weight:800;font-size:var(--t-h1);line-height:1.05;
+  font-weight:600;font-size:var(--t-h1);line-height:1.05;
   letter-spacing:-0.024em;color:var(--ink);margin:0;
   text-wrap:balance;
 }

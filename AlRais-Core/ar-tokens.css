@@ -154,7 +154,7 @@
 
 .ar-display-1 {
   font-family: var(--ar-font-display);
-  font-weight: 800;
+  font-weight:600;
   font-size: var(--ar-fs-display-1);
   line-height: var(--ar-leading-tight);
   letter-spacing: var(--ar-tracking-tight);

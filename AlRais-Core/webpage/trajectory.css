@@ -79,7 +79,7 @@ body.trajectory{
   transform:translateX(2px);
 }
 .t-num{
-  font-family:'Montserrat',sans-serif;font-weight:800;font-size:18px;
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:18px;
   color:var(--royal);
   letter-spacing:-0.02em;line-height:1;
   background:var(--bg-tint);
